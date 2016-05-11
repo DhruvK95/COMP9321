@@ -1,12 +1,17 @@
 -- Drop tables with no FK first
 -- Control Shift R to run in IntelliJ
-DROP TABLE room;
-DROP TABLE hotel;
-DROP TABLE room_type;
-DROP TABLE customer;
-DROP TABLE booking;
-DROP TABLE staff;
-DROP TABLE discount;
+ALTER TABLE ROOM DROP CONSTRAINT ROOM_HOTEL_ID_FK;
+ALTER TABLE ROOM DROP CONSTRAINT ROOM_ROOM_TYPE_ID_FK;
+ALTER TABLE DISCOUNT DROP CONSTRAINT DISCOUNT_HOTEL_ID_FK;
+ALTER TABLE DISCOUNT DROP CONSTRAINT DISCOUNT_ROOM_TYPE_FK;
+ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_CUSTOMER_ID_FK;
+ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_HOTEL_ID_FK;
+DROP TABLE ROOM;
+DROP TABLE DISCOUNT;
+DROP TABLE BOOKING;
+DROP TABLE ROOM_TYPE;
+DROP TABLE HOTEL;
+DROP TABLE CUSTOMER;
 
 
 CREATE TABLE hotel (
@@ -56,7 +61,7 @@ CREATE TABLE booking
   end_date        DATE NOT NULL,
   hotel_fk        INTEGER NOT NULL,
   customer_fk     INTEGER,
-  CONSTRAINT valid_dates CHECK (start_date <= booking.end_date),
+  CONSTRAINT valid_booking_dates CHECK (start_date <= end_date),
   CONSTRAINT booking_CUSTOMER_ID_fk FOREIGN KEY (customer_fk) REFERENCES CUSTOMER (ID),
   CONSTRAINT booking_HOTEL_ID_fk FOREIGN KEY (hotel_fk) REFERENCES HOTEL (ID)
 );
@@ -79,7 +84,7 @@ CREATE TABLE discount (
   hotel_fk        INTEGER NOT NULL,
   start_date      DATE NOT NULL,
   end_date        DATE NOT NULL,
-  CONSTRAINT valid_dates CHECK (start_date <= booking.end_date),
+  CONSTRAINT valid_dates CHECK (start_date <= end_date),
   CONSTRAINT discount_ROOM_TYPE_FK FOREIGN KEY (room_type_fk) REFERENCES room_type (id),
   CONSTRAINT discount_HOTEL_ID_FK FOREIGN KEY (hotel_fk) REFERENCES hotel(id),
   PRIMARY KEY (id)
