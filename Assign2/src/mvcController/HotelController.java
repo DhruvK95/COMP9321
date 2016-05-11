@@ -2,6 +2,8 @@ package mvcController;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mvcModel.DBStorageDTO;
 import mvcModel.DerbyDAOImpl;
+import mvcModel.HotelDTO;
 
 /**
  * Servlet implementation class HotelController
@@ -20,6 +24,7 @@ public class HotelController extends HttpServlet {
 	//cast type can be used to interact with db
 	//see  model derb implementsation fro more details
     private DerbyDAOImpl cast;
+    private DBStorageDTO database;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -28,6 +33,8 @@ public class HotelController extends HttpServlet {
         super();
 		try {
 			cast = new DerbyDAOImpl();
+			database = new DBStorageDTO();
+			database.addAllHotels(cast.initHotels()); //init all hotels from schema
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +67,15 @@ public class HotelController extends HttpServlet {
 				
 			}
 		}else{
-			//temporarly test db interations
+			//TESTING HOTELS WORKS
+			//temporarly test db interations			
+			ArrayList<HotelDTO> tempSave = database.getAllHotels();
+			for ( HotelDTO h : tempSave ){
+				System.out.println( h.getId() + " " + h.getHotelName() + " " + h.getLocation());
+				System.out.println("----------------------------------------------------------------------");
+			}
+			//TESTING HOTELS WORKS
+			
 			request.setAttribute("testHotelData",cast.allHotels());
 			nextPage="home.jsp";
 		}

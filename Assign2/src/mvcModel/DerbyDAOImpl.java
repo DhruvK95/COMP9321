@@ -48,5 +48,31 @@ public class DerbyDAOImpl  {
 		System.out.println(cast);
 		return cast;
 	}
+	
+	//gets all hotels and puts them in a hotel arraylist
+	public ArrayList<HotelDTO> initHotels(){
+		
+		ArrayList<HotelDTO> hotels = new ArrayList<HotelDTO>();
+		try{
+			Statement stmnt = connection.createStatement();
+			String query_cast = "SELECT id,name,location FROM hotel";
+			ResultSet res = stmnt.executeQuery(query_cast);
+			logger.info("The result set size is "+res.getFetchSize());
+			while(res.next()){
+				HotelDTO currHotel = new HotelDTO();
+				currHotel.setId(res.getInt("id"));
+				currHotel.setHotelName(res.getString("name"));
+				currHotel.setLocation(res.getString("location"));
+				hotels.add(currHotel);
+			}
+			res.close();
+			stmnt.close();
+			
+		}catch(Exception e){
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+		}
+		return hotels;
+	}
 
 }

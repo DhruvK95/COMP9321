@@ -22,7 +22,7 @@ public class DBConnectionFactory {
 		try
 		{
 			ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/cs9321");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc");
 			logger.info("Database found:"+ds.toString());
 		} catch(Exception e) {
             e.printStackTrace();
