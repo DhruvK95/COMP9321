@@ -12,6 +12,7 @@ DROP TABLE BOOKING;
 DROP TABLE ROOM_TYPE;
 DROP TABLE HOTEL;
 DROP TABLE CUSTOMER;
+DROP TABLE STAFF;
 
 
 CREATE TABLE hotel (
@@ -73,8 +74,7 @@ CREATE TABLE staff
   last_name       VARCHAR(20),
   username        VARCHAR(50) NOT NULL UNIQUE,
   password        VARCHAR(100) NOT NULL,
-  staff_class     VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id)
+  staff_class     VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE discount (
