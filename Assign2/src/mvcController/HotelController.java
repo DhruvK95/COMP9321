@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mvcModel.CustomerDTO;
 import mvcModel.DBStorageDTO;
 import mvcModel.DerbyDAOImpl;
 import mvcModel.HotelDTO;
+import mvcModel.RoomDTO;
 
 /**
  * Servlet implementation class HotelController
@@ -34,7 +36,11 @@ public class HotelController extends HttpServlet {
 		try {
 			cast = new DerbyDAOImpl();
 			database = new DBStorageDTO();
-			database.addAllHotels(cast.initHotels()); //init all hotels from schema
+			ArrayList<HotelDTO> allHotels = cast.initHotels();
+			allHotels = cast.initRooms(allHotels);
+			database.addAllHotels(allHotels); //init all hotels from schema
+			database.addAllCustomers(cast.initCustomers());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -72,6 +78,15 @@ public class HotelController extends HttpServlet {
 			ArrayList<HotelDTO> tempSave = database.getAllHotels();
 			for ( HotelDTO h : tempSave ){
 				System.out.println( h.getId() + " " + h.getHotelName() + " " + h.getLocation());
+				System.out.println("----------------------------------------------------------------------");
+				for( RoomDTO r : h.getRooms()){
+					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+				}
+			
+			}
+			ArrayList<CustomerDTO> tempSave2 = database.getAllCustomers();
+			for ( CustomerDTO c : tempSave2 ){
+				System.out.println( c.getId() + " " + c.getUser_name()+ " " + c.getPassword()+ " " + c.getFirst_name()+ " " + c.last_name+ " " + c.getEmail()+ " " + c.getAddress()+ " " + c.getCc_number()+ " " + c.getCc_name()+ " " + c.getCc_expiry());
 				System.out.println("----------------------------------------------------------------------");
 			}
 			//TESTING HOTELS WORKS

@@ -2,9 +2,14 @@ package mvcModel;
 
 public class RoomDTO {
 	public int id;
-	public int roomType;
-	public int parentHotel;
-	public String status; //booked, status, available
+	public int parentHotelID;
+	public float price;
+	public String name; //single suite etc
+	public boolean bedType; // single (o) double (l)
+	public int numBeds;
+	
+	
+//	public String status; //booked, status, available
 	
 	public int getId() {
 		return id;
@@ -13,29 +18,55 @@ public class RoomDTO {
 		this.id = id;
 	}
 	
-	public int getRoomType() {
-		return roomType;
+//	public int getRoomType() {
+//		return roomType;
+//	}
+//	
+//	public void setRoomType(int roomType) {
+//		this.roomType = roomType;
+//	}
+	
+	public int getParentHotelID() {
+		return parentHotelID;
 	}
 	
-	public void setRoomType(int roomType) {
-		this.roomType = roomType;
+	public void setParentHotelID(int parentHotelID) {
+		this.parentHotelID = parentHotelID;
 	}
 	
-	public int getParentHotel() {
-		return parentHotel;
+	public float getPrice() {
+		return price;
 	}
 	
-	public void setParentHotel(int parentHotel) {
-		this.parentHotel = parentHotel;
+	public void setPrice(float price) {
+		this.price = price;
 	}
 	
-	public String getStatus() {
-		return status;
+	public String getName() {
+		return name;
 	}
 	
-	public void setStatus(String status) {
-		this.status = status;
+	public void setName(String name) {
+		this.name = name;
 	}
+	
+	public boolean isBedType() {
+		return bedType;
+	}
+	
+	public void setBedType(boolean bedType) {
+		this.bedType = bedType;
+	}
+	
+	public int getNumBeds() {
+		return numBeds;
+	}
+	
+	public void setNumBeds(int numBeds) {
+		this.numBeds = numBeds;
+	}
+	
+	
 	
 	
 }

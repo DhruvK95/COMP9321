@@ -29,4 +29,12 @@ public class DBStorageDTO {
 		return this.hotels;
 	}
 	
+	public ArrayList<CustomerDTO> getAllCustomers() {
+		return this.customers;
+	}
+
+	public void addAllCustomers(ArrayList<CustomerDTO> customers) {
+		this.customers = customers;
+	}
+	
 }

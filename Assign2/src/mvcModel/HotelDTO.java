@@ -41,5 +41,9 @@ public class HotelDTO {
 		this.rooms.add(room);
 	}
 	
-	
+	public ArrayList<RoomDTO> getRooms() {
+		return rooms;
+	}
+
+
 }

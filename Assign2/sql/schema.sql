@@ -6,9 +6,9 @@ ALTER TABLE DISCOUNT DROP CONSTRAINT DISCOUNT_HOTEL_ID_FK;
 ALTER TABLE DISCOUNT DROP CONSTRAINT DISCOUNT_ROOM_TYPE_FK;
 ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_CUSTOMER_ID_FK;
 ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_HOTEL_ID_FK;
-DROP TABLE ROOM;
 DROP TABLE DISCOUNT;
 DROP TABLE BOOKING;
+DROP TABLE ROOM;
 DROP TABLE ROOM_TYPE;
 DROP TABLE HOTEL;
 DROP TABLE CUSTOMER;
@@ -22,24 +22,6 @@ CREATE TABLE hotel (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE room_type (
-  id 						INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-  price					INTEGER NOT NULL,
-  CONSTRAINT valid_price CHECK (price>=0),
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE room (
-  id						INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-  room_type_fk	INTEGER NOT NULL,
-  hotel_fk			INTEGER NOT NULL,
-  status 				VARCHAR(20) NOT NULL,
-  -- 	booking_fk
-  CONSTRAINT check_status CHECK (status='BOOKED' OR status='OCCUPIED' OR  status='AVAILABLE'),
-  PRIMARY KEY (id),
-  CONSTRAINT room_ROOM_TYPE_ID_FK FOREIGN KEY (room_type_fk) REFERENCES room_type (id),
-  CONSTRAINT room_HOTEL_ID_FK FOREIGN KEY (hotel_fk) REFERENCES hotel (id)
-);
 
 
 CREATE TABLE customer (
@@ -78,6 +60,29 @@ CREATE TABLE staff
   staff_class     VARCHAR(20) NOT NULL
 );
 
+
+CREATE TABLE room_type (
+  id 						INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+  price						FLOAT NOT NULL,
+  bedType					BOOLEAN NOT NULL,	--Single, Double
+  numBeds					INTEGER NOT NULL,
+  name						VARCHAR(20),
+  CONSTRAINT valid_bed 		CHECK(numBeds > 0),
+  CONSTRAINT valid_price 	CHECK(price>=0),
+  PRIMARY KEY (id)
+);
+
+
+CREATE TABLE room (
+  id					INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+  room_type_fk			INTEGER NOT NULL,
+  hotel_fk				INTEGER NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT room_ROOM_TYPE_ID_FK FOREIGN KEY (room_type_fk) REFERENCES room_type (id),
+  CONSTRAINT room_HOTEL_ID_FK FOREIGN KEY (hotel_fk) REFERENCES hotel (id)
+);
+
+
 CREATE TABLE discount (
   id              INT NOT NULL,
   room_type_fk    INTEGER NOT NULL,
@@ -109,3 +114,58 @@ INSERT INTO hotel VALUES (DEFAULT,'Leabrook Amazement','Adelaide');
 
 INSERT INTO hotel VALUES (DEFAULT,'BridgeWater Horror','Hobart');
 INSERT INTO hotel VALUES (DEFAULT,'Howden Horror','Hobart');
+
+
+INSERT INTO customer VALUES (DEFAULT,'LeonisCool','123', 'Leon','Augustine', 'laugustine1@gmail.com', 'pert', 123456, 'Leon', '4/4/2015' );
+INSERT INTO customer VALUES (DEFAULT,'EdlanisShit','123', 'Edlan', 'Policarpio','eldanpolicarpioschool@gmail.com', 'hobar', 123456, 'Edlan', '4/4/2015');
+
+
+--Make Room Types
+
+INSERT INTO room_type VALUES (DEFAULT,  80, FALSE, 1, 'Single');
+INSERT INTO room_type VALUES (DEFAULT, 130, FALSE, 2, 'Twin');
+INSERT INTO room_type VALUES (DEFAULT, 150, TRUE, 1, 'Queen');
+INSERT INTO room_type VALUES (DEFAULT, 200, TRUE, 1, 'Executive');
+INSERT INTO room_type VALUES (DEFAULT, 320, TRUE, 2, 'Suite');
+
+
+--Single Rooms (Hotels 1 - 8, odd rooms have 2)
+INSERT INTO room VALUES (DEFAULT, 1, 1);
+INSERT INTO room VALUES (DEFAULT, 1, 1);
+INSERT INTO room VALUES (DEFAULT, 1, 2);
+INSERT INTO room VALUES (DEFAULT, 1, 3);
+INSERT INTO room VALUES (DEFAULT, 1, 3);
+INSERT INTO room VALUES (DEFAULT, 1, 4);
+INSERT INTO room VALUES (DEFAULT, 1, 5);
+INSERT INTO room VALUES (DEFAULT, 1, 5);
+INSERT INTO room VALUES (DEFAULT, 1, 6);
+INSERT INTO room VALUES (DEFAULT, 1, 7);
+INSERT INTO room VALUES (DEFAULT, 1, 7);
+INSERT INTO room VALUES (DEFAULT, 1, 8);
+INSERT INTO room VALUES (DEFAULT, 1, 9);
+INSERT INTO room VALUES (DEFAULT, 1, 9);
+
+--Double Rooms (Even num Hotels)
+INSERT INTO room VALUES (DEFAULT, 2, 2);
+INSERT INTO room VALUES (DEFAULT, 2, 4);
+INSERT INTO room VALUES (DEFAULT, 2, 6);
+INSERT INTO room VALUES (DEFAULT, 2, 8);
+INSERT INTO room VALUES (DEFAULT, 2, 10);
+INSERT INTO room VALUES (DEFAULT, 2, 12);
+
+--Queen Rooms (multiples of 3)
+INSERT INTO room VALUES (DEFAULT, 3, 3);
+INSERT INTO room VALUES (DEFAULT, 3, 6);
+INSERT INTO room VALUES (DEFAULT, 3, 9);
+INSERT INTO room VALUES (DEFAULT, 3, 12);
+INSERT INTO room VALUES (DEFAULT, 3, 12); --2 queen rooms
+
+--Executive Rooms
+INSERT INTO room VALUES (DEFAULT, 4, 9);
+INSERT INTO room VALUES (DEFAULT, 4, 10);
+INSERT INTO room VALUES (DEFAULT, 4, 11);
+INSERT INTO room VALUES (DEFAULT, 4, 12);
+
+--Suite
+INSERT INTO room VALUES (DEFAULT, 5, 5);
+INSERT INTO room VALUES (DEFAULT, 5, 6);
