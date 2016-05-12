@@ -3,3 +3,13 @@
 
 # OSX
 **/.DS_Store
+
+# Java
+*.classpath
+.settings
+*.class
+lib/*.jar
+*.war
+
+
+Assign2/.classpath
