@@ -97,6 +97,15 @@
 <div class="col s12 m4 l2"><p></p></div>
 </div>
 </body>
+<<<<<<< HEAD
+=======
+<script>
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
+</script>
+>>>>>>> origin/master
 </html>
 
 <%--cc_expiry			VARCHAR(40),--%>
