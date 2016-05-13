@@ -138,4 +138,26 @@ public class DerbyDAOImpl  {
 		}
 		return hotelsMod;
 	}
+	//Check if valid uName and pass (Customers)
+	public boolean login(String user, String pass){
+		Statement stmnt;
+		int r = 0;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = 
+					"SELECT count(*) FROM customer WHERE user_name='"+user+"'"+"AND password='"+pass+"'";
+			ResultSet res = stmnt.executeQuery(query_cast);
+			if(res.next()){
+				r = res.getInt(1);		
+			}
+			res.close();
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return r == 1;
+	}
+	
 }
