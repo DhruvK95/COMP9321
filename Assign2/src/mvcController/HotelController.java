@@ -37,6 +37,10 @@ public class HotelController extends HttpServlet {
 		//uses model derby initiator to create connection to database
 		super();
 		try {
+			/*
+			DBSStorageDTO database = this.getServletConfig().getServletContext().getAtttibute("dB");
+			if(database == null){
+			*/
 			cast = new DerbyDAOImpl();
 			database = new DBStorageDTO();
 			ArrayList<HotelDTO> allHotels = cast.initHotels();
