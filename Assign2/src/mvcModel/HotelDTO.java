@@ -45,5 +45,9 @@ public class HotelDTO {
 		return rooms;
 	}
 
+	public String getLocationForID(Integer id) {
+
+		return null;
+	}
 
 }
