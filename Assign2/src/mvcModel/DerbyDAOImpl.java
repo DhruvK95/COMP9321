@@ -160,4 +160,18 @@ public class DerbyDAOImpl  {
 		return r == 1;
 	}
 	
+	public void updateCustomer(String user, String field, String update){
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "UPDATE customer SET " + field + " = "
+					+ "'" + update + "'" +"WHERE user_name = '" + user +"'";
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
