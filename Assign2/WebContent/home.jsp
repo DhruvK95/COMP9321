@@ -21,7 +21,7 @@
     <title>MHGA -Home</title>
 </head>
 <nav>
-    <div class="nav-wrapper">
+    <div class="navbar-fixed nav-wrapper container ">
         <a href="#" class="brand-logo"> Logo</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="sass.html">Register</a></li>
@@ -34,42 +34,47 @@
     <div class="col s12"><p></p></div>
     <div class="col s12 m4 l2"><p></p></div>
     <div class="col s12 m4 l8"><p></p>
-        <table class="highlight">
-            <c:forEach items="${testHotelData}" var="data">
-                <tr>
-                    <td> <c:out value="${data}" /> </td>
-                </tr>
-            </c:forEach>
-        </table>
-        <a class="waves-effect waves-light btn">button</a>
-        <hr>
-        <%-- Registration form to be copied over to another file--%>
-        <br>
-
-        <table class="highlight">
-            <c:forEach items="${randomRooms}" var="data">
-                <tr>
-                    <th><c:out value="${data.value.hotelName}"/></th>
-                    <td> <c:out value="${data.key.name}"/> </td>
-                    <td> <c:out value="${data.value.location}"/> </td>
-                    <td> <c:out value="${data.key.price}"/> </td>
-                </tr>
-            </c:forEach>
-        </table>
-
-
-        <form action="home" method="post">
-            <input type="text" name="searchValue" />
-            <input type="hidden" name="action" value="toRegister" />
-            <input type="submit" value="Search" />
-        </form>
-
+        <div class="section">
+            <h4 class="header">Featured Rooms </h4>
+            <hr>
+        </div>
+        <c:forEach items="${randomRooms}" var="data">
+        <div class="col s6">
+            <div class="card">
+                <div class="card-image">
+                    <img src="
+                        <c:choose>
+                            <c:when test="${data.key.name == 'Single'}">${pageContext.request.contextPath}/static/Single.jpg</c:when>
+                            <c:when test="${data.key.name == 'Twin'}">${pageContext.request.contextPath}/static/Twin.jpg</c:when>
+                            <c:when test="${data.key.name == 'Queen'}">${pageContext.request.contextPath}/static/Queen.jpg</c:when>
+                            <c:when test="${data.key.name == 'Executive'}">${pageContext.request.contextPath}/static/Executive.jpg</c:when>
+                            <c:when test="${data.key.name == 'Suite'}">${pageContext.request.contextPath}/static/Suite.jpg</c:when>
+                        </c:choose>
+                    ">
+                    <span class="card-title"><c:out value="${data.value.hotelName}"/> - <c:out value="${data.key.name}"/> Room</span>
+                </div>
+                <div class="card-content">
+                    <p>
+                        <c:out value="${data.value.location}"/>
+                        <br> $ <c:out value="${data.key.price}"/> Per Night
+                    </p>
+                </div>
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                </div>
+            </div>
+        </div>
+        </c:forEach>
     </div>
     <div class="col s12 m4 l2"><p></p></div>
-    <%--<img src="${pageContext.request.contextPath}/static/Single.jpg">--%>
 </div>
 </body>
 </html>
 
-<%--cc_expiry			VARCHAR(40),--%>
-<%--PRIMARY KEY (id)--%>
+
+<%-- Example Control Flow --%>
+<%--<form action="home" method="post">--%>
+    <%--<input type="text" name="searchValue" />--%>
+    <%--<input type="hidden" name="action" value="toRegister" />--%>
+    <%--<input type="submit" value="Search" />--%>
+<%--</form>--%>
