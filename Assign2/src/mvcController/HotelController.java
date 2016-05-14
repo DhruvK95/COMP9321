@@ -173,7 +173,7 @@ public class HotelController extends HttpServlet {
 		String password = request.getParameter("password");
 		nextPage="login.jsp";
 		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
-			nextPage="details.jsp";
+			nextPage="home.jsp";
 			if(curr == null){
 				request.getSession().setAttribute("CurrUser", isValid(username,password));
 			}
