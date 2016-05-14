@@ -119,6 +119,9 @@ public class HotelController extends HttpServlet {
 				System.out.println("----- Login -------");
 				System.out.println("username is " + request.getParameter("username"));
 				System.out.println("password is " + request.getParameter("password"));
+				request.setAttribute("randomRooms", getRandomRoomsHash() );
+				request.setAttribute("testHotelData",cast.allHotels());
+
 				nextPage="home.jsp";
 			}
 
