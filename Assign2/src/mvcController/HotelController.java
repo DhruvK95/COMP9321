@@ -212,15 +212,15 @@ public class HotelController extends HttpServlet {
 		}
 	}
 	private void registerUser(HttpServletRequest request, HttpServletResponse response){
-		String user = request.getParameter("regUser");
-		String pass = request.getParameter("regPass");
-		String fName = request.getParameter("fName");
-		String lName = request.getParameter("lName");
+		String user = request.getParameter("username");
+		String pass = request.getParameter("password");
+		String fName = request.getParameter("first_name");
+		String lName = request.getParameter("last_name");
 		String email = request.getParameter("email");
 		String addr = request.getParameter("address");
-		String ccNum = request.getParameter("ccNum");
-		String ccNam = request.getParameter("ccNam");
-		String ccExp = request.getParameter("ccExp");
+		String ccNum = request.getParameter("cc_number");
+		String ccNam = request.getParameter("cc_name");
+		String ccExp = request.getParameter("toRegister");
 		if(user != null && !userExists(user) && pass!= null &&
 				fName != null && lName != null && email != null && addr != null
 				 && ccNam != null && ccExp != null){
