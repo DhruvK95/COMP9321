@@ -26,7 +26,8 @@
             <form class="col s12" action="home" method="post">
                 <div class="row">
                     <div class="section input-field col s6">
-                        <input id="check_in_date" name="check_in_date" type="date" name="check_in_date" class="datepicker">
+                        <input id="check_in_date" name="check_in_date" type="date" name="check_in_date"
+                               class="datepicker">
                         <label for="check_in_date">Check In Date</label>
                     </div>
                     <div class="section input-field col s6">
@@ -36,7 +37,7 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <select name="city">
+                        <select name="city" required>
                             <option value="" disabled selected>Choose a City</option>
                             <option value="Sydney">Sydney</option>
                             <option value="Brisbane">Brisbane</option>
@@ -52,7 +53,7 @@
                         <label for="max_price">Max Price</label>
                     </div>
                     <div class="input-field col s3">
-                        <input id="number_of_rooms" type="number" name="number_of_rooms" class="validate">
+                        <input id="number_of_rooms" type="number" name="number_of_rooms" class="validate" required>
                         <label for="number_of_rooms">Number of Rooms</label>
                     </div>
                 </div>
