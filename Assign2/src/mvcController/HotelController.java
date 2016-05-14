@@ -77,7 +77,7 @@ public class HotelController extends HttpServlet {
 		String nextPage = "";
 		String action = request.getParameter("action");
 		System.out.println(request.getParameter("action"));
-		
+
 //		if(request.getSession().getAttribute("db") == null){
 //			System.out.println(database.getAllHotels().get(2).getHotelName());
 //			request.getSession().setAttribute("db", database);
@@ -86,11 +86,11 @@ public class HotelController extends HttpServlet {
 //			System.out.println(database.getAllHotels().get(2).getHotelName());
 //
 //		}
-		
+
 		if(action != null ){
 			if(action.equals("search")){
 
-			}else if (action.equals("toRegister")){
+			} else if (action.equals("toRegister")){
 
 				System.out.println("username is " + request.getParameter("username"));
 				System.out.println("password is " + request.getParameter("password"));
@@ -104,6 +104,14 @@ public class HotelController extends HttpServlet {
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="home.jsp";
+			} else if (action.equals("roomSearch")) {
+				System.out.println("----- Room Search -------");
+				System.out.println("check_in_date is " + request.getParameter("check_in_date"));
+				System.out.println("check_out_date is " + request.getParameter("check_out_date"));
+				System.out.println("city is " + request.getParameter("city"));
+				System.out.println("max_price is " + request.getParameter("max_price"));
+				nextPage="home.jsp";
+
 			}
 
 		}else{
@@ -130,7 +138,7 @@ public class HotelController extends HttpServlet {
 			request.setAttribute("testHotelData",cast.allHotels());
 			nextPage="home.jsp";
 		}
-		
+
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}
@@ -159,7 +167,7 @@ public class HotelController extends HttpServlet {
 		}
 		return randList;
 	}
-	
+
 	public CustomerDTO isValid(String username, String password){
 		for(CustomerDTO c: database.getAllCustomers()){
 			if(c.getUser_name().equals(username)){
@@ -174,7 +182,7 @@ public class HotelController extends HttpServlet {
 	}
 	private String login(HttpServletRequest request, HttpServletResponse response){
 		String nextPage = "";
-		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");	
+		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");
 		String username = request.getParameter("user");
 		String password = request.getParameter("pass");
 		nextPage="login.jsp";
@@ -184,12 +192,12 @@ public class HotelController extends HttpServlet {
 				request.getSession().setAttribute("CurrUser", isValid(username,password));
 			}
 		}
-		
+
 		return nextPage;
 	}
 	private void updateDetails(HttpServletRequest request, HttpServletResponse response){
 		String newPass = request.getParameter("newPass");
-		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");	
+		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");
 		if(curr!= null && newPass != null){
 			cast.updateCustomer(curr.getUser_name(), "password", newPass);
 			database.refreshCustomer(cast.getCustomer(curr.getId()));
