@@ -9,21 +9,14 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Register form</h1>
-<%-- Registration form to be copied over to another file--%>
-<br>
-<form class="col s12">
-    <h4>Registration</h4>
-    <div class="row">
-        <div class="input-field col s12">
-            <input id="username" type="text" name="username">
-            <label for="username">Username</label>
-        </div>
-    </div>
-    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-        <i class="material-icons right">send</i>
-    </button>
-</form>
-<hr>
+    <h1>Register form</h1>
+    <%-- Registration form to be copied over to another file--%>
+    <br>
+    <%-- Example Control Flow --%>
+    <form action="home" method="post">
+        <input type="text" name="searchValue" />
+        <input type="hidden" name="action" value="toRegister" />
+        <input type="submit" value="Search" />
+    </form>
 </body>
 </html>

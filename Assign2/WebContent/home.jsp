@@ -24,7 +24,7 @@
     <div class="navbar-fixed nav-wrapper container ">
         <a href="#" class="brand-logo"> Logo</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="sass.html">Register</a></li>
+            <li><a href="/register">Register</a></li>
             <li><a href="badges.html">Login</a></li>
         </ul>
     </div>

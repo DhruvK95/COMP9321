@@ -14,4 +14,12 @@
     <servlet-name>HotelController</servlet-name>
     <url-pattern>/HotelController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>register</servlet-name>
+    <jsp-file>/register.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>register</servlet-name>
+    <url-pattern>/register</url-pattern>
+  </servlet-mapping>
 </web-app>
