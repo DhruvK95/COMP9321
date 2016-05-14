@@ -8,10 +8,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 public class SendEmail {
 
-	public SendEmail(String user, String recipientMail) {
+	public SendEmail(String user, String recipientMail, HttpServletRequest request) {
 
 		final String username = "makehotelsgreatagain@gmail.com";
 		final String password = "m4ke_h0tels_gr8";
@@ -36,8 +37,13 @@ public class SendEmail {
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(recipientMail));
 			message.setSubject("Testing Subject");
+			String serverName = request.getServerName();
+			int portNumber = request.getServerPort();
+			String contextPath = request.getContextPath();
+			System.out.println(serverName + ":" +portNumber + contextPath );
+			String path = serverName.concat(":").concat(Integer.toString(portNumber)).concat(contextPath);
 			message.setText("Please verify your account given the following link "+
-					"http://localhost:8080/proj2/verify="+user);
+					"http://" + path + "?verify="+user);
 
 			Transport.send(message);
 

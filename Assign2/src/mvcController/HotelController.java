@@ -209,7 +209,7 @@ public class HotelController extends HttpServlet {
 			cast.addUser(user, pass, fName, lName, email, addr,
 					Integer.parseInt(ccNum), ccNam, ccExp);
 			database.refreshCustomer(cast.getCustomer(user));
-			SendEmail verificationMail = new SendEmail(user,email);
+			SendEmail verificationMail = new SendEmail(user,email,request);
 		}
 		
 	}
