@@ -69,34 +69,42 @@ public class UserController extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
-	//all control flow and interation between servlets and jsps can occur here
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String nextPage = "";
-		//String action = request.getParameter("action");
-		String curr = (String) request.getSession().getAttribute("CurrUser");	
-		//^check if anyone is currently logged on this session
-		String username = request.getParameter("user");
-		String password = request.getParameter("pass");
-		nextPage="login.jsp";
-		if( curr != null || username != null && password != null && checkValid(username,password)){
-			nextPage="home.jsp";
-			if(curr == null){
-				request.getSession().setAttribute("CurrUser", username);
-			}
-		}
+		String nextPage = login(request, response);
+		
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}
-	public boolean checkValid(String username, String password){
+	public CustomerDTO isValid(String username, String password){
 		for(CustomerDTO c: database.getAllCustomers()){
 			if(c.getUser_name().equals(username)){
+				System.out.println(c.getPassword());
 				if(c.getPassword().equals(password)){
-					return true;
+					return c;
 				}
-				return false;
+				return null;
 			}
 		}
-		return false;
+		return null;
+	}
+	private String login(HttpServletRequest request, HttpServletResponse response){
+		String nextPage = "";
+		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");	
+		String username = request.getParameter("user");
+		String password = request.getParameter("pass");
+		nextPage="login.jsp";
+		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
+			nextPage="details.jsp";
+			if(curr == null){
+				request.getSession().setAttribute("CurrUser", isValid(username,password));
+			}
+		}
+		String newPass = request.getParameter("newPass");
+		if(curr!= null && newPass != null){
+			cast.updateCustomer(curr.getUser_name(), "password", newPass);
+			request.getSession().invalidate();
+		}
+		return nextPage;
 	}
 
 }
