@@ -71,14 +71,13 @@ public class UserController extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nextPage = login(request, response);
-		
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}
 	public CustomerDTO isValid(String username, String password){
 		for(CustomerDTO c: database.getAllCustomers()){
 			if(c.getUser_name().equals(username)){
-				System.out.println(c.getPassword());
+				System.out.println("Pass:" + c.getPassword());
 				if(c.getPassword().equals(password)){
 					return c;
 				}
@@ -102,6 +101,7 @@ public class UserController extends HttpServlet {
 		String newPass = request.getParameter("newPass");
 		if(curr!= null && newPass != null){
 			cast.updateCustomer(curr.getUser_name(), "password", newPass);
+			database.refreshCustomer(cast.getCustomer(curr.getId()));
 			request.getSession().invalidate();
 		}
 		return nextPage;
