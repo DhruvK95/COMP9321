@@ -3,15 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="mvcModel.*, java.util.*"%>
 
-<!-- Compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-
-<!-- Compiled and minified JavaScript -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-
-<!--Let browser know website is optimized for mobile-->
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <jsp:useBean id="roomDTO" class="mvcModel.RoomDTO" scope="session"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -20,16 +11,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>MHGA -Home</title>
 </head>
-<nav>
-    <div class="navbar-fixed nav-wrapper container ">
-        <a href="#" class="brand-logo"> Logo</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/register">Register</a></li>
-            <li><a href="badges.html">Login</a></li>
-        </ul>
-    </div>
-</nav>
 <body>
+<%@ include file="navBar.html"%>
 <div class="row">
     <div class="col s12"><p></p></div>
     <div class="col s12 m4 l2"><p></p></div>

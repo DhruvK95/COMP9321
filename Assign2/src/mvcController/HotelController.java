@@ -76,6 +76,7 @@ public class HotelController extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nextPage = "";
 		String action = request.getParameter("action");
+		System.out.println(request.getParameter("action"));
 
 
 		if(action != null ){
@@ -83,8 +84,17 @@ public class HotelController extends HttpServlet {
 
 			}else if (action.equals("toRegister")){
 
-				System.out.println(request.getParameter("searchValue"));
-				nextPage="register.jsp";
+				System.out.println("username is " + request.getParameter("username"));
+				System.out.println("password is " + request.getParameter("password"));
+				System.out.println("first_name is " + request.getParameter("first_name"));
+				System.out.println("last_name is " + request.getParameter("last_name"));
+				System.out.println("email is " + request.getParameter("email"));
+				System.out.println("address is " + request.getParameter("address"));
+				System.out.println("cc_number is " + request.getParameter("cc_number"));
+				System.out.println("cc_name is " + request.getParameter("cc_name"));
+				System.out.println("cc_expiry is " + request.getParameter("cc_expiry"));
+
+				nextPage="home.jsp";
 			}
 
 		}else{
