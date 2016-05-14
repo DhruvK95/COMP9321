@@ -3,7 +3,14 @@
   Date: 13/05/2016
   Time: 12:52 PM
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="mvcModel.*, java.util.*"%>
+
+<jsp:useBean id="roomDTO" class="mvcModel.RoomDTO" scope="session"/>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Register</title>
@@ -86,7 +93,7 @@
 </script>
 </html>
 
-<%-- Example Control flow --%>
+ <%--Example Control flow --%>
 <%--<form action="home" method="post">--%>
 <%--<input type="text" name="username" />--%>
 <%--<input type="text" name="password" />--%>
