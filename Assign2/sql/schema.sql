@@ -37,6 +37,7 @@ CREATE TABLE customer (
   cc_number   	INTEGER,
   cc_name				VARCHAR(40),
   cc_expiry			VARCHAR(40),
+  verified			boolean,
   PRIMARY KEY (id)
 );
 

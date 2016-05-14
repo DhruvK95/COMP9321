@@ -211,6 +211,54 @@ public class HotelController extends HttpServlet {
 			request.getSession().invalidate();
 		}
 	}
+	private void registerUser(HttpServletRequest request, HttpServletResponse response){
+		String user = request.getParameter("regUser");
+		String pass = request.getParameter("regPass");
+		String fName = request.getParameter("fName");
+		String lName = request.getParameter("lName");
+		String email = request.getParameter("email");
+		String addr = request.getParameter("address");
+		String ccNum = request.getParameter("ccNum");
+		String ccNam = request.getParameter("ccNam");
+		String ccExp = request.getParameter("ccExp");
+		if(user != null && !userExists(user) && pass!= null &&
+				fName != null && lName != null && email != null && addr != null
+				 && ccNam != null && ccExp != null){
+			System.out.println("about to add new user");
+			cast.addUser(user, pass, fName, lName, email, addr,
+					Integer.parseInt(ccNum), ccNam, ccExp);
+			database.refreshCustomer(cast.getCustomer(user));
+			SendEmail verificationMail = new SendEmail(user,email);
+		}
+		
+	}
+
+	private boolean userExists(String user) {
+		for(CustomerDTO c:database.customers){
+			if(c.getUser_name().equals(user)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void verify(HttpServletRequest request, HttpServletResponse response) {
+		String user = request.getParameter("verify");
+		if(user != null && userExists(user)){
+			for(CustomerDTO c:database.customers){
+				if(c.getUser_name().equals(user)){
+					if(c.isVerified()){
+						return;
+					}else{
+						cast.updateCustomer(user, "verified", "true");
+						c.setVerified(true);
+						request.getSession().setAttribute("currUser", c);
+					}
+				}
+			}
+		}
+	}
+
 
 
 }
