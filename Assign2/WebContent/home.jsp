@@ -20,6 +20,7 @@
         <%-- Room Search section below --%>
         <div class="section">
             <h4 class="header">Search for Rooms </h4>
+
             <hr>
             <form class="col s12" action="home" method="post">
                 <div class="row">

@@ -124,7 +124,7 @@ public class HotelController extends HttpServlet {
 			request.setAttribute("testHotelData",cast.allHotels());
 			nextPage="home.jsp";
 		}
-		nextPage = login(request, response);
+//		nextPage = login(request, response);
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}
@@ -237,6 +237,8 @@ public class HotelController extends HttpServlet {
 			}
 		}
 	}
+
+	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate)
 
 
 
