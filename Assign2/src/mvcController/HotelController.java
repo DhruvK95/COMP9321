@@ -2,10 +2,10 @@ package mvcController;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sun.tools.doclets.internal.toolkit.util.SourceToHTMLConverter;
 import mvcModel.CustomerDTO;
 import mvcModel.DBStorageDTO;
 import mvcModel.DerbyDAOImpl;
@@ -104,7 +105,42 @@ public class HotelController extends HttpServlet {
 				System.out.println("check_out_date is " + request.getParameter("check_out_date"));
 				System.out.println("city is " + request.getParameter("city"));
 				System.out.println("max_price is " + request.getParameter("max_price"));
+				System.out.println("number_of_rooms is " + request.getParameter("number_of_rooms"));
 
+				String strNumRooms = request.getParameter("number_of_rooms");
+				Integer number_of_rooms = Integer.parseInt(strNumRooms);
+
+				String startDateString;
+				String endDateString;
+
+				startDateString = request.getParameter("check_in_date");
+				endDateString = request.getParameter("check_out_date");
+
+				DateFormat start_df = new SimpleDateFormat("dd/mm/yyyy");
+				DateFormat end_df = new SimpleDateFormat("dd/mm/yyyy");
+
+				Date startDate = new Date();
+				Date end_Date = new Date();
+
+				try {
+					startDate = start_df.parse(startDateString);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				try {
+					end_Date = end_df.parse(endDateString);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				String cityToCheck = request.getParameter("city");
+				double maxPrice = Double.parseDouble(request.getParameter("max_price"));
+
+				searchRooms(startDate, end_Date, cityToCheck, maxPrice, number_of_rooms);
+
+				request.setAttribute("randomRooms", getRandomRoomsHash() );
+				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="home.jsp";
 
 			} else if (action.equals("login")) {
@@ -130,7 +166,7 @@ public class HotelController extends HttpServlet {
 	}
 
 	public Map<RoomDTO,HotelDTO> getRandomRoomsHash(){
-		
+
 		Map<RoomDTO,HotelDTO> randList = new HashMap<RoomDTO,HotelDTO>();
 		ArrayList<String> checkAgainst = new ArrayList<String>();
 		checkAgainst.add("Sydney");checkAgainst.add("Brisbane");checkAgainst.add("Melbourne");checkAgainst.add("Perth");checkAgainst.add("Adelaide");checkAgainst.add("Hobart");
@@ -232,14 +268,14 @@ public class HotelController extends HttpServlet {
 		String ccExp = request.getParameter("cc_expiry");
 		if(user != null && !userExists(user) && pass!= null &&
 				fName != null && lName != null && email != null && addr != null
-				 && ccNam != null && ccExp != null){
+				&& ccNam != null && ccExp != null){
 			System.out.println("about to add new user");
 			cast.addUser(user, pass, fName, lName, email, addr,
 					Integer.parseInt(ccNum), ccNam, ccExp);
 			database.refreshCustomer(cast.getCustomer(user));
 			SendEmail verificationMail = new SendEmail(user,email,request);
 		}
-		
+
 	}
 
 	private boolean userExists(String user) {
@@ -268,8 +304,25 @@ public class HotelController extends HttpServlet {
 		}
 	}
 
-	//public Map<RoomDTO,HotelDTO> searchRooms (Date startDate)
+	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate, Date endDate, String cityToCheck, Double maxPrice,
+											  Integer numberOfRooms) {
+		Map<RoomDTO, HotelDTO> resultList = new HashMap<RoomDTO, HotelDTO>();
+
+		for (HotelDTO h: database.getAllHotels()) {
+			if (h.getLocation().contains(cityToCheck)) {
+				System.out.println(h.getHotelName() + "is in City" + h.getLocation());
+
+			}
+		}
+
+		return resultList;
+	}
+
+	public boolean roomIsAvaliableInRange (Date startDate, Date endDate, RoomDTO roomToCheck) {
+		boolean result = false;
 
 
+		return result;
+	}
 
 }
