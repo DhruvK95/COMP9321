@@ -18,6 +18,7 @@
     <div class="col s12 m4 l2"><p></p></div>
     <div class="col s12 m4 l8"><p></p>
         <%-- Room Search section below --%>
+
         <div class="section">
             <h4 class="header">Search for Rooms </h4>
 
@@ -46,9 +47,13 @@
                         </select>
                         <label>Select City</label>
                     </div>
-                    <div class="input-field col s6">
+                    <div class="input-field col s3">
                         <input id="max_price" type="number" name="max_price" class="validate">
                         <label for="max_price">Max Price</label>
+                    </div>
+                    <div class="input-field col s3">
+                        <input id="number_of_rooms" type="number" name="number_of_rooms" class="validate">
+                        <label for="number_of_rooms">Number of Rooms</label>
                     </div>
                 </div>
 
@@ -60,7 +65,6 @@
                 <br>
             </form>
         </div>
-
 
         <%-- Featured rooms section below --%>
         <div class="section">
