@@ -78,16 +78,9 @@ public class HotelController extends HttpServlet {
 		String nextPage = "";
 		String action = request.getParameter("action");
 		System.out.println(request.getParameter("action"));
-
-//		if(request.getSession().getAttribute("db") == null){
-//			System.out.println(database.getAllHotels().get(2).getHotelName());
-//			request.getSession().setAttribute("db", database);
-//		}else{
-//			database = (DBStorageDTO) request.getSession().getAttribute("db");
-//			System.out.println(database.getAllHotels().get(2).getHotelName());
-//
-//		}
-
+		verify(request,response);
+		updateDetails(request,response);
+		registerUser(request,response);
 		if(action != null ){
 			if(action.equals("search")){
 
@@ -121,41 +114,23 @@ public class HotelController extends HttpServlet {
 				System.out.println("password is " + request.getParameter("password"));
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
-
-				nextPage="home.jsp";
+				nextPage = login(request, response);
 			}
 
 		}else{
-//			//TESTING HOTELS WORKS
-//			//temporarly test db interations
-//			ArrayList<HotelDTO> tempSave = database.getAllHotels();
-//			for ( HotelDTO h : tempSave ){
-//				System.out.println( h.getId() + " " + h.getHotelName() + " " + h.getLocation());
-//				System.out.println("----------------------------------------------------------------------");
-//				for( RoomDTO r : h.getRooms()){
-//					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
-//				}
-//
-//			}
-//			ArrayList<CustomerDTO> tempSave2 = database.getAllCustomers();
-//			for ( CustomerDTO c : tempSave2 ){
-//				System.out.println( c.getId() + " " + c.getUser_name()+ " " + c.getPassword()+ " " + c.getFirst_name()+ " " + c.last_name+ " " + c.getEmail()+ " " + c.getAddress()+ " " + c.getCc_number()+ " " + c.getCc_name()+ " " + c.getCc_expiry());
-//				System.out.println("----------------------------------------------------------------------");
-//			}
-//			//TESTING HOTELS WORKS
 
 			System.out.print("ERERERERERERERERERERERERERERERER");
 			request.setAttribute("randomRooms", getRandomRoomsHash() );
 			request.setAttribute("testHotelData",cast.allHotels());
 			nextPage="home.jsp";
 		}
-
+		nextPage = login(request, response);
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}
 
 	public Map<RoomDTO,HotelDTO> getRandomRoomsHash(){
-
+		
 		Map<RoomDTO,HotelDTO> randList = new HashMap<RoomDTO,HotelDTO>();
 		ArrayList<String> checkAgainst = new ArrayList<String>();
 		checkAgainst.add("Sydney");checkAgainst.add("Brisbane");checkAgainst.add("Melbourne");checkAgainst.add("Perth");checkAgainst.add("Adelaide");checkAgainst.add("Hobart");
@@ -194,8 +169,8 @@ public class HotelController extends HttpServlet {
 	private String login(HttpServletRequest request, HttpServletResponse response){
 		String nextPage = "";
 		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");
-		String username = request.getParameter("user");
-		String password = request.getParameter("pass");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 		nextPage="login.jsp";
 		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
 			nextPage="details.jsp";
