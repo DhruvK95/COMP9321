@@ -37,5 +37,15 @@ public class DBStorageDTO {
 		this.customers = customers;
 	}
 	
+	public void refreshCustomer(CustomerDTO newCus){
+		CustomerDTO oldCus = null;
+		for(CustomerDTO c:customers){
+			if(c.getId() == newCus.getId()){
+				oldCus = c;
+			}
+		}
+		customers.remove(oldCus);
+		customers.add(newCus);
+	}
 	
 }
