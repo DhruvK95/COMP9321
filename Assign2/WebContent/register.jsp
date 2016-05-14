@@ -24,7 +24,7 @@
     <div class="col s12 m4 l8"><p></p>
         <%-- Registration form to be copied over to another file--%>
         <br>
-        <form class="col s12" action="usercontroller" method="post">
+        <form class="col s12" action="hotelcontroller" method="post">
             <h4>Registration</h4>
             <div class="row">
                 <div class="input-field col s12">
