@@ -13,3 +13,9 @@ lib/*.jar
 
 
 Assign2/.classpath
+build
+/ROOT
+/docs
+/examples
+/host-manager
+/manager
