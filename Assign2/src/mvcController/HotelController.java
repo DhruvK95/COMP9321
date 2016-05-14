@@ -177,6 +177,8 @@ public class HotelController extends HttpServlet {
 			if(curr == null){
 				request.getSession().setAttribute("CurrUser", isValid(username,password));
 			}
+		}else{
+			request.setAttribute("loginError", true);
 		}
 
 		return nextPage;
@@ -238,7 +240,7 @@ public class HotelController extends HttpServlet {
 		}
 	}
 
-	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate)
+	//public Map<RoomDTO,HotelDTO> searchRooms (Date startDate)
 
 
 

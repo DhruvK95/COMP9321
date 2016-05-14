@@ -24,6 +24,9 @@
     <div class="col s12 m4 l2"><p></p></div>
     <div class="col s12 m4 l8"><p></p>
         <br>
+        <c:if test="${not empty loginError}">
+		<font size="5" color="red">Login details entered are incorrect!!</font>
+		</c:if>
         <form class="col s12" action="home" method="post">
             <h4>Login</h4>
             <p class="text-right">Not Registered? <a href="register">Sign up now.</a> </p>
