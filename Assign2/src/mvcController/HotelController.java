@@ -238,7 +238,7 @@ public class HotelController extends HttpServlet {
 		}
 	}
 
-	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate)
+	//public Map<RoomDTO,HotelDTO> searchRooms (Date startDate)
 
 
 
