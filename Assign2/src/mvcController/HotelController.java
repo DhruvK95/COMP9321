@@ -150,5 +150,42 @@ public class HotelController extends HttpServlet {
 		}
 		return randList;
 	}
+	
+	public CustomerDTO isValid(String username, String password){
+		for(CustomerDTO c: database.getAllCustomers()){
+			if(c.getUser_name().equals(username)){
+				System.out.println("Pass:" + c.getPassword());
+				if(c.getPassword().equals(password)){
+					return c;
+				}
+				return null;
+			}
+		}
+		return null;
+	}
+	private String login(HttpServletRequest request, HttpServletResponse response){
+		String nextPage = "";
+		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");	
+		String username = request.getParameter("user");
+		String password = request.getParameter("pass");
+		nextPage="login.jsp";
+		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
+			nextPage="details.jsp";
+			if(curr == null){
+				request.getSession().setAttribute("CurrUser", isValid(username,password));
+			}
+		}
+		
+		return nextPage;
+	}
+	private void updateDetails(HttpServletRequest request, HttpServletResponse response){
+		String newPass = request.getParameter("newPass");
+		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");	
+		if(curr!= null && newPass != null){
+			cast.updateCustomer(curr.getUser_name(), "password", newPass);
+			database.refreshCustomer(cast.getCustomer(curr.getId()));
+			request.getSession().invalidate();
+		}
+	}
 
 }
