@@ -229,5 +229,22 @@ public class DerbyDAOImpl  {
 		}
 		
 	}
+	public void addUser(String user, String pass, String fName, String lName,
+			String email, String addr, int ccNum, String ccNam, String ccExp) {
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "INSERT INTO customer VALUES (DEFAULT, '"+
+			user+"','"+pass+"','"+fName+"','"+lName+"','"+email+"','"+addr+"',"
+					+ccNum+",'"+ccNam+"','"+ccExp+"',false )";
+			System.out.println(query_cast);
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

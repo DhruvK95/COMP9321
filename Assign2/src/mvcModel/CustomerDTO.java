@@ -12,7 +12,9 @@ public class CustomerDTO {
 	public int cc_number;
 	public String cc_name;
 	public String cc_expiry;
-
+	//Has the user clicked validation link
+	public Boolean verified;
+	
 	public int getId() {
 		return id;
 	}
@@ -72,5 +74,11 @@ public class CustomerDTO {
 	}
 	public void setCc_expiry(String cc_expiry) {
 		this.cc_expiry = cc_expiry;
+	}
+	public boolean isVerified(){
+		return verified;
+	}
+	public void setVerified(boolean v){
+		verified = v;
 	}
 }
