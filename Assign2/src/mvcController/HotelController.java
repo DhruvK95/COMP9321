@@ -79,7 +79,7 @@ public class HotelController extends HttpServlet {
 		String action = request.getParameter("action");
 		System.out.println(request.getParameter("action"));
 		verify(request,response);
-		updateDetails(request,response);
+		//updateDetails(request,response);
 		registerUser(request,response);
 		if(action != null ){
 			if(action.equals("search")){
@@ -184,13 +184,41 @@ public class HotelController extends HttpServlet {
 		return nextPage;
 	}
 	private void updateDetails(HttpServletRequest request, HttpServletResponse response){
-		String newPass = request.getParameter("newPass");
 		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");
-		if(curr!= null && newPass != null){
-			cast.updateCustomer(curr.getUser_name(), "password", newPass);
-			database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
-			request.getSession().invalidate();
+		if(curr == null) return;
+		String pass = request.getParameter("new_password");
+		String fName = request.getParameter("new_first_name");
+		String lName = request.getParameter("new_last_name");
+		String email = request.getParameter("new_email");
+		String addr = request.getParameter("new_address");
+		String ccNum = request.getParameter("new_cc_number");
+		String ccNam = request.getParameter("new_cc_name");
+		String ccExp = request.getParameter("new_cc_expiry");
+		if(pass != null){
+			cast.updateCustomer(curr.getUser_name(), "password", pass);
 		}
+		if(fName != null){
+			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		}
+		if(lName != null){
+			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		}
+		if(email != null){
+			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		}
+		if(addr != null){
+			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		}
+		if(ccNum != null){
+			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		}
+		if(ccNam != null){
+			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		}
+		if(ccExp != null){
+			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		}
+		database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
 	}
 	private void registerUser(HttpServletRequest request, HttpServletResponse response){
 		String user = request.getParameter("username");
