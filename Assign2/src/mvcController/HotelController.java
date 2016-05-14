@@ -207,7 +207,7 @@ public class HotelController extends HttpServlet {
 		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");
 		if(curr!= null && newPass != null){
 			cast.updateCustomer(curr.getUser_name(), "password", newPass);
-			database.refreshCustomer(cast.getCustomer(curr.getId()));
+			database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
 			request.getSession().invalidate();
 		}
 	}
