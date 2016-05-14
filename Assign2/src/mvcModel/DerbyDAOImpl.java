@@ -73,6 +73,33 @@ public class DerbyDAOImpl  {
 		return hotels;
 	}
 	
+	//gets all bookings and returns them in an arraylist
+		public ArrayList<BookingDTO> initBookings(){
+			ArrayList<BookingDTO> bookings = new ArrayList<BookingDTO>();
+			try{
+				Statement stmnt = connection.createStatement();
+				String query_cast = "SELECT id,start_date,end_date,hotel_fk,customer_fk FROM booking";
+				ResultSet res = stmnt.executeQuery(query_cast);
+				logger.info("The result set size is "+res.getFetchSize());
+				while(res.next()){
+					BookingDTO currBooking = new BookingDTO();
+					currBooking.setId(res.getInt("id"));
+					currBooking.setStartDate(res.getDate("start_date"));
+					currBooking.setEndDate(res.getDate("end_date"));
+					currBooking.setHotelID(res.getInt("hotel_fk"));
+					currBooking.setCustomerID(res.getInt("customer_fk"));
+					bookings.add(currBooking);
+				}
+				res.close();
+				stmnt.close();
+				
+			}catch(Exception e){
+				System.out.println("Caught Exception");
+				e.printStackTrace();
+			}
+			return bookings;
+		}
+
 	
 	public ArrayList<CustomerDTO> initCustomers(){
 		ArrayList<CustomerDTO> customers = new ArrayList<CustomerDTO>();
