@@ -5,7 +5,9 @@ ALTER TABLE ROOM DROP CONSTRAINT ROOM_ROOM_TYPE_ID_FK;
 ALTER TABLE DISCOUNT DROP CONSTRAINT DISCOUNT_HOTEL_ID_FK;
 ALTER TABLE DISCOUNT DROP CONSTRAINT DISCOUNT_ROOM_TYPE_FK;
 ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_CUSTOMER_ID_FK;
-ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_HOTEL_ID_FK;
+-- Since the booking relation changed, when you next regenerate the database you will need to drop the old constraint and 
+-- add the new one. In other words, before you run the script next, change ROOM to HOTEL on the next line, and change it back after.
+ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_ROOM_ID_FK;
 DROP TABLE DISCOUNT;
 DROP TABLE BOOKING;
 DROP TABLE ROOM;
@@ -36,18 +38,6 @@ CREATE TABLE customer (
   cc_name				VARCHAR(40),
   cc_expiry			VARCHAR(40),
   PRIMARY KEY (id)
-);
-
-CREATE TABLE booking
-(
-  id              INTEGER PRIMARY KEY NOT NULL,
-  start_date      DATE NOT NULL,
-  end_date        DATE NOT NULL,
-  hotel_fk        INTEGER NOT NULL,
-  customer_fk     INTEGER,
-  CONSTRAINT valid_booking_dates CHECK (start_date <= end_date),
-  CONSTRAINT booking_CUSTOMER_ID_fk FOREIGN KEY (customer_fk) REFERENCES CUSTOMER (ID),
-  CONSTRAINT booking_HOTEL_ID_fk FOREIGN KEY (hotel_fk) REFERENCES HOTEL (ID)
 );
 
 CREATE TABLE staff
@@ -82,6 +72,18 @@ CREATE TABLE room (
   CONSTRAINT room_HOTEL_ID_FK FOREIGN KEY (hotel_fk) REFERENCES hotel (id)
 );
 
+
+CREATE TABLE booking
+(
+  id              INTEGER PRIMARY KEY NOT NULL NOT NULL GENERATED ALWAYS AS IDENTITY,
+  start_date      DATE NOT NULL,
+  end_date        DATE NOT NULL,
+  room_fk         INTEGER NOT NULL,
+  customer_fk     INTEGER,
+  CONSTRAINT valid_booking_dates CHECK (start_date <= end_date),
+  CONSTRAINT booking_CUSTOMER_ID_fk FOREIGN KEY (customer_fk) REFERENCES CUSTOMER (ID),
+  CONSTRAINT booking_ROOM_ID_fk FOREIGN KEY (room_fk) REFERENCES ROOM (ID)
+);
 
 CREATE TABLE discount (
   id              INT NOT NULL,
@@ -144,6 +146,11 @@ INSERT INTO room VALUES (DEFAULT, 1, 7);
 INSERT INTO room VALUES (DEFAULT, 1, 8);
 INSERT INTO room VALUES (DEFAULT, 1, 9);
 INSERT INTO room VALUES (DEFAULT, 1, 9);
+
+--Make some test bookings
+INSERT INTO booking VALUES (DEFAULT , '2016-01-01','2016-01-02' ,1,1);
+INSERT INTO booking VALUES (DEFAULT , '2016-01-01','2016-01-03' ,2,2);
+INSERT INTO booking VALUES (DEFAULT , '2016-01-03','2016-01-04' ,3,1);
 
 --Double Rooms (Even num Hotels)
 INSERT INTO room VALUES (DEFAULT, 2, 2);
