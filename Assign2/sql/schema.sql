@@ -119,8 +119,8 @@ INSERT INTO hotel VALUES (DEFAULT,'BridgeWater Horror','Hobart');
 INSERT INTO hotel VALUES (DEFAULT,'Howden Horror','Hobart');
 
 
-INSERT INTO customer VALUES (DEFAULT,'LeonisCool','123', 'Leon','Augustine', 'laugustine1@gmail.com', 'pert', 123456, 'Leon', '4/4/2015' );
-INSERT INTO customer VALUES (DEFAULT,'EdlanisShit','123', 'Edlan', 'Policarpio','eldanpolicarpioschool@gmail.com', 'hobar', 123456, 'Edlan', '4/4/2015');
+INSERT INTO customer VALUES (DEFAULT,'LeonisCool','123', 'Leon','Augustine', 'laugustine1@gmail.com', 'pert', 123456, 'Leon', '4/4/2015', true );
+INSERT INTO customer VALUES (DEFAULT,'EdlanisShit','123', 'Edlan', 'Policarpio','eldanpolicarpioschool@gmail.com', 'hobar', 123456, 'Edlan', '4/4/2015', true);
 
 
 --Make Room Types
