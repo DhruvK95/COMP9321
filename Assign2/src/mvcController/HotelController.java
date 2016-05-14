@@ -77,8 +77,16 @@ public class HotelController extends HttpServlet {
 		String nextPage = "";
 		String action = request.getParameter("action");
 		System.out.println(request.getParameter("action"));
-
-
+		
+//		if(request.getSession().getAttribute("db") == null){
+//			System.out.println(database.getAllHotels().get(2).getHotelName());
+//			request.getSession().setAttribute("db", database);
+//		}else{
+//			database = (DBStorageDTO) request.getSession().getAttribute("db");
+//			System.out.println(database.getAllHotels().get(2).getHotelName());
+//
+//		}
+		
 		if(action != null ){
 			if(action.equals("search")){
 
@@ -93,7 +101,8 @@ public class HotelController extends HttpServlet {
 				System.out.println("cc_number is " + request.getParameter("cc_number"));
 				System.out.println("cc_name is " + request.getParameter("cc_name"));
 				System.out.println("cc_expiry is " + request.getParameter("cc_expiry"));
-
+				request.setAttribute("randomRooms", getRandomRoomsHash() );
+				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="home.jsp";
 			}
 
@@ -116,12 +125,12 @@ public class HotelController extends HttpServlet {
 //			}
 //			//TESTING HOTELS WORKS
 
-
+			System.out.print("ERERERERERERERERERERERERERERERER");
 			request.setAttribute("randomRooms", getRandomRoomsHash() );
 			request.setAttribute("testHotelData",cast.allHotels());
 			nextPage="home.jsp";
 		}
-
+		
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}
