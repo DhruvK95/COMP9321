@@ -22,7 +22,6 @@
     <div class="col s12"><p></p></div>
     <div class="col s12 m4 l2"><p></p></div>
     <div class="col s12 m4 l8"><p></p>
-        <%-- Registration form to be copied over to another file--%>
         <br>
         <form class="col s12" action="home" method="post">
             <h4>Registration</h4>

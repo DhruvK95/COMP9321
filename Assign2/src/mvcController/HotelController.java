@@ -110,8 +110,15 @@ public class HotelController extends HttpServlet {
 				System.out.println("check_out_date is " + request.getParameter("check_out_date"));
 				System.out.println("city is " + request.getParameter("city"));
 				System.out.println("max_price is " + request.getParameter("max_price"));
+
 				nextPage="home.jsp";
 
+			} else if (action.equals("login")) {
+				// Add Login stuff here....
+				System.out.println("----- Login -------");
+				System.out.println("username is " + request.getParameter("username"));
+				System.out.println("password is " + request.getParameter("password"));
+				nextPage="home.jsp";
 			}
 
 		}else{
@@ -204,5 +211,6 @@ public class HotelController extends HttpServlet {
 			request.getSession().invalidate();
 		}
 	}
+
 
 }
