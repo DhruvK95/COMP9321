@@ -105,7 +105,7 @@ public class DerbyDAOImpl  {
 		ArrayList<CustomerDTO> customers = new ArrayList<CustomerDTO>();
 		try{
 			Statement stmnt = connection.createStatement();
-			String query_cast = "SELECT id,user_name,password,first_name,last_name,email,address,cc_number,cc_name,cc_expiry FROM customer";
+			String query_cast = "SELECT id,user_name,password,first_name,last_name,email,address,cc_number,cc_name,cc_expiry,verified FROM customer";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is "+res.getFetchSize());
 			while(res.next()){
@@ -120,6 +120,7 @@ public class DerbyDAOImpl  {
 				currCustomer.setCc_number(res.getInt("cc_number"));
 				currCustomer.setCc_name(res.getString("cc_name"));
 				currCustomer.setCc_expiry(res.getString("cc_expiry"));
+				currCustomer.setVerified(res.getBoolean("verified"));
 				customers.add(currCustomer);
 			}
 			res.close();
@@ -187,13 +188,13 @@ public class DerbyDAOImpl  {
 		return r == 1;
 	}
 	
-	public CustomerDTO getCustomer(int id){
+	public CustomerDTO getCustomer(String user){
 		Statement stmnt;
 		CustomerDTO c = new CustomerDTO();
 		try {
 			stmnt = connection.createStatement();
-			String query_cast = "SELECT id,user_name,password,first_name,last_name,email,address,cc_number,cc_name,cc_expiry "
-					+ "FROM customer WHERE id = "+id;
+			String query_cast = "SELECT id,user_name,password,first_name,last_name,email,address,cc_number,cc_name,cc_expiry,verified "
+					+ "FROM customer WHERE user_name = '"+user+"'";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			if(res.next()){
 				c.setId(res.getInt("id"));
@@ -206,6 +207,7 @@ public class DerbyDAOImpl  {
 				c.setCc_number(res.getInt("cc_number"));
 				c.setCc_name(res.getString("cc_name"));
 				c.setCc_expiry(res.getString("cc_expiry"));
+				c.setVerified(res.getBoolean("verified"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
