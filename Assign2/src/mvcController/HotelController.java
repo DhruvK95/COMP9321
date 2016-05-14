@@ -47,6 +47,7 @@ public class HotelController extends HttpServlet {
 			allHotels = cast.initRooms(allHotels);
 			database.addAllHotels(allHotels); //init all hotels from schema
 			database.addAllCustomers(cast.initCustomers());
+			database.addAllBookings(cast.initBookings());
 
 		} catch (SQLException e) {
 			e.printStackTrace();

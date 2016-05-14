@@ -89,6 +89,7 @@ public class DerbyDAOImpl  {
 					currBooking.setRoomID(res.getInt("room_fk"));
 					currBooking.setCustomerID(res.getInt("customer_fk"));
 					bookings.add(currBooking);
+					logger.info("booking loaded with customerID:(" + currBooking.getCustomerID() + ") roomID:(" + currBooking.getRoomID() + ") " + currBooking.getStartDate() + "->" + currBooking.getEndDate());
 				}
 				res.close();
 				stmnt.close();
