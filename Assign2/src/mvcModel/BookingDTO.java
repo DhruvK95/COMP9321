@@ -1,8 +1,5 @@
 package mvcModel;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Date;
 
 //Booking SQL table
@@ -11,17 +8,17 @@ import java.util.Date;
 //  id              INTEGER PRIMARY KEY NOT NULL,
 //  start_date      DATE NOT NULL,
 //  end_date        DATE NOT NULL,
-//  hotel_fk        INTEGER NOT NULL,
+//  room_fk        INTEGER NOT NULL,
 //  customer_fk     INTEGER,
 //  CONSTRAINT valid_booking_dates CHECK (start_date <= end_date),
 //  CONSTRAINT booking_CUSTOMER_ID_fk FOREIGN KEY (customer_fk) REFERENCES CUSTOMER (ID),
-//  CONSTRAINT booking_HOTEL_ID_fk FOREIGN KEY (hotel_fk) REFERENCES HOTEL (ID)
+//  CONSTRAINT booking_ROOM_ID_fk FOREIGN KEY (room_fk) REFERENCES ROOM (ID)
 //);
 
 
 public class BookingDTO {
 	public int id;
-	public int hotelID;
+	public int roomID;
 	public int customerID;
 	public Date startDate;
 	public Date endDate;
@@ -40,12 +37,12 @@ public class BookingDTO {
 		this.id = id;
 	}
 
-	public int getHotelID() {
-		return hotelID;
+	public int getRoomID() {
+		return roomID;
 	}
 
-	public void setHotelID(int hotelID) {
-		this.hotelID = hotelID;
+	public void setRoomID(int roomID) {
+		this.roomID = roomID;
 	}
 
 	public int getCustomerID() {

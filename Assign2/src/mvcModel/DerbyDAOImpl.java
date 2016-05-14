@@ -78,7 +78,7 @@ public class DerbyDAOImpl  {
 			ArrayList<BookingDTO> bookings = new ArrayList<BookingDTO>();
 			try{
 				Statement stmnt = connection.createStatement();
-				String query_cast = "SELECT id,start_date,end_date,hotel_fk,customer_fk FROM booking";
+				String query_cast = "SELECT id,start_date,end_date,room_fk,customer_fk FROM booking";
 				ResultSet res = stmnt.executeQuery(query_cast);
 				logger.info("The result set size is "+res.getFetchSize());
 				while(res.next()){
@@ -86,7 +86,7 @@ public class DerbyDAOImpl  {
 					currBooking.setId(res.getInt("id"));
 					currBooking.setStartDate(res.getDate("start_date"));
 					currBooking.setEndDate(res.getDate("end_date"));
-					currBooking.setHotelID(res.getInt("hotel_fk"));
+					currBooking.setRoomID(res.getInt("room_fk"));
 					currBooking.setCustomerID(res.getInt("customer_fk"));
 					bookings.add(currBooking);
 				}
