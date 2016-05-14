@@ -22,24 +22,23 @@
     <div class="col s12"><p></p></div>
     <div class="col s12 m4 l2"><p></p></div>
     <div class="col s12 m4 l8"><p></p>
+        <%-- Registration form to be copied over to another file--%>
         <br>
-        <form class="col s12" action="home" method="post">
+        <form class="col s12" action="usercontroller" method="post">
             <h4>Registration</h4>
-            <p class="text-right">Already registered? <a href="login">Sign in now.</a></p>
-            <hr>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="username" type="text" name="username">
+                    <input id="username" type="text" name="regUser">
                     <label for="username">Username</label>
                 </div>
             </div>
             <div class="row">
                 <div class="section input-field col s6">
-                    <input id="first_name" type="text" name="first_name" class="validate">
+                    <input id="first_name" type="text" name="fName" class="validate">
                     <label for="first_name">First Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="last_name" type="text" name="last_name" class="validate">
+                    <input id="last_name" type="text" name="lName" class="validate">
                     <label for="last_name">Last Name</label>
                 </div>
             </div>
@@ -47,7 +46,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="password" type="password" name="password" class="validate">
+                    <input id="password" type="password" name="regPass" class="validate">
                     <label for="password">Password</label>
                 </div>
             </div>
@@ -61,15 +60,15 @@
                 <label for="address">Address</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_number" type="number" name="cc_number" class="validate">
+                <input id="cc_number" type="number" name="ccNum" class="validate">
                 <label for="cc_number">Credit Card Number</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_name" type="text" name="cc_name" class="validate">
+                <input id="cc_name" type="text" name="ccNam" class="validate">
                 <label for="cc_name">Name on Credit Card</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker">
+                <input id="cc_expiry" type="date" name="ccExp" class="datepicker">
                 <label for="cc_expiry">Expiry Date</label>
             </div>
             <input type="hidden" name="action" value="toRegister" />
@@ -88,9 +87,8 @@
 </body>
 <script>
     $('.datepicker').pickadate({
-        format: 'dd/mm/yyyy', // Change the format of the date picker
         selectMonths: true, // Creates a dropdown to control month
-        selectYears: 5 // Creates a dropdown of 15 years to control year
+        selectYears: 15 // Creates a dropdown of 15 years to control year
     });
 </script>
 </html>
