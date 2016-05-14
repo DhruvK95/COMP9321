@@ -220,7 +220,7 @@ public class HotelController extends HttpServlet {
 		String addr = request.getParameter("address");
 		String ccNum = request.getParameter("cc_number");
 		String ccNam = request.getParameter("cc_name");
-		String ccExp = request.getParameter("toRegister");
+		String ccExp = request.getParameter("cc_expiry");
 		if(user != null && !userExists(user) && pass!= null &&
 				fName != null && lName != null && email != null && addr != null
 				 && ccNam != null && ccExp != null){
