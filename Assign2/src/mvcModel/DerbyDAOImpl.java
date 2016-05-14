@@ -160,6 +160,32 @@ public class DerbyDAOImpl  {
 		return r == 1;
 	}
 	
+	public CustomerDTO getCustomer(int id){
+		Statement stmnt;
+		CustomerDTO c = new CustomerDTO();
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "SELECT id,user_name,password,first_name,last_name,email,address,cc_number,cc_name,cc_expiry "
+					+ "FROM customer WHERE id = "+id;
+			ResultSet res = stmnt.executeQuery(query_cast);
+			if(res.next()){
+				c.setId(res.getInt("id"));
+				c.setUser_name(res.getString("user_name"));
+				c.setPassword(res.getString("password"));
+				c.setFirst_name(res.getString("first_name"));
+				c.setLast_name(res.getString("last_name"));
+				c.setEmail(res.getString("email"));
+				c.setAddress(res.getString("address"));
+				c.setCc_number(res.getInt("cc_number"));
+				c.setCc_name(res.getString("cc_name"));
+				c.setCc_expiry(res.getString("cc_expiry"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return c;
+	}
+	
 	public void updateCustomer(String user, String field, String update){
 		Statement stmnt;
 		try {
@@ -174,4 +200,5 @@ public class DerbyDAOImpl  {
 		}
 		
 	}
+	
 }
