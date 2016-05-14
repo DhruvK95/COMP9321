@@ -25,7 +25,9 @@
     <div class="col s12 m4 l8"><p></p>
         <br>
         <form class="col s12" action="home" method="post">
-            <h4>Registration</h4>
+            <h4>Login</h4>
+            <p class="text-right">Not Registered? <a href="register">Sign up now.</a> </p>
+            <hr>
             <div class="row">
                 <div class="input-field col s12">
                     <input id="username" type="text" name="username">

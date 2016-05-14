@@ -25,6 +25,8 @@
         <br>
         <form class="col s12" action="home" method="post">
             <h4>Registration</h4>
+            <p class="text-right">Already registered? <a href="login">Sign in now.</a></p>
+            <hr>
             <div class="row">
                 <div class="input-field col s12">
                     <input id="username" type="text" name="username">
