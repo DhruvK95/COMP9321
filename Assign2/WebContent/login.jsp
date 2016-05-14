@@ -33,7 +33,7 @@
             <hr>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="username" type="text" name="username">
+                    <input id="username" type="text" name="username" required>
                     <label for="username">Username</label>
                 </div>
             </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="password" type="password" name="password" class="validate">
+                    <input id="password" type="password" name="password" class="validate" required>
                     <label for="password">Password</label>
                 </div>
             </div>

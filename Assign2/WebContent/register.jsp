@@ -29,17 +29,17 @@
             <hr>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="username" type="text" name="username">
+                    <input id="username" type="text" name="username" required>
                     <label for="username">Username</label>
                 </div>
             </div>
             <div class="row">
                 <div class="section input-field col s6">
-                    <input id="first_name" type="text" name="first_name" class="validate">
+                    <input id="first_name" type="text" name="first_name" class="validate" required>
                     <label for="first_name">First Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="last_name" type="text" name="last_name" class="validate">
+                    <input id="last_name" type="text" name="last_name" class="validate" required>
                     <label for="last_name">Last Name</label>
                 </div>
             </div>
@@ -47,29 +47,29 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="password" type="password" name="password" class="validate">
+                    <input id="password" type="password" name="password" class="validate" required>
                     <label for="password">Password</label>
                 </div>
             </div>
             <%--<div class="row">--%>
             <div class="input-field col s12">
-                <input id="email" type="email" name="email" class="validate">
+                <input id="email" type="email" name="email" class="validate" required>
                 <label for="email">Email</label>
             </div>
             <div class="input-field col s12">
-                <input id="address" type="text" name="address" class="validate">
+                <input id="address" type="text" name="address" class="validate" required>
                 <label for="address">Address</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_number" type="number" name="cc_number" class="validate">
+                <input id="cc_number" type="number" name="cc_number" class="validate" required>
                 <label for="cc_number">Credit Card Number</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_name" type="text" name="cc_name" class="validate">
+                <input id="cc_name" type="text" name="cc_name" class="validate" required>
                 <label for="cc_name">Name on Credit Card</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker">
+                <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker" required>
                 <label for="cc_expiry">Expiry Date</label>
             </div>
             <input type="hidden" name="action" value="toRegister" />
