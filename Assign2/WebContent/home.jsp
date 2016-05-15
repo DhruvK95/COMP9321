@@ -99,7 +99,14 @@
                 </div>
             </div>
         </c:forEach>
+        <br>
+        <div class="row">
+            <br>
+            <h5>Special Deals</h5>
+            <hr>
+        </div>
     </div>
+
     <div class="col s12 m4 l2"><p></p></div>
 </div>
 </body>
