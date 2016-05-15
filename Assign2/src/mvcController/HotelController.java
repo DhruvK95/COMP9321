@@ -50,7 +50,9 @@ public class HotelController extends HttpServlet {
 			database.addAllHotels(allHotels); //init all hotels from schema
 			database.addAllCustomers(cast.initCustomers());
 			database.addAllBookings(cast.initBookings());
-			database.initRoomsInBookings();
+			for(BookingDTO b : database.getAllBookings()){
+				database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -151,6 +153,7 @@ public class HotelController extends HttpServlet {
 				System.out.println("password is " + request.getParameter("password"));
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
+				
 				nextPage = login(request, response);
 			}
 
@@ -332,6 +335,7 @@ public class HotelController extends HttpServlet {
 			}
 		}
 	}
+
 
 	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate, Date endDate, String cityToCheck, Double maxPrice,
 											  Integer numberOfRooms) {
