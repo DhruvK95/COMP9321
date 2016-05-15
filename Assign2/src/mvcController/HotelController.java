@@ -103,6 +103,7 @@ public class HotelController extends HttpServlet {
 				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="home.jsp";
 			} else if (action.equals("roomSearch")) {
+				
 				System.out.println("----- Room Search -------");
 				System.out.println("check_in_date is " + request.getParameter("check_in_date"));
 				System.out.println("check_out_date is " + request.getParameter("check_out_date"));
@@ -156,6 +157,15 @@ public class HotelController extends HttpServlet {
 
 				nextPage = login(request, response);
 			} else if (action.equals("profileUpdate")) {
+				request.setAttribute("randomRooms", getRandomRoomsHash() );
+				request.setAttribute("testHotelData",cast.allHotels());
+				nextPage="home.jsp";
+			} else if(action.equals("logoutNo") || action.equals("logoutYes")){
+				if(action.equals("logoutYes")){
+					request.getSession().invalidate();
+				}else{
+					
+				}
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="home.jsp";

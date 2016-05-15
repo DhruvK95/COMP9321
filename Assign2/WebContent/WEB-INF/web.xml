@@ -49,4 +49,13 @@
     <servlet-name>searchResults</servlet-name>
     <url-pattern>/searchResults</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>logout</servlet-name>
+    <jsp-file>/logoutMessage.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>logout</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
 </web-app>
