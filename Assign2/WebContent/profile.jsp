@@ -13,10 +13,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Register</title>
+    <title>Profile</title>
 </head>
 
 <body>
+
 <%@ include file="navBar.html"%>
 <div class="row">
     <div class="col s12"><p></p></div>
@@ -24,46 +25,46 @@
     <div class="col s12 m4 l8"><p></p>
         <br>
         <form class="col s12" action="home" method="post">
-            <h4>Username's Profile</h4>
+            <h4><c:out value="${sessionScope.currUser.getUser_name()}" />'s Profile</h4>
             <p class="text-right">Update your Profile</p>
             <hr>
             <div class="row">
                 <div class="section input-field col s6">
-                    <input id="first_name" type="text" name="first_name" class="validate" required>
-                    <label for="first_name">First Name</label>
+                    <input id="first_name" type="text" name="first_name" class="validate" >
+                    <label for="first_name"><c:out value="${sessionScope.currUser.getFirst_name()}" /></label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="last_name" type="text" name="last_name" class="validate" required>
-                    <label for="last_name">Last Name</label>
+                    <input id="last_name" type="text" name="last_name" class="validate" >
+                    <label for="last_name"><c:out value="${sessionScope.currUser.getLast_name()}" /></label>
                 </div>
             </div>
             <div class="row">
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="password" type="password" name="password" class="validate" required>
+                    <input id="password" type="password" name="password" class="validate" >
                     <label for="password">Password</label>
                 </div>
             </div>
             <%--<div class="row">--%>
             <div class="input-field col s12">
-                <input id="email" type="email" name="email" class="validate" required>
-                <label for="email">Email</label>
+                <input id="email" type="email" name="email" class="validate" >
+                <label for="email"><c:out value="${sessionScope.currUser.getEmail()}" /></label>
             </div>
             <div class="input-field col s12">
-                <input id="address" type="text" name="address" class="validate" required>
-                <label for="address">Address</label>
+                <input id="address" type="text" name="address" class="validate" >
+                <label for="address"><c:out value="${sessionScope.currUser.getAddress()}" /></label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_number" type="number" name="cc_number" class="validate" required>
+                <input id="cc_number" type="number" name="cc_number" class="validate" >
                 <label for="cc_number">Credit Card Number</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_name" type="text" name="cc_name" class="validate" required>
+                <input id="cc_name" type="text" name="cc_name" class="validate" >
                 <label for="cc_name">Name on Credit Card</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker" required>
+                <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker" >
                 <label for="cc_expiry">Expiry Date</label>
             </div>
             <input type="hidden" name="action" value="profileUpdate" />
