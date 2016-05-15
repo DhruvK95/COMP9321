@@ -356,8 +356,8 @@ public class HotelController extends HttpServlet {
 		// Number of rooms check
 		if (resultList.size() < numberOfRooms) {
 			System.out.println("Number of results is less than the number of rooms required");
-
 		}
+		System.out.println("Size of results is " + resultList.size());
 		return resultList;
 	}
 
@@ -390,6 +390,16 @@ public class HotelController extends HttpServlet {
 
 	public boolean roomIsAvaliableOnDate (Date dateToCheck, RoomDTO roomToCheck) {
 		// Return true if the room is available on the date.
+		for (BookingDTO b : database.getAllBookings()) {
+			if (b.getAllRooms().contains(roomToCheck)) {
+				// Booking contains room to check...
+				if (dateToCheck.compareTo(b.getStartDate()) < 0 || dateToCheck.compareTo(b.getEndDate()) > 0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
 

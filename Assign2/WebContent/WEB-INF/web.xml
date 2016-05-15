@@ -40,4 +40,13 @@
     <servlet-name>profile</servlet-name>
     <url-pattern>/profile</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>searchResults</servlet-name>
+    <jsp-file>/searchResults.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>searchResults</servlet-name>
+    <url-pattern>/searchResults</url-pattern>
+  </servlet-mapping>
 </web-app>
