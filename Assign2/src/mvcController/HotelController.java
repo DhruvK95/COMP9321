@@ -338,20 +338,55 @@ public class HotelController extends HttpServlet {
 		Map<RoomDTO, HotelDTO> resultList = new HashMap<RoomDTO, HotelDTO>();
 
 		for (HotelDTO h: database.getAllHotels()) {
-			if (h.getLocation().contains(cityToCheck)) {
-				System.out.println(h.getHotelName() + "is in City" + h.getLocation());
-
+			if (h.getLocation().contains(cityToCheck)) { // City check
+				System.out.println(h.getHotelName() + "is in City " + h.getLocation());
+				ArrayList<RoomDTO> rooms = h.getRooms();
+				for (RoomDTO r: rooms) {
+					if (r.getPrice() <= maxPrice && roomIsAvaliableInRange(startDate, endDate, r)) {
+						resultList.put(r, h);
+					}
+				}
 			}
 		}
 
+		// Number of rooms check
+		if (resultList.size() < numberOfRooms) {
+			System.out.println("Number of results is less than the number of rooms required");
+
+		}
 		return resultList;
 	}
 
 	public boolean roomIsAvaliableInRange (Date startDate, Date endDate, RoomDTO roomToCheck) {
 		boolean result = false;
+		Date currDate = startDate;
+		int avaliableDays = 0;
+		int totalDays = 0;
 
+		while (currDate.compareTo(endDate) <= 0) { // Check the availability in the date range
+//			System.out.println("Checking room " + roomToCheck.getName() + " for date " + currDate.toString());
+			totalDays++;
+			if (roomIsAvaliableOnDate(currDate, roomToCheck)) {
+				avaliableDays++;
+			}
 
+			// Advance the loop
+			Calendar c = Calendar.getInstance();
+			c.setTime(currDate);
+			c.add(Calendar.DATE, 1);
+			currDate = c.getTime();
+		}
+
+		// If room is avaliable for the number of days in the date range, return true
+		if (avaliableDays == totalDays) {
+			result = true;
+		}
 		return result;
+	}
+
+	public boolean roomIsAvaliableOnDate (Date dateToCheck, RoomDTO roomToCheck) {
+		// Return true if the room is available on the date.
+		return false;
 	}
 
 }
