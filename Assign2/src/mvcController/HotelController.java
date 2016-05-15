@@ -234,14 +234,14 @@ public class HotelController extends HttpServlet {
 	
 	private String login(HttpServletRequest request, HttpServletResponse response){
 		String nextPage = "";
-		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");
+		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		nextPage="login.jsp";
 		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
 			nextPage="home.jsp";
 			if(curr == null){
-				request.getSession().setAttribute("CurrUser", isValid(username,password));
+				request.getSession().setAttribute("currUser", isValid(username,password));
 			}
 		}else{
 			request.setAttribute("loginError", true);
@@ -251,7 +251,7 @@ public class HotelController extends HttpServlet {
 	}
 	
 	private void updateDetails(HttpServletRequest request, HttpServletResponse response){
-		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("CurrUser");
+		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
 		if(curr == null) return;
 		String pass = request.getParameter("new_password");
 		String fName = request.getParameter("new_first_name");
