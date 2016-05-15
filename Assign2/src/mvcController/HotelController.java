@@ -153,8 +153,12 @@ public class HotelController extends HttpServlet {
 				System.out.println("password is " + request.getParameter("password"));
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
-				
+
 				nextPage = login(request, response);
+			} else if (action.equals("profileUpdate")) {
+				request.setAttribute("randomRooms", getRandomRoomsHash() );
+				request.setAttribute("testHotelData",cast.allHotels());
+				nextPage="home.jsp";
 			}
 
 		}else{
@@ -167,7 +171,7 @@ public class HotelController extends HttpServlet {
 			 				for( RoomDTO r : h.getRooms()){
 			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
 			 				}
-			 
+
 			 			}
 			 			ArrayList<CustomerDTO> tempSave2 = database.getAllCustomers();
 			 			for ( CustomerDTO c : tempSave2 ){
@@ -181,7 +185,7 @@ public class HotelController extends HttpServlet {
 			 				for(RoomDTO r : b.getAllRooms()){
 			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
 			 				}
-			 			
+
 			 			}
 			 			//TESTING HOTELS WORKS
 			System.out.print("ERERERERERERERERERERERERERERERER");
