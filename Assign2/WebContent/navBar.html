@@ -11,13 +11,14 @@
 <!--Let browser know website is optimized for mobile-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <c:choose>
-  <c:when test="${not empty session.getAttribute('currUser').getUser_name()}">
+  <c:when test="${not empty sessionScope.currUser.getUser_name()}">
 <nav>
     <div class="navbar-fixed nav-wrapper container ">
         <!--<a href="home" class="brand-logo" ></a></a>-->
         <a href="home" class="pull-left"><img src="${pageContext.request.contextPath}/static/Logo.png" height="64"
                                            width="150px"></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="#"></a><c:out value="${sessionScope.currUser.getUser_name()}" /> </li>
             <li style="color:green;"><a href="register">Profile</a></li>
             <li><a href="login">Logout</a></li>
         </ul>
@@ -32,7 +33,6 @@
                                            width="150px"></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           
-           <li><a href="login"><c:out value="${sessionScope.currUser.getUser_name()}" /></a></li>
             <li><a href="register">Register</a></li>
             <li><a href="login">Login</a></li>
         </ul>
