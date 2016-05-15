@@ -140,11 +140,11 @@ public class HotelController extends HttpServlet {
 				String cityToCheck = request.getParameter("city");
 				double maxPrice = Double.parseDouble(request.getParameter("max_price"));
 
-				searchRooms(startDate, end_Date, cityToCheck, maxPrice, number_of_rooms);
+				request.setAttribute("searchRooms", searchRooms(startDate, end_Date, cityToCheck, maxPrice, number_of_rooms));
 
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
-				nextPage="home.jsp";
+				nextPage="searchResults.jsp";
 
 			} else if (action.equals("login")) {
 				// Add Login stuff here....
