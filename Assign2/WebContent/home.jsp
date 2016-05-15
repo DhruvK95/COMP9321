@@ -94,7 +94,7 @@
                         </p>
                     </div>
                     <div class="card-action">
-                        <a href="#">This is a link</a>
+                        <a href="/login">Sign-up/Sign-In</a>
                     </div>
                 </div>
             </div>
