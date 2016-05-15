@@ -169,6 +169,10 @@ public class HotelController extends HttpServlet {
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="home.jsp";
+			} else if (action.equals("profileUpdate")) {
+				System.out.println("----- profileUpdate -------");
+				updateProfile(request, response);
+				nextPage="profile.jsp";
 			}
 
 		}else{
@@ -264,42 +268,46 @@ public class HotelController extends HttpServlet {
 		return nextPage;
 	}
 	
-	private void updateDetails(HttpServletRequest request, HttpServletResponse response){
+	private void updateProfile(HttpServletRequest request, HttpServletResponse response){
 		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
 		if(curr == null) return;
-		String pass = request.getParameter("new_password");
-		String fName = request.getParameter("new_first_name");
-		String lName = request.getParameter("new_last_name");
-		String email = request.getParameter("new_email");
-		String addr = request.getParameter("new_address");
-		String ccNum = request.getParameter("new_cc_number");
-		String ccNam = request.getParameter("new_cc_name");
-		String ccExp = request.getParameter("new_cc_expiry");
-		if(pass != null){
+		String pass = request.getParameter("password");
+		String fName = request.getParameter("first_name");
+		String lName = request.getParameter("last_name");
+		String email = request.getParameter("email");
+		String addr = request.getParameter("address");
+		String ccNum = request.getParameter("cc_number");
+		String ccNam = request.getParameter("cc_name");
+		String ccExp = request.getParameter("cc_expiry");
+		System.out.println("Fn: "+ fName );
+		if(pass != null && pass.length() > 0){
 			cast.updateCustomer(curr.getUser_name(), "password", pass);
 		}
-		if(fName != null){
-			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		if(fName != null && fName.length() > 0){
+			cast.updateCustomer(curr.getUser_name(), "first_name", fName);
 		}
-		if(lName != null){
-			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		if(lName != null && lName.length() > 0){
+			cast.updateCustomer(curr.getUser_name(), "last_name", lName);
 		}
-		if(email != null){
-			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		if(email != null && email.length() > 0){
+			cast.updateCustomer(curr.getUser_name(), "email", email);
 		}
-		if(addr != null){
-			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		if(addr != null && addr.length() > 0){
+			cast.updateCustomer(curr.getUser_name(), "address", email);
 		}
-		if(ccNum != null){
-			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		if(ccNum != null && ccNum.length() > 0){
+			int ccInt = Integer.parseInt(ccNum);
+			cast.updateCustomer(curr.getUser_name(), "cc_number", ccNum);
 		}
-		if(ccNam != null){
-			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		if(ccNam != null && ccNam.length() > 0){
+			cast.updateCustomer(curr.getUser_name(), "cc_name", ccNam);
 		}
-		if(ccExp != null){
-			cast.updateCustomer(curr.getUser_name(), "password", pass);
+		if(ccExp != null && ccExp.length() > 0){
+			cast.updateCustomer(curr.getUser_name(), "cc_expiry", ccExp);
 		}
+		System.out.println("Fn: "+ curr.getFirst_name() );
 		database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
+		request.getSession().setAttribute("currUser", database.findCutomer(curr.getUser_name()));
 	}
 	
 	private void registerUser(HttpServletRequest request, HttpServletResponse response){
