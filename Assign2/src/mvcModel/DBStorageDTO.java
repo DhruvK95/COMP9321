@@ -79,5 +79,14 @@ public class DBStorageDTO {
 		
 	}
 	
+	public CustomerDTO findCutomer(String user){
+		for(CustomerDTO c: customers){
+			if(c.getUser_name().equals(user)){
+				return c;
+			}
+		}
+		return null;
+	}
+	
 
 }
