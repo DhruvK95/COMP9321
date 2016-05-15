@@ -78,7 +78,7 @@ public class DerbyDAOImpl  {
 			ArrayList<BookingDTO> bookings = new ArrayList<BookingDTO>();
 			try{
 				Statement stmnt = connection.createStatement();
-				String query_cast = "SELECT id,start_date,end_date,room_fk,customer_fk FROM booking";
+				String query_cast = "SELECT id,start_date,end_date,customer_fk FROM booking";
 				ResultSet res = stmnt.executeQuery(query_cast);
 				logger.info("The result set size is "+res.getFetchSize());
 				while(res.next()){
@@ -86,10 +86,9 @@ public class DerbyDAOImpl  {
 					currBooking.setId(res.getInt("id"));
 					currBooking.setStartDate(res.getDate("start_date"));
 					currBooking.setEndDate(res.getDate("end_date"));
-					currBooking.setRoomID(res.getInt("room_fk"));
 					currBooking.setCustomerID(res.getInt("customer_fk"));
 					bookings.add(currBooking);
-					logger.info("booking loaded with customerID:(" + currBooking.getCustomerID() + ") roomID:(" + currBooking.getRoomID() + ") " + currBooking.getStartDate() + "->" + currBooking.getEndDate());
+					logger.info("booking loaded with customerID:(" + ") " + currBooking.getStartDate() + "->" + currBooking.getEndDate());
 				}
 				res.close();
 				stmnt.close();
@@ -139,7 +138,7 @@ public class DerbyDAOImpl  {
 		ArrayList<HotelDTO> hotelsMod = hotelsCurrent;
 		try{
 			Statement stmnt = connection.createStatement();
-			String query_cast = "SELECT r.id, r.hotel_fk, rt.price, rt.bedType, rt.numBeds , rt.name FROM room r, room_type rt, hotel h WHERE r.room_type_fk = rt.id AND r.hotel_fk=h.id";
+			String query_cast = "SELECT r.id, r.hotel_fk, r.booking_fk, rt.price, rt.bedType, rt.numBeds , rt.name FROM room r, room_type rt, hotel h WHERE r.room_type_fk = rt.id AND r.hotel_fk=h.id";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is "+res.getFetchSize());
 			while(res.next()){
@@ -150,6 +149,7 @@ public class DerbyDAOImpl  {
 				currRoom.setBedType(res.getBoolean("bedType"));
 				currRoom.setNumBeds(res.getInt("numBeds"));
 				currRoom.setName(res.getString("name"));
+				currRoom.setBookingAssociation(res.getInt("booking_fk"));
 				
 				for ( HotelDTO hotel: hotelsMod){
 					if(hotel.getId() == currRoom.getParentHotelID()){

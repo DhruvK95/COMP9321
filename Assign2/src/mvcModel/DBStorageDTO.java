@@ -61,4 +61,17 @@ public class DBStorageDTO {
 		customers.add(newCus);
 	}
 	
+	public void initRoomsInBookings(){
+		for(BookingDTO b: bookings){
+			int search = b.getId();
+			for(HotelDTO h: hotels){
+				for(RoomDTO r: h.getRooms()){
+					//System.out.println("search for :" + search + "     Current :" + r.getBookingAssociation());
+					if(r.getBookingAssociation() == search){
+						b.addRoomToBookings(r); 
+					}
+				}
+			}
+		}
+	}
 }

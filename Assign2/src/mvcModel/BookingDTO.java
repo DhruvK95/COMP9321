@@ -1,5 +1,6 @@
 package mvcModel;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 //Booking SQL table
@@ -18,15 +19,16 @@ import java.util.Date;
 
 public class BookingDTO {
 	public int id;
-	public int roomID;
 	public int customerID;
 	public Date startDate;
 	public Date endDate;
+	public ArrayList<RoomDTO> roomsInBooking;
 	
 	public BookingDTO() {
 		super();
 		startDate = new Date();
 		endDate = new Date();
+		roomsInBooking = new ArrayList<RoomDTO>();
 	}
 	
 	public int getId() {
@@ -35,14 +37,6 @@ public class BookingDTO {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getRoomID() {
-		return roomID;
-	}
-
-	public void setRoomID(int roomID) {
-		this.roomID = roomID;
 	}
 
 	public int getCustomerID() {
@@ -66,4 +60,18 @@ public class BookingDTO {
 	public void setEndDate(Date c) {
 		endDate = c;
 	}
+	public void addRoomToBookings(RoomDTO r){
+		roomsInBooking.add(r);		
+	}
+	public void addAllRoomsBookings(ArrayList<RoomDTO> aR){
+		roomsInBooking.addAll(aR);		
+	}
+	
+	public ArrayList<RoomDTO> getAllRooms(){
+		return this.roomsInBooking;
+	}
+	
+	
+	
+	
 }

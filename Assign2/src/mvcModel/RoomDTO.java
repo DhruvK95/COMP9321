@@ -7,10 +7,17 @@ public class RoomDTO {
 	public String name; //single suite etc
 	public boolean bedType; // single (o) double (l)
 	public int numBeds;
-	
+	public int bookingAssociation; //can be null only assigned if a booking is made for this room, 
+								   //info is then stored in the booking class
 	
 //	public String status; //booked, status, available
 	
+	public int getBookingAssociation() {
+		return bookingAssociation;
+	}
+	public void setBookingAssociation(int bookingAssociation) {
+		this.bookingAssociation = bookingAssociation;
+	}
 	public int getId() {
 		return id;
 	}
