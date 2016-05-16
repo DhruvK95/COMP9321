@@ -2,7 +2,6 @@
 -- Control Shift R to run in IntelliJ
 ALTER TABLE ROOM DROP CONSTRAINT ROOM_HOTEL_ID_FK;
 ALTER TABLE ROOM DROP CONSTRAINT ROOM_ROOM_TYPE_ID_FK;
-
 ALTER TABLE DISCOUNT DROP CONSTRAINT DISCOUNT_HOTEL_ID_FK;
 ALTER TABLE DISCOUNT DROP CONSTRAINT DISCOUNT_ROOM_TYPE_FK;
 ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_CUSTOMER_ID_FK;
@@ -11,14 +10,14 @@ ALTER TABLE BOOKING_ON_ROOMS DROP CONSTRAINT ROOM_BOOKING_ID_FK;
 
 -- Since the booking relation changed, when you next regenerate the database you will need to drop the old constraint and 
 -- add the new one. In other words, before you run the script next, change ROOM to HOTEL on the next line, and change it back after.
-DROP TABLE BOOKING_ON_ROOMS;
-DROP TABLE DISCOUNT;
-DROP TABLE BOOKING;
-DROP TABLE ROOM;
-DROP TABLE ROOM_TYPE;
 DROP TABLE HOTEL;
 DROP TABLE CUSTOMER;
 DROP TABLE STAFF;
+DROP TABLE ROOM_TYPE;
+DROP TABLE BOOKING;
+DROP TABLE ROOM;
+DROP TABLE BOOKING_ON_ROOMS;
+DROP TABLE DISCOUNT;
 
 
 CREATE TABLE hotel (
@@ -27,7 +26,6 @@ CREATE TABLE hotel (
   location			VARCHAR(40) NOT NULL,
   PRIMARY KEY (id)
 );
-
 
 
 CREATE TABLE customer (
@@ -45,14 +43,15 @@ CREATE TABLE customer (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE staff
-(
-  id              INTEGER PRIMARY KEY NOT NULL,
+
+CREATE TABLE staff (
+  id              INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
   first_name      VARCHAR(20),
   last_name       VARCHAR(20),
   username        VARCHAR(50) NOT NULL UNIQUE,
-  password        VARCHAR(100) NOT NULL,
-  staff_class     VARCHAR(20) NOT NULL
+  password        VARCHAR(40) NOT NULL,
+  is_owner        boolean,
+  PRIMARY KEY (id)
 );
 
 
@@ -67,16 +66,15 @@ CREATE TABLE room_type (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE booking
-(
+
+CREATE TABLE booking (
   id              INTEGER PRIMARY KEY NOT NULL NOT NULL GENERATED ALWAYS AS IDENTITY,
   start_date      DATE NOT NULL,
   end_date        DATE NOT NULL,
   customer_fk     INTEGER,
   CONSTRAINT valid_booking_dates CHECK (start_date <= end_date),
   CONSTRAINT booking_CUSTOMER_ID_fk FOREIGN KEY (customer_fk) REFERENCES CUSTOMER (ID)
-
-  );
+);
   
 
 CREATE TABLE room (
@@ -89,6 +87,7 @@ CREATE TABLE room (
   CONSTRAINT room_HOTEL_ID_FK FOREIGN KEY (hotel_fk) REFERENCES hotel (id)
 );
 
+
 CREATE TABLE booking_on_rooms
 (
  id					INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -97,10 +96,7 @@ CREATE TABLE booking_on_rooms
 
  CONSTRAINT room_ID_FK FOREIGN KEY (room_fk) REFERENCES room (id),
  CONSTRAINT room_BOOKING_ID_FK FOREIGN KEY (booking_fk) REFERENCES booking (id)
-
 );
-
-
 
 
 CREATE TABLE discount (
@@ -115,8 +111,6 @@ CREATE TABLE discount (
   CONSTRAINT discount_HOTEL_ID_FK FOREIGN KEY (hotel_fk) REFERENCES hotel(id),
   PRIMARY KEY (id)
 );
-
-INSERT INTO discount VALUES (DEFAULT, 1, 30, 1, '2016-01-01', '2016-01-02');
 
 
 --two hotels in each city, suburb included in name
@@ -138,19 +132,18 @@ INSERT INTO hotel VALUES (DEFAULT,'Leabrook Amazement','Adelaide');
 INSERT INTO hotel VALUES (DEFAULT,'BridgeWater Horror','Hobart');
 INSERT INTO hotel VALUES (DEFAULT,'Howden Horror','Hobart');
 
-
 INSERT INTO customer VALUES (DEFAULT,'LeonisCool','123', 'Leon','Augustine', 'laugustine1@gmail.com', 'pert', 123456, 'Leon', '4/4/2015', true );
 INSERT INTO customer VALUES (DEFAULT,'EdlanisShit','123', 'Edlan', 'Policarpio','eldanpolicarpioschool@gmail.com', 'hobar', 123456, 'Edlan', '4/4/2015', true);
 
+INSERT INTO staff VALUES(DEFAULT, 'Mister', 'Manager', 'manager1', 'password', false);
+INSERT INTO staff VALUES(DEFAULT, 'Madame', 'Owner', 'owner1', 'password', true);
 
 --Make Room Types
-
 INSERT INTO room_type VALUES (DEFAULT,  80, FALSE, 1, 'Single');
 INSERT INTO room_type VALUES (DEFAULT, 130, FALSE, 2, 'Twin');
 INSERT INTO room_type VALUES (DEFAULT, 150, TRUE, 1, 'Queen');
 INSERT INTO room_type VALUES (DEFAULT, 200, TRUE, 1, 'Executive');
 INSERT INTO room_type VALUES (DEFAULT, 320, TRUE, 2, 'Suite');
-
 
 --Single Rooms (Hotels 1 - 8, odd rooms have 2)
 INSERT INTO room VALUES (DEFAULT, 1, 1);
@@ -167,8 +160,6 @@ INSERT INTO room VALUES (DEFAULT, 1, 7);
 INSERT INTO room VALUES (DEFAULT, 1, 8);
 INSERT INTO room VALUES (DEFAULT, 1, 9);
 INSERT INTO room VALUES (DEFAULT, 1, 9);
-
-
 
 --Double Rooms (Even num Hotels)
 INSERT INTO room VALUES (DEFAULT, 2, 2);
@@ -214,3 +205,5 @@ INSERT INTO booking_on_rooms VALUES (DEFAULT, 20, 2);
 INSERT INTO booking_on_rooms VALUES (DEFAULT, 28, 2);
 INSERT INTO booking_on_rooms VALUES (DEFAULT, 11, 2);
 INSERT INTO booking_on_rooms VALUES (DEFAULT, 9, 2);
+
+INSERT INTO discount VALUES (DEFAULT, 1, 30, 1, '2016-01-01', '2016-01-02');
