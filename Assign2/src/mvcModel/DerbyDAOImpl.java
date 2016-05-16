@@ -255,6 +255,20 @@ public class DerbyDAOImpl  {
 		}
 		
 	}
+	public void updateCustomer(String user, String field, int update){
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "UPDATE customer SET " + field + " = "
+					 +update+" WHERE user_name = '" + user +"'";
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public void addUser(String user, String pass, String fName, String lName,
 			String email, String addr, int ccNum, String ccNam, String ccExp) {
 		Statement stmnt;
