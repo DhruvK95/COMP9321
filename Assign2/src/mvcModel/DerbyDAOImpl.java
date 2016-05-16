@@ -150,7 +150,7 @@ public class DerbyDAOImpl  {
 			e.printStackTrace();
 		}
 		return staff;
-	}
+	}	
 	
 	public ArrayList<CustomerDTO> initCustomers(){
 		ArrayList<CustomerDTO> customers = new ArrayList<CustomerDTO>();

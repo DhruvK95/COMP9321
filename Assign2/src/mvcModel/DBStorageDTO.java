@@ -15,12 +15,12 @@ public class DBStorageDTO {
 		this.staff = new ArrayList<StaffDTO>();
 		this.customers = new ArrayList<CustomerDTO>();
 		this.bookings = new ArrayList<BookingDTO>();
+		this.discounts = new ArrayList<DiscountDTO>();
 	}
 	
 	public void addAllHotels(ArrayList<HotelDTO> hotels){
 		this.hotels.addAll(hotels);
 	}
-	
 	public void addAllStaff(ArrayList<StaffDTO> staff) {
 		this.staff = staff;
 	}
@@ -40,7 +40,6 @@ public class DBStorageDTO {
 	public void addToStaff(StaffDTO staff){
 		this.staff.add(staff);
 	}
-	
 	public void addToCustomers(CustomerDTO customer){
 		this.customers.add(customer);
 	}
@@ -52,6 +51,7 @@ public class DBStorageDTO {
 	public ArrayList<HotelDTO> getAllHotels() {
 		return this.hotels;
 	}
+	
 	
 	public ArrayList<StaffDTO> getAllStaff() {
 		return this.staff;

@@ -18,6 +18,7 @@ import mvcModel.BookingDTO;
 //import com.sun.tools.doclets.internal.toolkit.util.SourceToHTMLConverter;
 import mvcModel.CustomerDTO;
 import mvcModel.DBStorageDTO;
+import mvcModel.DealsType;
 import mvcModel.DerbyDAOImpl;
 import mvcModel.DiscountDTO;
 import mvcModel.HotelDTO;
@@ -48,8 +49,8 @@ public class HotelController extends HttpServlet {
 			database = new DBStorageDTO();
 			ArrayList<HotelDTO> allHotels = cast.initHotels();
 			allHotels = cast.initRooms(allHotels);
-			database.addAllHotels(allHotels); //init all hotels from schema
 			database.addAllStaff(cast.initStaff());
+			database.addAllHotels(allHotels); //init all hotels from schema
 			database.addAllCustomers(cast.initCustomers());
 			database.addAllBookings(cast.initBookings());
 			for(BookingDTO b : database.getAllBookings()){
@@ -208,7 +209,7 @@ public class HotelController extends HttpServlet {
 			 			//TESTING HOTELS WORKS
 			System.out.print("ERERERERERERERERERERERERERERERER");
 			request.setAttribute("randomRooms", getRandomRoomsHash() );
-			request.setAttribute("testHotelData",cast.allHotels());
+			request.setAttribute("specialDeals", getSpecialDealsHash());
 			nextPage="home.jsp";
 		}
 //		nextPage = login(request, response);
@@ -216,6 +217,25 @@ public class HotelController extends HttpServlet {
 		rd.forward(request, response);
 	}
 
+	public Map<DealsType, DiscountDTO> getSpecialDealsHash(){
+		Map<DealsType, DiscountDTO> listOfDeals = new HashMap<DealsType,DiscountDTO>();
+		for(DiscountDTO d : database.getAllDiscounts()){
+			for( HotelDTO h: database.getAllHotels()){
+				if( d.getParentHotelID() == h.getId()){
+					for(RoomDTO r : h.getRooms()){
+						if(r.getName().equals(d.getTypeOfRoom())){
+							DealsType dT = new DealsType(h,r);
+							listOfDeals.put(dT, d);
+						}
+					}
+				}
+			}
+			
+		}
+		System.out.print(listOfDeals.size());
+		return listOfDeals;
+	}
+	
 	public Map<RoomDTO,HotelDTO> getRandomRoomsHash(){
 
 		Map<RoomDTO,HotelDTO> randList = new HashMap<RoomDTO,HotelDTO>();
@@ -318,6 +338,8 @@ public class HotelController extends HttpServlet {
 		database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
 		request.getSession().setAttribute("currUser", database.findCutomer(curr.getUser_name()));
 	}
+	
+	
 	
 	private void registerUser(HttpServletRequest request, HttpServletResponse response){
 		String user = request.getParameter("username");
