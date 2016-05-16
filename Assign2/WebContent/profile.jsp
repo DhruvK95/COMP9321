@@ -57,15 +57,15 @@
             </div>
             <div class="input-field col s12">
                 <input id="cc_number" type="number" name="cc_number" class="validate" >
-                <label for="cc_number">Credit Card Number</label>
+                <label for="cc_number"><c:out value="${sessionScope.currUser.getCc_number()}" /></label>
             </div>
             <div class="input-field col s12">
                 <input id="cc_name" type="text" name="cc_name" class="validate" >
-                <label for="cc_name">Name on Credit Card</label>
+                <label for="cc_name"><c:out value="${sessionScope.currUser.getCc_name()}" /></label>
             </div>
             <div class="input-field col s12">
                 <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker" >
-                <label for="cc_expiry">Expiry Date</label>
+                <label for="cc_expiry"><c:out value="${sessionScope.currUser.getCc_expiry()}" /></label>
             </div>
             <input type="hidden" name="action" value="profileUpdate" />
             <button class="btn waves-effect waves-light" type="submit" name="action">Update Profile
