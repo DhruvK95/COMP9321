@@ -1,10 +1,10 @@
 package mvcModel;
 
-public class DealsType {
+public class HotelRoomPair {
 	public HotelDTO hotel;
 	public RoomDTO room;
 
-	public DealsType(HotelDTO h, RoomDTO r) {
+	public HotelRoomPair(HotelDTO h, RoomDTO r) {
 		this.hotel = h;
 		this.room = r;
 	}

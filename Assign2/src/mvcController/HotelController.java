@@ -1,7 +1,6 @@
 package mvcController;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,7 +18,7 @@ import mvcModel.BookingDTO;
 //import com.sun.tools.doclets.internal.toolkit.util.SourceToHTMLConverter;
 import mvcModel.CustomerDTO;
 import mvcModel.DBStorageDTO;
-import mvcModel.DealsType;
+import mvcModel.HotelRoomPair;
 import mvcModel.DerbyDAOImpl;
 import mvcModel.DiscountDTO;
 import mvcModel.HotelDTO;
@@ -223,14 +222,14 @@ public class HotelController extends HttpServlet {
 		rd.forward(request, response);
 	}
 
-	public Map<DealsType, DiscountDTO> getSpecialDealsHash(){
-		Map<DealsType, DiscountDTO> listOfDeals = new HashMap<DealsType,DiscountDTO>();
+	public Map<HotelRoomPair, DiscountDTO> getSpecialDealsHash(){
+		Map<HotelRoomPair, DiscountDTO> listOfDeals = new HashMap<HotelRoomPair,DiscountDTO>();
 		for(DiscountDTO d : database.getAllDiscounts()){
 			for( HotelDTO h: database.getAllHotels()){
 				if( d.getParentHotelID() == h.getId()){
 					for(RoomDTO r : h.getRooms()){
 						if(r.getName().equals(d.getTypeOfRoom())){
-							DealsType dT = new DealsType(h,r);
+							HotelRoomPair dT = new HotelRoomPair(h,r);
 							listOfDeals.put(dT, d);
 						}
 					}
