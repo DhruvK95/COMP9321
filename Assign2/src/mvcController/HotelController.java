@@ -399,6 +399,7 @@ public class HotelController extends HttpServlet {
 	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate, Date endDate, String cityToCheck, Double maxPrice,
 											  Integer numberOfRooms) {
 		Map<RoomDTO, HotelDTO> resultList = new HashMap<RoomDTO, HotelDTO>();
+		ArrayList<HotelRoomPair> resultArrayList = new ArrayList<HotelRoomPair>();
 
 		for (HotelDTO h: database.getAllHotels()) {
 			if (h.getLocation().contains(cityToCheck)) { // City check
@@ -406,6 +407,9 @@ public class HotelController extends HttpServlet {
 				ArrayList<RoomDTO> rooms = h.getRooms();
 				for (RoomDTO r: rooms) {
 					if (r.getPrice() <= maxPrice && roomIsAvaliableInRange(startDate, endDate, r)) {
+						HotelRoomPair resultPair = new HotelRoomPair(h, r);
+						resultArrayList.add(resultPair);
+
 						resultList.put(r, h);
 					}
 				}
@@ -417,6 +421,8 @@ public class HotelController extends HttpServlet {
 			System.out.println("Number of results is less than the number of rooms required");
 		}
 		System.out.println("Size of results is " + resultList.size());
+		System.out.println("Result list is " + resultArrayList);
+		
 		return resultList;
 	}
 

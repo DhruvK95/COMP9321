@@ -20,5 +20,9 @@ public class HotelRoomPair {
 	public void setRoom(RoomDTO room) {
 		this.room = room;
 	}
-	
+
+	@Override
+	public String toString() {
+		return hotel.toString() + room.toString();
+	}
 }

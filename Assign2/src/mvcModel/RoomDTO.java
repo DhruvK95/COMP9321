@@ -74,7 +74,9 @@ public class RoomDTO {
 	public void setAvailableStatus(boolean availableStatus) {
 		this.availableStatus = availableStatus;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }
