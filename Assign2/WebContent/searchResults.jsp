@@ -24,12 +24,12 @@
     <div class="col s12"><p></p></div>
     <div class="col s12 m4 l2"><p></p></div>
     <div class="col s12 m4 l8"><p></p>
-        <div class="section">
+        <div class="section row">
             <h4 class="header">Search Results </h4>
             <hr>
         </div>
         <form action="home" method="POST">
-
+            <div class="row">
             <c:forEach items="${searchRooms}" var="data">
                 <div class="col s6">
                     <div class="card">
@@ -77,13 +77,12 @@
                     </div>
                 </div>
             </c:forEach>
-            <div class="row">
-                <button class="btn waves-effect waves-light" type="submit" name="action" value="Yes">Book Selected Rooms
-                    <i class="material-icons right">today</i>
-                </button>
             </div>
-        </form>
+            <button class="btn waves-effect waves-light" type="submit" name="action" value="Yes">Book Selected Rooms
+                <i class="material-icons right">today</i>
+            </button>
     </div>
+    </form>
     <div class="col s12 m4 l2"><p></p></div>
 </div>
 </body>
