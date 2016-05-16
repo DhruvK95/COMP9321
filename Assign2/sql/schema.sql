@@ -8,8 +8,6 @@ ALTER TABLE BOOKING DROP CONSTRAINT BOOKING_CUSTOMER_ID_FK;
 ALTER TABLE BOOKING_ON_ROOMS DROP CONSTRAINT ROOM_ID_FK;
 ALTER TABLE BOOKING_ON_ROOMS DROP CONSTRAINT ROOM_BOOKING_ID_FK;
 
--- Since the booking relation changed, when you next regenerate the database you will need to drop the old constraint and 
--- add the new one. In other words, before you run the script next, change ROOM to HOTEL on the next line, and change it back after.
 DROP TABLE HOTEL;
 DROP TABLE CUSTOMER;
 DROP TABLE STAFF;
@@ -50,7 +48,7 @@ CREATE TABLE staff (
   last_name       VARCHAR(20),
   username        VARCHAR(50) NOT NULL UNIQUE,
   password        VARCHAR(40) NOT NULL,
-  is_owner        boolean,
+  is_owner        boolean NOT NULL,
   PRIMARY KEY (id)
 );
 

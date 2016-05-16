@@ -49,6 +49,7 @@ public class HotelController extends HttpServlet {
 			ArrayList<HotelDTO> allHotels = cast.initHotels();
 			allHotels = cast.initRooms(allHotels);
 			database.addAllHotels(allHotels); //init all hotels from schema
+			database.addAllStaff(cast.initStaff());
 			database.addAllCustomers(cast.initCustomers());
 			database.addAllBookings(cast.initBookings());
 			for(BookingDTO b : database.getAllBookings()){
@@ -269,6 +270,11 @@ public class HotelController extends HttpServlet {
 		}
 
 		return nextPage;
+	}
+	
+	private int staffLogin(String username, String password) {
+		//Returns a staff members id if login is successful, otherwise -1
+		return -1;
 	}
 	
 	private void updateProfile(HttpServletRequest request, HttpServletResponse response){

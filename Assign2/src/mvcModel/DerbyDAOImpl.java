@@ -125,6 +125,32 @@ public class DerbyDAOImpl  {
 		
 	}
 
+	public ArrayList<StaffDTO> initStaff(){
+		ArrayList<StaffDTO> staff = new ArrayList<StaffDTO>();
+		try{
+			Statement stmnt = connection.createStatement();
+			String query_cast = "SELECT id,first_name,last_name,username,password,is_owner FROM staff";
+			ResultSet res = stmnt.executeQuery(query_cast);
+			logger.info("The result set size is "+res.getFetchSize());
+			while(res.next()){
+				StaffDTO currStaff = new StaffDTO();
+				currStaff.setId(res.getInt("id"));
+				currStaff.setFirstName(res.getString("first_name"));
+				currStaff.setLastName(res.getString("last_name"));
+				currStaff.setUsername(res.getString("username"));
+				currStaff.setPassword(res.getString("password"));
+				currStaff.setIsOwner(res.getBoolean("is_owner"));
+				staff.add(currStaff);
+			}
+			res.close();
+			stmnt.close();
+			
+		}catch(Exception e){
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+		}
+		return staff;
+	}
 	
 	public ArrayList<CustomerDTO> initCustomers(){
 		ArrayList<CustomerDTO> customers = new ArrayList<CustomerDTO>();

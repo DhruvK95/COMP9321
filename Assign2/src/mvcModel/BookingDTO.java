@@ -3,20 +3,6 @@ package mvcModel;
 import java.util.ArrayList;
 import java.util.Date;
 
-//Booking SQL table
-//CREATE TABLE booking
-//(
-//  id              INTEGER PRIMARY KEY NOT NULL,
-//  start_date      DATE NOT NULL,
-//  end_date        DATE NOT NULL,
-//  room_fk        INTEGER NOT NULL,
-//  customer_fk     INTEGER,
-//  CONSTRAINT valid_booking_dates CHECK (start_date <= end_date),
-//  CONSTRAINT booking_CUSTOMER_ID_fk FOREIGN KEY (customer_fk) REFERENCES CUSTOMER (ID),
-//  CONSTRAINT booking_ROOM_ID_fk FOREIGN KEY (room_fk) REFERENCES ROOM (ID)
-//);
-
-
 public class BookingDTO {
 	public int id;
 	public int customerID;

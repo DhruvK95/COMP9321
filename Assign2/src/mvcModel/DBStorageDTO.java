@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class DBStorageDTO {
 	public ArrayList<HotelDTO> hotels;
+	public ArrayList<StaffDTO> staff;
 	public ArrayList<CustomerDTO> customers;
 	public ArrayList<BookingDTO> bookings;
 	public ArrayList<DiscountDTO> discounts;
@@ -11,12 +12,17 @@ public class DBStorageDTO {
 	public DBStorageDTO() {
 		super();
 		this.hotels = new ArrayList<HotelDTO>();
+		this.staff = new ArrayList<StaffDTO>();
 		this.customers = new ArrayList<CustomerDTO>();
 		this.bookings = new ArrayList<BookingDTO>();
 	}
 	
 	public void addAllHotels(ArrayList<HotelDTO> hotels){
 		this.hotels.addAll(hotels);
+	}
+	
+	public void addAllStaff(ArrayList<StaffDTO> staff) {
+		this.staff = staff;
 	}
 	
 	public void addAllCustomers(ArrayList<CustomerDTO> customers) {
@@ -31,6 +37,10 @@ public class DBStorageDTO {
 		this.hotels.add(hotel);
 	}
 
+	public void addToStaff(StaffDTO staff){
+		this.staff.add(staff);
+	}
+	
 	public void addToCustomers(CustomerDTO customer){
 		this.customers.add(customer);
 	}
@@ -41,6 +51,10 @@ public class DBStorageDTO {
 
 	public ArrayList<HotelDTO> getAllHotels() {
 		return this.hotels;
+	}
+	
+	public ArrayList<StaffDTO> getAllStaff() {
+		return this.staff;
 	}
 	
 	public ArrayList<CustomerDTO> getAllCustomers() {
