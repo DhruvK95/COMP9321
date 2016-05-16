@@ -125,8 +125,8 @@ public class HotelController extends HttpServlet {
 				startDateString = request.getParameter("check_in_date");
 				endDateString = request.getParameter("check_out_date");
 
-				DateFormat start_df = new SimpleDateFormat("dd/mm/yyyy");
-				DateFormat end_df = new SimpleDateFormat("dd/mm/yyyy");
+				DateFormat start_df = new SimpleDateFormat("dd/MM/yyyy");
+				DateFormat end_df = new SimpleDateFormat("dd/MM/yyyy");
 
 				Date startDate = new Date();
 				Date end_Date = new Date();
