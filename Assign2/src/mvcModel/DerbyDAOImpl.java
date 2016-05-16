@@ -344,5 +344,43 @@ public class DerbyDAOImpl  {
 		}
 		
 	}
+	public int newBooking(String start, String end, int customer){
+		Statement stmnt;
+		int genKey = -1;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "INSERT INTO booking VALUES (DEFAULT, '"+
+			start+"','"+end+"',"+customer+" )";
+			System.out.println(query_cast);
+			stmnt.executeUpdate(query_cast, stmnt.RETURN_GENERATED_KEYS);
+			ResultSet rs = stmnt.getGeneratedKeys();
+			rs.next();
+			rs.close();
+			genKey = rs.getInt(1);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return genKey;
+	}
+	public void bookRoom(int rID, int bID) {
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "INSERT INTO booking_on_rooms VALUES (DEFAULT, "+
+					rID+","+bID+")";
+			System.out.println(query_cast);
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+}
 	
 }
