@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -147,8 +148,14 @@ public class HotelController extends HttpServlet {
 				String cityToCheck = request.getParameter("city");
 				double maxPrice = Double.parseDouble(request.getParameter("max_price"));
 
+				//Calc unavaliable rooms
 				request.setAttribute("searchRooms", searchRooms(startDate, end_Date, cityToCheck, maxPrice, number_of_rooms));
+				Map<RoomDTO, HotelDTO> resultsMap = searchRooms(startDate, end_Date, cityToCheck, maxPrice, number_of_rooms);
 
+				Integer numAvRooms = resultsMap.size() - getUnAvaliableRooms(resultsMap);
+
+				
+				request.setAttribute("numAvRooms", numAvRooms);
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="searchResults.jsp";
@@ -481,6 +488,16 @@ public class HotelController extends HttpServlet {
 			}
 		}
 		return false;
+	}
+
+	public Integer getUnAvaliableRooms (Map<RoomDTO,HotelDTO> myMap) {
+		Integer numberUnavaliable = 0;
+		for (RoomDTO r : myMap.keySet()) {
+			if (!r.getAvailableStatus()) {
+				numberUnavaliable++;
+			}
+		}
+		return numberUnavaliable;
 	}
 
 }
