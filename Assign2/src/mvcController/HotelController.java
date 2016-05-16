@@ -406,6 +406,7 @@ public class HotelController extends HttpServlet {
 				System.out.println(h.getHotelName() + "is in City " + h.getLocation());
 				ArrayList<RoomDTO> rooms = h.getRooms();
 				for (RoomDTO r: rooms) {
+					System.out.println("Checking room " + r.getName());
 					if (r.getPrice() <= maxPrice && roomIsAvaliableInRange(startDate, endDate, r)) {
 						HotelRoomPair resultPair = new HotelRoomPair(h, r);
 						resultArrayList.add(resultPair);
@@ -432,9 +433,11 @@ public class HotelController extends HttpServlet {
 		int avaliableDays = 0;
 		int totalDays = 0;
 
+
 		while (currDate.compareTo(endDate) <= 0) { // Check the availability in the date range
 //			System.out.println("Checking room " + roomToCheck.getName() + " for date " + currDate.toString());
 			totalDays++;
+			System.out.println("roomIsAvaliableInRange is checking " + currDate.toString());
 			if (roomIsAvaliableOnDate(currDate, roomToCheck)) {
 				avaliableDays++;
 			}
@@ -447,6 +450,8 @@ public class HotelController extends HttpServlet {
 		}
 
 		// If room is avaliable for the number of days in the date range, return true
+		System.out.println("AVD " + avaliableDays);
+		System.out.println("TD " + totalDays);
 		if (avaliableDays == totalDays) {
 			result = true;
 		}
@@ -454,14 +459,27 @@ public class HotelController extends HttpServlet {
 	}
 
 	public boolean roomIsAvaliableOnDate (Date dateToCheck, RoomDTO roomToCheck) {
+		// Check if that room is ever booked
+		ArrayList<Integer> bookedRoomsIds = new ArrayList<Integer>();
+		for (BookingDTO b1 : database.getAllBookings()) {
+			for (RoomDTO r1: b1.getAllRooms()) {
+				bookedRoomsIds.add(r1.getId());
+			}
+		}
+
+		if (!bookedRoomsIds.contains(roomToCheck.getId())) {
+			return true;
+		}
+
 		// Return true if the room is available on the date.
 		for (BookingDTO b : database.getAllBookings()) {
-			if (b.getAllRooms().contains(roomToCheck)) {
-				// Booking contains room to check...
-				if (dateToCheck.compareTo(b.getStartDate()) < 0 || dateToCheck.compareTo(b.getEndDate()) > 0) {
-					return true;
-				} else {
-					return false;
+			for (RoomDTO r: b.getAllRooms()) {
+				if (roomToCheck.getId() == r.getId()) {
+					if ((dateToCheck.compareTo(b.getStartDate()) < 0) || (dateToCheck.compareTo(b.getEndDate()) > 0)) {
+						return true;
+					} else {
+						return false;
+					}
 				}
 			}
 		}
@@ -469,3 +487,26 @@ public class HotelController extends HttpServlet {
 	}
 
 }
+
+
+// Leon's search
+/*
+	public boolean roomIsAvaliableInRange1 (Date startDate, Date endDate, RoomDTO roomToCheck) {
+		for (BookingDTO b : database.getAllBookings()) {
+			for(RoomDTO r : b.getAllRooms()){
+
+				if(r.getId() == roomToCheck.getId()){
+					//.System.out.println("eeee" + r.getId());
+
+					if((b.getStartDate().after(startDate) && b.getEndDate().after(endDate)) || (b.getStartDate().before(startDate) && b.getEndDate().before(endDate))){
+						return true;
+					}else{
+						return false;
+					}
+					//and end
+				}
+			}
+		}
+		return true;
+	}
+ */
