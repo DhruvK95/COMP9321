@@ -437,7 +437,6 @@ public class HotelController extends HttpServlet {
 		while (currDate.compareTo(endDate) <= 0) { // Check the availability in the date range
 //			System.out.println("Checking room " + roomToCheck.getName() + " for date " + currDate.toString());
 			totalDays++;
-			System.out.println("roomIsAvaliableInRange is checking " + currDate.toString());
 			if (roomIsAvaliableOnDate(currDate, roomToCheck)) {
 				avaliableDays++;
 			}
@@ -450,8 +449,6 @@ public class HotelController extends HttpServlet {
 		}
 
 		// If room is avaliable for the number of days in the date range, return true
-		System.out.println("AVD " + avaliableDays);
-		System.out.println("TD " + totalDays);
 		if (avaliableDays == totalDays) {
 			result = true;
 		}
