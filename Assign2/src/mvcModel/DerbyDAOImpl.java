@@ -150,7 +150,7 @@ public class DerbyDAOImpl  {
 			e.printStackTrace();
 		}
 		return staff;
-	}
+	}	
 	
 	public ArrayList<CustomerDTO> initCustomers(){
 		ArrayList<CustomerDTO> customers = new ArrayList<CustomerDTO>();
@@ -189,7 +189,7 @@ public class DerbyDAOImpl  {
 		ArrayList<HotelDTO> hotelsMod = hotelsCurrent;
 		try{
 			Statement stmnt = connection.createStatement();
-			String query_cast = "SELECT r.id, r.hotel_fk, rt.price, rt.bedType, rt.numBeds , rt.name FROM room r, room_type rt, hotel h WHERE r.room_type_fk = rt.id AND r.hotel_fk=h.id";
+			String query_cast = "SELECT r.id, r.hotel_fk, r.room_Availability, rt.price, rt.bedType, rt.numBeds , rt.name FROM room r, room_type rt, hotel h WHERE r.room_type_fk = rt.id AND r.hotel_fk=h.id";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is "+res.getFetchSize());
 			while(res.next()){
@@ -200,7 +200,7 @@ public class DerbyDAOImpl  {
 				currRoom.setBedType(res.getBoolean("bedType"));
 				currRoom.setNumBeds(res.getInt("numBeds"));
 				currRoom.setName(res.getString("name"));
-				
+				currRoom.setAvailableStatus(res.getBoolean("room_Availability"));
 				
 				for ( HotelDTO hotel: hotelsMod){
 					if(hotel.getId() == currRoom.getParentHotelID()){
@@ -345,4 +345,43 @@ public class DerbyDAOImpl  {
 		
 	}
 	
+	public int newBooking(String start, String end, int customer){
+		Statement stmnt;
+		int genKey = -1;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "INSERT INTO booking VALUES (DEFAULT, '"+
+			start+"','"+end+"',"+customer+" )";
+			System.out.println(query_cast);
+			stmnt.executeUpdate(query_cast, stmnt.RETURN_GENERATED_KEYS);
+			ResultSet rs = stmnt.getGeneratedKeys();
+			rs.next();
+			rs.close();
+			genKey = rs.getInt(1);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return genKey;
+	}
+	public void bookRoom(int rID, int bID) {
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "INSERT INTO booking_on_rooms VALUES (DEFAULT, "+
+					rID+","+bID+")";
+			System.out.println(query_cast);
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 }
+	
+

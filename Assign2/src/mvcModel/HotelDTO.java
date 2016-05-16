@@ -50,4 +50,8 @@ public class HotelDTO {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return hotelName;
+	}
 }

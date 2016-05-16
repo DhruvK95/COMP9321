@@ -7,10 +7,11 @@ public class RoomDTO {
 	public String name; //single suite etc
 	public boolean bedType; // single (o) double (l)
 	public int numBeds;
-
+	public boolean availableStatus;
 	
 //	public String status; //booked, status, available
 	
+
 
 	public int getId() {
 		return id;
@@ -67,7 +68,15 @@ public class RoomDTO {
 		this.numBeds = numBeds;
 	}
 	
-	
-	
-	
+	public boolean getAvailableStatus() {
+		return availableStatus;
+	}
+	public void setAvailableStatus(boolean availableStatus) {
+		this.availableStatus = availableStatus;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

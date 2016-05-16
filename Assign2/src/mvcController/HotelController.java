@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,13 +21,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mvcModel.BookingDTO;
-//import com.sun.tools.doclets.internal.toolkit.util.SourceToHTMLConverter;
 import mvcModel.CustomerDTO;
 import mvcModel.DBStorageDTO;
 import mvcModel.DerbyDAOImpl;
 import mvcModel.DiscountDTO;
 import mvcModel.HotelDTO;
+import mvcModel.HotelRoomPair;
 import mvcModel.RoomDTO;
+
+//import com.sun.tools.doclets.internal.toolkit.util.SourceToHTMLConverter;
 
 /**
  * Servlet implementation class HotelController
@@ -130,8 +133,8 @@ public class HotelController extends HttpServlet {
 				startDateString = request.getParameter("check_in_date");
 				endDateString = request.getParameter("check_out_date");
 
-				DateFormat start_df = new SimpleDateFormat("dd/mm/yyyy");
-				DateFormat end_df = new SimpleDateFormat("dd/mm/yyyy");
+				DateFormat start_df = new SimpleDateFormat("dd/MM/yyyy");
+				DateFormat end_df = new SimpleDateFormat("dd/MM/yyyy");
 
 				Date startDate = new Date();
 				Date end_Date = new Date();
@@ -151,8 +154,14 @@ public class HotelController extends HttpServlet {
 				String cityToCheck = request.getParameter("city");
 				double maxPrice = Double.parseDouble(request.getParameter("max_price"));
 
+				//Calc unavaliable rooms
 				request.setAttribute("searchRooms", searchRooms(startDate, end_Date, cityToCheck, maxPrice, number_of_rooms));
+				Map<RoomDTO, HotelDTO> resultsMap = searchRooms(startDate, end_Date, cityToCheck, maxPrice, number_of_rooms);
 
+				Integer numAvRooms = resultsMap.size() - getUnAvaliableRooms(resultsMap);
+
+
+				request.setAttribute("numAvRooms", numAvRooms);
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="searchResults.jsp";
@@ -181,6 +190,12 @@ public class HotelController extends HttpServlet {
 				System.out.println("----- profileUpdate -------");
 				updateProfile(request, response);
 				nextPage="profile.jsp";
+			}else if(action.equals("bookingSubmit")){
+				System.out.println("----- bookingSubmit -------");
+				String[] checkboxes = request.getParameterValues("roomsBookingsOptions");
+				System.out.println(Arrays.toString(checkboxes));
+				bookRooms(request,response);
+				nextPage="bookingResults.jsp";
 			}
 
 		}else{
@@ -191,7 +206,7 @@ public class HotelController extends HttpServlet {
 				System.out.println( h.getId() + " " + h.getHotelName() + " " + h.getLocation());
 				System.out.println("--------------------------------h--------------------------------------");
 				for( RoomDTO r : h.getRooms()){
-					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice() + " " + r.getAvailableStatus());
 				}
 
 			}
@@ -213,15 +228,47 @@ public class HotelController extends HttpServlet {
 				System.out.println("----------------------------------d------------------------------------");
 				System.out.println(d.getId() + " "+ d.getTypeOfRoom() + " " + d.getParentHotelID() + " " + d.getStartDate() + " " +d.getEndDate());
 			}
+			CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+			if(curr != null ){
+
+				ArrayList<BookingDTO> tempSave5 = (ArrayList<BookingDTO>) request.getSession().getAttribute("shoppingCart");
+				for ( BookingDTO b : tempSave5 ){
+					System.out.println( b.getId() + " " + b.getStartDate() + " " + b.getEndDate() + " " + b.getCustomerID());
+					System.out.println("---------------------------------bSC-------------------------------------");
+					for(RoomDTO r : b.getAllRooms()){
+						System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+					}
+				}
+			}
+
 			//TESTING HOTELS WORKS
 			System.out.print("ERERERERERERERERERERERERERERERER");
 			request.setAttribute("randomRooms", getRandomRoomsHash() );
-			request.setAttribute("testHotelData",cast.allHotels());
+			request.setAttribute("specialDeals", getSpecialDealsHash());
 			nextPage="home.jsp";
 		}
 		//		nextPage = login(request, response);
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
+	}
+
+	public Map<HotelRoomPair, DiscountDTO> getSpecialDealsHash(){
+		Map<HotelRoomPair, DiscountDTO> listOfDeals = new HashMap<HotelRoomPair,DiscountDTO>();
+		for(DiscountDTO d : database.getAllDiscounts()){
+			for( HotelDTO h: database.getAllHotels()){
+				if( d.getParentHotelID() == h.getId()){
+					for(RoomDTO r : h.getRooms()){
+						if(r.getName().equals(d.getTypeOfRoom())){
+							HotelRoomPair dT = new HotelRoomPair(h,r);
+							listOfDeals.put(dT, d);
+						}
+					}
+				}
+			}
+
+		}
+		System.out.print(listOfDeals.size());
+		return listOfDeals;
 	}
 
 	public Map<RoomDTO,HotelDTO> getRandomRoomsHash(){
@@ -235,6 +282,12 @@ public class HotelController extends HttpServlet {
 				ArrayList<RoomDTO> rooms = h.getRooms();
 				Random rand= new Random();
 				System.out.println(rooms.size());
+
+				// avoid exception when room size is zero
+				if (rooms.size() < 1) {
+					continue;
+				}
+
 				int hotelNo = rand.nextInt(rooms.size());
 				RoomDTO r = rooms.get(hotelNo);
 
@@ -268,15 +321,17 @@ public class HotelController extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		nextPage="login.jsp";
+
 		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
 			nextPage="home.jsp";
 			if(curr == null){
+				curr = isValid(username,password);
 				request.getSession().setAttribute("currUser", isValid(username,password));
 			}
 		}else{
 			request.setAttribute("loginError", true);
 		}
-
+		request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 		return nextPage;
 	}
 
@@ -320,7 +375,10 @@ public class HotelController extends HttpServlet {
 		System.out.println("Fn: "+ curr.getFirst_name() );
 		database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
 		request.getSession().setAttribute("currUser", database.findCutomer(curr.getUser_name()));
+
 	}
+
+
 
 	private void registerUser(HttpServletRequest request, HttpServletResponse response){
 		String user = request.getParameter("username");
@@ -374,13 +432,21 @@ public class HotelController extends HttpServlet {
 	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate, Date endDate, String cityToCheck, Double maxPrice,
 			Integer numberOfRooms) {
 		Map<RoomDTO, HotelDTO> resultList = new HashMap<RoomDTO, HotelDTO>();
+		ArrayList<HotelRoomPair> resultArrayList = new ArrayList<HotelRoomPair>();
 
 		for (HotelDTO h: database.getAllHotels()) {
 			if (h.getLocation().contains(cityToCheck)) { // City check
 				System.out.println(h.getHotelName() + "is in City " + h.getLocation());
 				ArrayList<RoomDTO> rooms = h.getRooms();
 				for (RoomDTO r: rooms) {
+					System.out.println("Checking room " + r.getName());
 					if (r.getPrice() <= maxPrice && roomIsAvaliableInRange(startDate, endDate, r)) {
+						if (!(resultList.size() < numberOfRooms)) {
+							return resultList;
+						}
+						HotelRoomPair resultPair = new HotelRoomPair(h, r);
+						resultArrayList.add(resultPair);
+
 						resultList.put(r, h);
 					}
 				}
@@ -389,9 +455,10 @@ public class HotelController extends HttpServlet {
 
 		// Number of rooms check
 		if (resultList.size() < numberOfRooms) {
-			System.out.println("Number of results is less than the number of rooms required");
+			resultList.clear();
 		}
-		System.out.println("Size of results is " + resultList.size());
+
+
 		return resultList;
 	}
 
@@ -400,6 +467,7 @@ public class HotelController extends HttpServlet {
 		Date currDate = startDate;
 		int avaliableDays = 0;
 		int totalDays = 0;
+
 
 		while (currDate.compareTo(endDate) <= 0) { // Check the availability in the date range
 			//			System.out.println("Checking room " + roomToCheck.getName() + " for date " + currDate.toString());
@@ -423,18 +491,82 @@ public class HotelController extends HttpServlet {
 	}
 
 	public boolean roomIsAvaliableOnDate (Date dateToCheck, RoomDTO roomToCheck) {
+		// Check if that room is ever booked
+		ArrayList<Integer> bookedRoomsIds = new ArrayList<Integer>();
+		for (BookingDTO b1 : database.getAllBookings()) {
+			for (RoomDTO r1: b1.getAllRooms()) {
+				bookedRoomsIds.add(r1.getId());
+			}
+		}
+
+		if (!bookedRoomsIds.contains(roomToCheck.getId())) {
+			return true;
+		}
+
 		// Return true if the room is available on the date.
 		for (BookingDTO b : database.getAllBookings()) {
-			if (b.getAllRooms().contains(roomToCheck)) {
-				// Booking contains room to check...
-				if (dateToCheck.compareTo(b.getStartDate()) < 0 || dateToCheck.compareTo(b.getEndDate()) > 0) {
-					return true;
-				} else {
-					return false;
+			for (RoomDTO r: b.getAllRooms()) {
+				if (roomToCheck.getId() == r.getId()) {
+					if ((dateToCheck.compareTo(b.getStartDate()) < 0) || (dateToCheck.compareTo(b.getEndDate()) > 0)) {
+						return true;
+					} else {
+						return false;
+					}
 				}
 			}
 		}
 		return false;
 	}
 
+	public Integer getUnAvaliableRooms (Map<RoomDTO,HotelDTO> myMap) {
+		Integer numberUnavaliable = 0;
+		for (RoomDTO r : myMap.keySet()) {
+			if (!r.getAvailableStatus()) {
+				numberUnavaliable++;
+			}
+		}
+		return numberUnavaliable;
+	}
+
+	private void bookRooms(HttpServletRequest request,
+			HttpServletResponse response) {
+		CustomerDTO currUser = (CustomerDTO) request.getSession().getAttribute("currUser");
+		if(currUser == null) return;
+		BookingDTO newBooking = new BookingDTO();
+		String[] roomIDs = request.getParameterValues("roomsBookingsOptions");
+		//DAO makes the booking
+		newBooking.setId(cast.newBooking("2011-11-11", "2011-11-11", currUser.getId()));
+		for(String roomID:roomIDs){
+			int id = Integer.parseInt(roomID.trim());
+			RoomDTO r = database.findRoom(id);
+			newBooking.addRoomToBookings(r);
+			//DAO adds Booking to room
+			cast.bookRoom(r.getId(),newBooking.getId());
+		}
+		System.out.println(newBooking.getId());
+	}
+
 }
+
+
+// Leon's search
+/*
+	public boolean roomIsAvaliableInRange1 (Date startDate, Date endDate, RoomDTO roomToCheck) {
+		for (BookingDTO b : database.getAllBookings()) {
+			for(RoomDTO r : b.getAllRooms()){
+
+				if(r.getId() == roomToCheck.getId()){
+					//.System.out.println("eeee" + r.getId());
+
+					if((b.getStartDate().after(startDate) && b.getEndDate().after(endDate)) || (b.getStartDate().before(startDate) && b.getEndDate().before(endDate))){
+						return true;
+					}else{
+						return false;
+					}
+					//and end
+				}
+			}
+		}
+		return true;
+	}
+ */

@@ -72,20 +72,19 @@
             <h5>Special Deals</h5>
             <hr>
             <ul class="collection">
+            	<c:forEach items="${specialDeals}" var="data">
                 <li class="collection-item avatar">
                     <i class="material-icons circle orange">star</i>
-                    <span class="title">Deal Title  - Hotel Syd</span>
-                    <p>This is a 100% Discount on Queen Rooms!!! <br>
-                        xD
+                    <span class="title">
+                    <c:out value="${data.key.hotel.hotelName}"/> -- <c:out value="${data.key.room.name}"/>
+                    </span>
+                    <p>
+                	  	<p> Perecent Off : <c:out value="${data.value.discountPercent}"/> % </p>                    
+                    	<p> Deal Range: <c:out value="${data.value.startDate}"/> -- 
+                    	<c:out value="${data.value.endDate}"/> </p>
                     </p>
                 </li>
-                <li class="collection-item avatar">
-                    <i class="material-icons circle orange">star</i>
-                    <span class="title">Deal Title - Hotel Hobart</span>
-                    <p>This is a 100% Discount on Twin Rooms!!! <br>
-                        xD
-                    </p>
-                </li>
+                </c:forEach>
             </ul>
         </div>
 
