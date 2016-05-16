@@ -29,8 +29,8 @@
         <div class="row">
             <div class="section">
                 <h4 class="header">Search for Rooms </h4>
-                
-                <br> Refine your criteria or run a new search.
+                <blockquote> Refine your criteria or run a new search. </blockquote>
+
                 <hr>
                 <form class="col s12" action="home" method="post">
                     <div class="row">
