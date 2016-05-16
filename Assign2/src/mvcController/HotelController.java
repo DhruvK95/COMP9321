@@ -1,30 +1,21 @@
 package mvcController;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import mvcModel.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import mvcModel.BookingDTO;
 //import com.sun.tools.doclets.internal.toolkit.util.SourceToHTMLConverter;
-import mvcModel.CustomerDTO;
-import mvcModel.DBStorageDTO;
-import mvcModel.DerbyDAOImpl;
-import mvcModel.DiscountDTO;
-import mvcModel.HotelDTO;
-import mvcModel.HotelRoomPair;
-import mvcModel.RoomDTO;
 
 /**
  * Servlet implementation class HotelController
@@ -415,6 +406,9 @@ public class HotelController extends HttpServlet {
 				for (RoomDTO r: rooms) {
 					System.out.println("Checking room " + r.getName());
 					if (r.getPrice() <= maxPrice && roomIsAvaliableInRange(startDate, endDate, r)) {
+						if (!(resultList.size() < numberOfRooms)) {
+							return resultList;
+						}
 						HotelRoomPair resultPair = new HotelRoomPair(h, r);
 						resultArrayList.add(resultPair);
 
@@ -428,9 +422,8 @@ public class HotelController extends HttpServlet {
 		if (resultList.size() < numberOfRooms) {
 			System.out.println("Number of results is less than the number of rooms required");
 		}
-		System.out.println("Size of results is " + resultList.size());
-		System.out.println("Result list is " + resultArrayList);
-		
+
+
 		return resultList;
 	}
 
