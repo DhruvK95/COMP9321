@@ -111,4 +111,14 @@ public class DBStorageDTO {
 		return this.discounts;
 	}
 
+	public RoomDTO findRoom(int id) {
+		for(HotelDTO h: hotels){
+			for(RoomDTO r: h.getRooms()){
+				if(r.getId() == id){
+					return r;
+				}
+			}
+		}
+		return null;
+	}
 }
