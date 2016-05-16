@@ -423,7 +423,9 @@ public class HotelController extends HttpServlet {
 			System.out.println("Number of results is less than the number of rooms required");
 		}
 
-
+		if (resultList.size() < numberOfRooms) {
+			resultList.clear();
+		}
 		return resultList;
 	}
 
