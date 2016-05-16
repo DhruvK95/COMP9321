@@ -5,7 +5,12 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,20 +48,19 @@ public class HotelController extends HttpServlet {
 			/*
 			DBSStorageDTO database = this.getServletConfig().getServletContext().getAtttibute("dB");
 			if(database == null){
-			*/
+			 */
 			cast = new DerbyDAOImpl();
 			database = new DBStorageDTO();
 			ArrayList<HotelDTO> allHotels = cast.initHotels();
 			allHotels = cast.initRooms(allHotels);
 			database.addAllHotels(allHotels); //init all hotels from schema
-			database.addAllStaff(cast.initStaff());
 			database.addAllCustomers(cast.initCustomers());
 			database.addAllBookings(cast.initBookings());
 			for(BookingDTO b : database.getAllBookings()){
 				database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
 			}
 			database.addAllDiscounts(cast.initDiscounts());
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +70,7 @@ public class HotelController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("GET");
 		processRequest(request, response);
@@ -74,6 +79,7 @@ public class HotelController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		System.out.println("POST");
@@ -85,7 +91,7 @@ public class HotelController extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nextPage = "";
 		String action = request.getParameter("action");
-		System.out.println(request.getParameter("action"));
+		System.out.println("Action performed: " + request.getParameter("action"));
 		verify(request,response);
 		//updateDetails(request,response);
 		registerUser(request,response);
@@ -107,7 +113,7 @@ public class HotelController extends HttpServlet {
 				request.setAttribute("testHotelData",cast.allHotels());
 				nextPage="home.jsp";
 			} else if (action.equals("roomSearch")) {
-				
+
 				System.out.println("----- Room Search -------");
 				System.out.println("check_in_date is " + request.getParameter("check_in_date"));
 				System.out.println("check_out_date is " + request.getParameter("check_out_date"));
@@ -160,11 +166,13 @@ public class HotelController extends HttpServlet {
 				request.setAttribute("testHotelData",cast.allHotels());
 
 				nextPage = login(request, response);
+
+
 			}else if(action.equals("logoutNo") || action.equals("logoutYes")){
 				if(action.equals("logoutYes")){
 					request.getSession().invalidate();
 				}else{
-					
+
 				}
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());
@@ -176,42 +184,42 @@ public class HotelController extends HttpServlet {
 			}
 
 		}else{
-			 			//TESTING HOTELS WORKS
-			 			//temporarly test db interations
-			 			ArrayList<HotelDTO> tempSave = database.getAllHotels();
-			 			for ( HotelDTO h : tempSave ){
-			 				System.out.println( h.getId() + " " + h.getHotelName() + " " + h.getLocation());
-			 				System.out.println("--------------------------------h--------------------------------------");
-			 				for( RoomDTO r : h.getRooms()){
-			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
-			 				}
+			//TESTING HOTELS WORKS
+			//temporarly test db interations
+			ArrayList<HotelDTO> tempSave = database.getAllHotels();
+			for ( HotelDTO h : tempSave ){
+				System.out.println( h.getId() + " " + h.getHotelName() + " " + h.getLocation());
+				System.out.println("--------------------------------h--------------------------------------");
+				for( RoomDTO r : h.getRooms()){
+					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+				}
 
-			 			}
-			 			ArrayList<CustomerDTO> tempSave2 = database.getAllCustomers();
-			 			for ( CustomerDTO c : tempSave2 ){
-			 				System.out.println( c.getId() + " " + c.getUser_name()+ " " + c.getPassword()+ " " + c.getFirst_name()+ " " + c.last_name+ " " + c.getEmail()+ " " + c.getAddress()+ " " + c.getCc_number()+ " " + c.getCc_name()+ " " + c.getCc_expiry());
-			 				System.out.println("--------------------------------c--------------------------------------");
-			 			}
-			 			ArrayList<BookingDTO> tempSave3 = database.getAllBookings();
-			 			for ( BookingDTO b : tempSave3 ){
-			 				System.out.println( b.getId() + " " + b.getStartDate() + " " + b.getEndDate() + " " + b.getCustomerID());
-			 				System.out.println("---------------------------------b-------------------------------------");
-			 				for(RoomDTO r : b.getAllRooms()){
-			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
-			 				}
-			 			}
-			 			ArrayList<DiscountDTO> tempSave4 = database.getAllDiscounts();
-			 			for ( DiscountDTO d : tempSave4 ){
-			 				System.out.println("----------------------------------d------------------------------------");			 				
-			 				System.out.println(d.getId() + " "+ d.getTypeOfRoom() + " " + d.getParentHotelID() + " " + d.getStartDate() + " " +d.getEndDate());
-			 			}
-			 			//TESTING HOTELS WORKS
+			}
+			ArrayList<CustomerDTO> tempSave2 = database.getAllCustomers();
+			for ( CustomerDTO c : tempSave2 ){
+				System.out.println( c.getId() + " " + c.getUser_name()+ " " + c.getPassword()+ " " + c.getFirst_name()+ " " + c.last_name+ " " + c.getEmail()+ " " + c.getAddress()+ " " + c.getCc_number()+ " " + c.getCc_name()+ " " + c.getCc_expiry());
+				System.out.println("--------------------------------c--------------------------------------");
+			}
+			ArrayList<BookingDTO> tempSave3 = database.getAllBookings();
+			for ( BookingDTO b : tempSave3 ){
+				System.out.println( b.getId() + " " + b.getStartDate() + " " + b.getEndDate() + " " + b.getCustomerID());
+				System.out.println("---------------------------------b-------------------------------------");
+				for(RoomDTO r : b.getAllRooms()){
+					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+				}
+			}
+			ArrayList<DiscountDTO> tempSave4 = database.getAllDiscounts();
+			for ( DiscountDTO d : tempSave4 ){
+				System.out.println("----------------------------------d------------------------------------");
+				System.out.println(d.getId() + " "+ d.getTypeOfRoom() + " " + d.getParentHotelID() + " " + d.getStartDate() + " " +d.getEndDate());
+			}
+			//TESTING HOTELS WORKS
 			System.out.print("ERERERERERERERERERERERERERERERER");
 			request.setAttribute("randomRooms", getRandomRoomsHash() );
 			request.setAttribute("testHotelData",cast.allHotels());
 			nextPage="home.jsp";
 		}
-//		nextPage = login(request, response);
+		//		nextPage = login(request, response);
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}
@@ -253,7 +261,7 @@ public class HotelController extends HttpServlet {
 		}
 		return null;
 	}
-	
+
 	private String login(HttpServletRequest request, HttpServletResponse response){
 		String nextPage = "";
 		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
@@ -271,12 +279,7 @@ public class HotelController extends HttpServlet {
 
 		return nextPage;
 	}
-	
-	private int staffLogin(String username, String password) {
-		//Returns a staff members id if login is successful, otherwise -1
-		return -1;
-	}
-	
+
 	private void updateProfile(HttpServletRequest request, HttpServletResponse response){
 		CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
 		if(curr == null) return;
@@ -318,7 +321,7 @@ public class HotelController extends HttpServlet {
 		database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
 		request.getSession().setAttribute("currUser", database.findCutomer(curr.getUser_name()));
 	}
-	
+
 	private void registerUser(HttpServletRequest request, HttpServletResponse response){
 		String user = request.getParameter("username");
 		String pass = request.getParameter("password");
@@ -369,7 +372,7 @@ public class HotelController extends HttpServlet {
 
 
 	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate, Date endDate, String cityToCheck, Double maxPrice,
-											  Integer numberOfRooms) {
+			Integer numberOfRooms) {
 		Map<RoomDTO, HotelDTO> resultList = new HashMap<RoomDTO, HotelDTO>();
 
 		for (HotelDTO h: database.getAllHotels()) {
@@ -399,7 +402,7 @@ public class HotelController extends HttpServlet {
 		int totalDays = 0;
 
 		while (currDate.compareTo(endDate) <= 0) { // Check the availability in the date range
-//			System.out.println("Checking room " + roomToCheck.getName() + " for date " + currDate.toString());
+			//			System.out.println("Checking room " + roomToCheck.getName() + " for date " + currDate.toString());
 			totalDays++;
 			if (roomIsAvaliableOnDate(currDate, roomToCheck)) {
 				avaliableDays++;
