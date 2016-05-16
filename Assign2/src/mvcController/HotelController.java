@@ -177,6 +177,7 @@ public class HotelController extends HttpServlet {
 				System.out.println("----- bookingSubmit -------");
 				String[] checkboxes = request.getParameterValues("roomsBookingsOptions");
 				System.out.println(Arrays.toString(checkboxes));
+				bookRooms(request,response);
 				nextPage="bookingResults.jsp";
 			}
 
@@ -493,6 +494,23 @@ public class HotelController extends HttpServlet {
 			}
 		}
 		return numberUnavaliable;
+	}
+	private void bookRooms(HttpServletRequest request,
+			HttpServletResponse response) {
+		CustomerDTO currUser = (CustomerDTO) request.getSession().getAttribute("currUser");
+		if(currUser == null) return;
+		BookingDTO newBooking = new BookingDTO();
+		String[] roomIDs = request.getParameterValues("roomsBookingsOptions");
+		//DAO makes the booking
+		newBooking.setId(cast.newBooking("2011-11-11", "2011-11-11", currUser.getId()));
+		for(String roomID:roomIDs){
+			int id = Integer.parseInt(roomID.trim());
+			RoomDTO r = database.findRoom(id);
+			newBooking.addRoomToBookings(r);
+			//DAO adds Booking to room
+			cast.bookRoom(r.getId(),newBooking.getId());
+		}
+		System.out.println(newBooking.getId());
 	}
 
 }
