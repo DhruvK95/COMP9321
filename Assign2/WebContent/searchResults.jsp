@@ -6,9 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+         pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="mvcModel.*, java.util.*"%>
+<%@page import="mvcModel.*, java.util.*" %>
 
 <jsp:useBean id="roomDTO" class="mvcModel.RoomDTO" scope="session"/>
 
@@ -19,7 +19,7 @@
     <title>MHGA - Results</title>
 </head>
 <body>
-<%@ include file="navBar.html"%>
+<%@ include file="navBar.html" %>
 <div class="row">
     <div class="col s12"><p></p></div>
     <div class="col s12 m4 l2"><p></p></div>
@@ -28,13 +28,20 @@
             <h4 class="header">Search Results </h4>
             <hr>
         </div>
+        <c:choose>
+        <c:when test="${searchRooms.size() == 0}">
+            <h5 style="color:Red;"> No available rooms match your search criteria <br> Please search with different
+                values </h5>
+            <hr>
+        </c:when>
+        <c:otherwise>
         <form action="home" method="POST">
             <div class="row">
-            <c:forEach items="${searchRooms}" var="data">
-                <div class="col s6">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="
+                <c:forEach items="${searchRooms}" var="data">
+                    <div class="col s6">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="
                         <c:choose>
                             <c:when test="${data.key.name == 'Single'}">${pageContext.request.contextPath}/static/Single.jpg</c:when>
                             <c:when test="${data.key.name == 'Twin'}">${pageContext.request.contextPath}/static/Twin.jpg</c:when>
@@ -43,44 +50,48 @@
                             <c:when test="${data.key.name == 'Suite'}">${pageContext.request.contextPath}/static/Suite.jpg</c:when>
                         </c:choose>
                     ">
-                            <span class="card-title"><c:out value="${data.value.hotelName}"/> - <c:out value="${data.key.name}"/> Room</span>
+                                <span class="card-title"><c:out value="${data.value.hotelName}"/> - <c:out
+                                        value="${data.key.name}"/> Room</span>
+                            </div>
+                            <div class="card-content">
+
+                                <p>
+                                    <c:out value="${data.value.location}"/>
+                                    <br> $ <c:out value="${data.key.price}"/> Per Night
+                                </p>
+                            </div>
+
+                            <input type="hidden" name="action" value="bookingSubmit"/>
+                            <c:choose>
+                                <c:when test="${data.key.availableStatus}">
+
+                                    <div class="card-action" style="background-color: #ccffdd">
+                                        <p>
+                                            <input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}"
+                                                   value="${data.key.id}"/>
+                                            <label for="${data.key.id}">Book This Room</label>
+                                        </p>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="card-action" style="background-color: #ffb3b3">
+                                        <p>
+                                            <input type="checkbox" id="test8" disabled="disabled"/>
+                                            <label for="test8">Cant book this room, Unavailable!!</label>
+                                        </p>
+                                    </div>
+
+                                </c:otherwise>
+                            </c:choose>
                         </div>
-                        <div class="card-content">
-
-                            <p>
-                                <c:out value="${data.value.location}"/>
-                                <br> $ <c:out value="${data.key.price}"/> Per Night
-                            </p>
-                        </div>
-
-                        <input type="hidden" name="action" value="bookingSubmit" />
-                        <c:choose>
-                            <c:when test="${data.key.availableStatus}">
-
-                                <div class="card-action" style="background-color: #ccffdd">
-                                    <p>
-                                        <input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}" value="${data.key.id}"/>
-                                        <label for="${data.key.id}">Book This Room</label>
-                                    </p>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="card-action" style="background-color: #ffb3b3">
-                                    <p>
-                                        <input type="checkbox" id="test8" disabled="disabled" />
-                                        <label for="test8">Cant book this room, Unavailable!!</label>
-                                    </p>
-                                </div>
-
-                            </c:otherwise>
-                        </c:choose>
                     </div>
-                </div>
-            </c:forEach>
+                </c:forEach>
             </div>
             <button class="btn waves-effect waves-light" type="submit" name="action" value="Yes">Book Selected Rooms
                 <i class="material-icons right">today</i>
             </button>
+        </c:otherwise>
+        </c:choose>
     </div>
     </form>
     <div class="col s12 m4 l2"><p></p></div>
