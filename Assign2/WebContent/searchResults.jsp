@@ -54,13 +54,28 @@
                     </div>                    	
                     
                     <input type="hidden" name="action" value="bookingSubmit" />
-                    <div class="card-action">
-                    	<p>
-      						<input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}" value="${data.key.id}"/>
-      						<label for="${data.key.id}">Book This Room</label>
-    					</p>
-                        <a href="#">This is a link</a>
-                    </div>
+                    <c:choose>
+  					<c:when test="${data.key.availableStatus}">
+  					
+	                    <div class="card-action" style="background-color: #ccffdd">
+	                    	<p>
+	      						<input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}" value="${data.key.id}"/>
+	      						<label for="${data.key.id}">Book This Room</label>
+	    					</p>
+	                        <a href="#">This is a link</a>
+	                    </div>
+	                 </c:when>
+	                 <c:otherwise>
+	                 	<div class="card-action" style="background-color: #ffb3b3">
+	                    	<p>
+	      						You can't book this room its unavailable!!
+	      						<br>
+	    					</p>
+	                        <a href="#">This is a link</a>
+	                    </div>
+	                 
+	                 </c:otherwise>
+	                 </c:choose>
                 </div>
             </div>
         </c:forEach>
