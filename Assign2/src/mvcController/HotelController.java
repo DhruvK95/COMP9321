@@ -156,11 +156,7 @@ public class HotelController extends HttpServlet {
 				request.setAttribute("testHotelData",cast.allHotels());
 
 				nextPage = login(request, response);
-			} else if (action.equals("profileUpdate")) {
-				request.setAttribute("randomRooms", getRandomRoomsHash() );
-				request.setAttribute("testHotelData",cast.allHotels());
-				nextPage="home.jsp";
-			} else if(action.equals("logoutNo") || action.equals("logoutYes")){
+			}else if(action.equals("logoutNo") || action.equals("logoutYes")){
 				if(action.equals("logoutYes")){
 					request.getSession().invalidate();
 				}else{
