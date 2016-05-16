@@ -1,6 +1,7 @@
 package mvcController;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -174,6 +175,11 @@ public class HotelController extends HttpServlet {
 				System.out.println("----- profileUpdate -------");
 				updateProfile(request, response);
 				nextPage="profile.jsp";
+			}else if(action.equals("bookingSubmit")){
+				System.out.println("----- bookingSubmit -------");
+				String[] checkboxes = request.getParameterValues("roomsBookingsOptions");
+				System.out.println(Arrays.toString(checkboxes));
+				nextPage="bookingResults.jsp";
 			}
 
 		}else{

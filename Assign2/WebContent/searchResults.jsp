@@ -28,6 +28,8 @@
             <h4 class="header">Search Results </h4>
             <hr>
         </div>
+        <form action="home" method="POST">
+        
         <c:forEach items="${searchRooms}" var="data">
             <div class="col s6">
                 <div class="card">
@@ -44,12 +46,19 @@
                         <span class="card-title"><c:out value="${data.value.hotelName}"/> - <c:out value="${data.key.name}"/> Room</span>
                     </div>
                     <div class="card-content">
+                   
                         <p>
                             <c:out value="${data.value.location}"/>
                             <br> $ <c:out value="${data.key.price}"/> Per Night
                         </p>
-                    </div>
+                    </div>                    	
+                    
+                    <input type="hidden" name="action" value="bookingSubmit" />
                     <div class="card-action">
+                    	<p>
+      						<input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}" value="${data.key.id}"/>
+      						<label for="${data.key.id}">Book This Room</label>
+    					</p>
                         <a href="#">This is a link</a>
                     </div>
                 </div>
@@ -58,5 +67,7 @@
     </div>
     <div class="col s12 m4 l2"><p></p></div>
 </div>
+		<input type="submit" value="Yes" />
+		</form>
 </body>
 </html>
