@@ -68,9 +68,9 @@
 	                 <c:otherwise>
 	                 	<div class="card-action" style="background-color: #ffb3b3">
 	                    	<p>
-	      						You can't book this room its unavailable!!
-	      						<br>
-	    					</p>
+						        <input type="checkbox" id="test8" disabled="disabled" />
+						        <label for="test8">Cant book this room, Unavailable!!</label>
+						    </p>
 	                        <a href="#">This is a link</a>
 	                    </div>
 	                 
