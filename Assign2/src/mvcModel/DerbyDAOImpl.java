@@ -344,6 +344,7 @@ public class DerbyDAOImpl  {
 		}
 		
 	}
+	
 	public int newBooking(String start, String end, int customer){
 		Statement stmnt;
 		int genKey = -1;
@@ -383,4 +384,4 @@ public class DerbyDAOImpl  {
 	
 }
 	
-}
+

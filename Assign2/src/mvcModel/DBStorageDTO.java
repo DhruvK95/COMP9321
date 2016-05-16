@@ -8,7 +8,8 @@ public class DBStorageDTO {
 	public ArrayList<CustomerDTO> customers;
 	public ArrayList<BookingDTO> bookings;
 	public ArrayList<DiscountDTO> discounts;
-
+	
+	
 	public DBStorageDTO() {
 		super();
 		this.hotels = new ArrayList<HotelDTO>();
@@ -110,7 +111,7 @@ public class DBStorageDTO {
 	public ArrayList<DiscountDTO> getAllDiscounts(){
 		return this.discounts;
 	}
-
+	
 	public RoomDTO findRoom(int id) {
 		for(HotelDTO h: hotels){
 			for(RoomDTO r: h.getRooms()){
@@ -121,4 +122,16 @@ public class DBStorageDTO {
 		}
 		return null;
 	}
+	
+	public ArrayList<BookingDTO> bookingsOnCustomer(int id){
+		ArrayList<BookingDTO> customerBookings  =  new ArrayList<BookingDTO>();
+		for( BookingDTO b : this.bookings){
+			if(b.getCustomerID() == id){
+				System.out.println(b.getCustomerID() + "   " + id);
+				customerBookings.add(b);
+			}
+		}
+		return customerBookings;
+	}
+	
 }

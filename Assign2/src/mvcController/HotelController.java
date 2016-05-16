@@ -211,6 +211,19 @@ public class HotelController extends HttpServlet {
 			 				System.out.println("----------------------------------d------------------------------------");			 				
 			 				System.out.println(d.getId() + " "+ d.getTypeOfRoom() + " " + d.getParentHotelID() + " " + d.getStartDate() + " " +d.getEndDate());
 			 			}
+			 			CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+			 			if(curr != null ){
+			 				
+			 			ArrayList<BookingDTO> tempSave5 = (ArrayList<BookingDTO>) request.getSession().getAttribute("shoppingCart");
+			 			for ( BookingDTO b : tempSave5 ){
+			 				System.out.println( b.getId() + " " + b.getStartDate() + " " + b.getEndDate() + " " + b.getCustomerID());
+			 				System.out.println("---------------------------------bSC-------------------------------------");
+			 				for(RoomDTO r : b.getAllRooms()){
+			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+			 				}
+			 			}
+			 			}
+			 			
 			 			//TESTING HOTELS WORKS
 			System.out.print("ERERERERERERERERERERERERERERERER");
 			request.setAttribute("randomRooms", getRandomRoomsHash() );
@@ -285,15 +298,17 @@ public class HotelController extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		nextPage="login.jsp";
+		
 		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
 			nextPage="home.jsp";
 			if(curr == null){
+				curr = isValid(username,password);
 				request.getSession().setAttribute("currUser", isValid(username,password));
 			}
 		}else{
 			request.setAttribute("loginError", true);
 		}
-
+		request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 		return nextPage;
 	}
 	
@@ -342,6 +357,7 @@ public class HotelController extends HttpServlet {
 		System.out.println("Fn: "+ curr.getFirst_name() );
 		database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
 		request.getSession().setAttribute("currUser", database.findCutomer(curr.getUser_name()));
+		
 	}
 	
 	
@@ -421,12 +437,10 @@ public class HotelController extends HttpServlet {
 
 		// Number of rooms check
 		if (resultList.size() < numberOfRooms) {
-			System.out.println("Number of results is less than the number of rooms required");
-		}
-
-		if (resultList.size() < numberOfRooms) {
 			resultList.clear();
 		}
+
+
 		return resultList;
 	}
 
@@ -495,6 +509,7 @@ public class HotelController extends HttpServlet {
 		}
 		return numberUnavaliable;
 	}
+	
 	private void bookRooms(HttpServletRequest request,
 			HttpServletResponse response) {
 		CustomerDTO currUser = (CustomerDTO) request.getSession().getAttribute("currUser");
