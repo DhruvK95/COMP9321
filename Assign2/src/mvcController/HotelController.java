@@ -19,6 +19,7 @@ import mvcModel.BookingDTO;
 import mvcModel.CustomerDTO;
 import mvcModel.DBStorageDTO;
 import mvcModel.DerbyDAOImpl;
+import mvcModel.DiscountDTO;
 import mvcModel.HotelDTO;
 import mvcModel.RoomDTO;
 
@@ -53,6 +54,8 @@ public class HotelController extends HttpServlet {
 			for(BookingDTO b : database.getAllBookings()){
 				database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
 			}
+			database.addAllDiscounts(cast.initDiscounts());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -177,7 +180,7 @@ public class HotelController extends HttpServlet {
 			 			ArrayList<HotelDTO> tempSave = database.getAllHotels();
 			 			for ( HotelDTO h : tempSave ){
 			 				System.out.println( h.getId() + " " + h.getHotelName() + " " + h.getLocation());
-			 				System.out.println("----------------------------------------------------------------------");
+			 				System.out.println("--------------------------------h--------------------------------------");
 			 				for( RoomDTO r : h.getRooms()){
 			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
 			 				}
@@ -186,16 +189,20 @@ public class HotelController extends HttpServlet {
 			 			ArrayList<CustomerDTO> tempSave2 = database.getAllCustomers();
 			 			for ( CustomerDTO c : tempSave2 ){
 			 				System.out.println( c.getId() + " " + c.getUser_name()+ " " + c.getPassword()+ " " + c.getFirst_name()+ " " + c.last_name+ " " + c.getEmail()+ " " + c.getAddress()+ " " + c.getCc_number()+ " " + c.getCc_name()+ " " + c.getCc_expiry());
-			 				System.out.println("----------------------------------------------------------------------");
+			 				System.out.println("--------------------------------c--------------------------------------");
 			 			}
 			 			ArrayList<BookingDTO> tempSave3 = database.getAllBookings();
 			 			for ( BookingDTO b : tempSave3 ){
 			 				System.out.println( b.getId() + " " + b.getStartDate() + " " + b.getEndDate() + " " + b.getCustomerID());
-			 				System.out.println("-------------s--------------------------------------------------------");
+			 				System.out.println("---------------------------------b-------------------------------------");
 			 				for(RoomDTO r : b.getAllRooms()){
 			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
 			 				}
-
+			 			}
+			 			ArrayList<DiscountDTO> tempSave4 = database.getAllDiscounts();
+			 			for ( DiscountDTO d : tempSave4 ){
+			 				System.out.println("----------------------------------d------------------------------------");			 				
+			 				System.out.println(d.getId() + " "+ d.getTypeOfRoom() + " " + d.getParentHotelID() + " " + d.getStartDate() + " " +d.getEndDate());
 			 			}
 			 			//TESTING HOTELS WORKS
 			System.out.print("ERERERERERERERERERERERERERERERER");

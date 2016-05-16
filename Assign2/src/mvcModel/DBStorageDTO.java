@@ -6,7 +6,8 @@ public class DBStorageDTO {
 	public ArrayList<HotelDTO> hotels;
 	public ArrayList<CustomerDTO> customers;
 	public ArrayList<BookingDTO> bookings;
-	
+	public ArrayList<DiscountDTO> discounts;
+
 	public DBStorageDTO() {
 		super();
 		this.hotels = new ArrayList<HotelDTO>();
@@ -88,5 +89,12 @@ public class DBStorageDTO {
 		return null;
 	}
 	
+	public void addAllDiscounts(ArrayList<DiscountDTO> aD){
+		this.discounts = aD;
+	}
+	
+	public ArrayList<DiscountDTO> getAllDiscounts(){
+		return this.discounts;
+	}
 
 }

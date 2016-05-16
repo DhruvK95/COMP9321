@@ -104,9 +104,9 @@ CREATE TABLE booking_on_rooms
 
 
 CREATE TABLE discount (
-  id              INT NOT NULL,
+  id              INT NOT NULL GENERATED ALWAYS AS IDENTITY,
   room_type_fk    INTEGER NOT NULL,
-  discount_price  INTEGER NOT NULL,
+  discount_price  FLOAT NOT NULL,
   hotel_fk        INTEGER NOT NULL,
   start_date      DATE NOT NULL,
   end_date        DATE NOT NULL,
@@ -115,6 +115,9 @@ CREATE TABLE discount (
   CONSTRAINT discount_HOTEL_ID_FK FOREIGN KEY (hotel_fk) REFERENCES hotel(id),
   PRIMARY KEY (id)
 );
+
+INSERT INTO discount VALUES (DEFAULT, 1, 30, 1, '2016-01-01', '2016-01-02');
+
 
 --two hotels in each city, suburb included in name
 INSERT INTO hotel VALUES (DEFAULT,'Parramatta Star ','Sydney');

@@ -192,6 +192,38 @@ public class DerbyDAOImpl  {
 		}
 		return hotelsMod;
 	}
+	
+	public ArrayList<DiscountDTO> initDiscounts(){
+		ArrayList<DiscountDTO> discounts = new ArrayList<DiscountDTO>();
+		try{
+			Statement stmnt = connection.createStatement();
+			String query_cast = "SELECT d.id, rt.name, d.discount_price, d.hotel_fk, d.start_date, d.end_date FROM discount d ,room_type rt WHERE d.room_type_fk=rt.id";
+			ResultSet res = stmnt.executeQuery(query_cast);
+			logger.info("The result set size is "+res.getFetchSize());
+			while(res.next()){
+				DiscountDTO currDiscount = new DiscountDTO();
+				currDiscount.setId(res.getInt("id"));
+				currDiscount.setTypeOfRoom(res.getString("name"));
+				currDiscount.setDiscountPercent(res.getFloat("discount_price"));
+				currDiscount.setParentHotelID(res.getInt("hotel_fk"));
+				currDiscount.setStartDate(res.getDate("start_date"));
+				currDiscount.setEndDate(res.getDate("end_date"));
+				
+				discounts.add(currDiscount);
+			}
+			res.close();
+			stmnt.close();
+			
+		}catch(Exception e){
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+		}
+		return discounts;
+	}
+
+	
+	
+	
 	//Check if valid uName and pass (Customers)
 	public boolean login(String user, String pass){
 		Statement stmnt;
