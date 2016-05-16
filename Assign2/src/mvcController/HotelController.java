@@ -296,8 +296,8 @@ public class HotelController extends HttpServlet {
 			cast.updateCustomer(curr.getUser_name(), "address", email);
 		}
 		if(ccNum != null && ccNum.length() > 0){
-			int ccInt = Integer.parseInt(ccNum);
-			cast.updateCustomer(curr.getUser_name(), "cc_number", ccNum);
+			int ccInt = Integer.parseInt(ccNum.trim());
+			cast.updateCustomer(curr.getUser_name(), "cc_number", ccInt);
 		}
 		if(ccNam != null && ccNam.length() > 0){
 			cast.updateCustomer(curr.getUser_name(), "cc_name", ccNam);
