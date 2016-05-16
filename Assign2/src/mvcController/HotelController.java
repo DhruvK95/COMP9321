@@ -1,6 +1,7 @@
 package mvcController;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,10 +19,10 @@ import mvcModel.BookingDTO;
 //import com.sun.tools.doclets.internal.toolkit.util.SourceToHTMLConverter;
 import mvcModel.CustomerDTO;
 import mvcModel.DBStorageDTO;
-import mvcModel.HotelRoomPair;
 import mvcModel.DerbyDAOImpl;
 import mvcModel.DiscountDTO;
 import mvcModel.HotelDTO;
+import mvcModel.HotelRoomPair;
 import mvcModel.RoomDTO;
 
 /**
@@ -189,7 +190,7 @@ public class HotelController extends HttpServlet {
 			 				System.out.println( h.getId() + " " + h.getHotelName() + " " + h.getLocation());
 			 				System.out.println("--------------------------------h--------------------------------------");
 			 				for( RoomDTO r : h.getRooms()){
-			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice() + " " + r.getAvailableStatus());
 			 				}
 
 			 			}

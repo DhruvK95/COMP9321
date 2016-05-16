@@ -189,7 +189,7 @@ public class DerbyDAOImpl  {
 		ArrayList<HotelDTO> hotelsMod = hotelsCurrent;
 		try{
 			Statement stmnt = connection.createStatement();
-			String query_cast = "SELECT r.id, r.hotel_fk, rt.price, rt.bedType, rt.numBeds , rt.name FROM room r, room_type rt, hotel h WHERE r.room_type_fk = rt.id AND r.hotel_fk=h.id";
+			String query_cast = "SELECT r.id, r.hotel_fk, r.room_Availability, rt.price, rt.bedType, rt.numBeds , rt.name FROM room r, room_type rt, hotel h WHERE r.room_type_fk = rt.id AND r.hotel_fk=h.id";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is "+res.getFetchSize());
 			while(res.next()){
@@ -200,7 +200,7 @@ public class DerbyDAOImpl  {
 				currRoom.setBedType(res.getBoolean("bedType"));
 				currRoom.setNumBeds(res.getInt("numBeds"));
 				currRoom.setName(res.getString("name"));
-				
+				currRoom.setAvailableStatus(res.getBoolean("room_Availability"));
 				
 				for ( HotelDTO hotel: hotelsMod){
 					if(hotel.getId() == currRoom.getParentHotelID()){
