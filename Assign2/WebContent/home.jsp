@@ -66,6 +66,29 @@
                 <br>
             </form>
         </div>
+        <%-- Special Deals section! --%>
+        <div class="row">
+            <br>
+            <h5>Special Deals</h5>
+            <hr>
+            <ul class="collection">
+                <li class="collection-item avatar">
+                    <i class="material-icons circle orange">star</i>
+                    <span class="title">Deal Title  - Hotel Syd</span>
+                    <p>This is a 100% Discount on Queen Rooms!!! <br>
+                        xD
+                    </p>
+                </li>
+                <li class="collection-item avatar">
+                    <i class="material-icons circle orange">star</i>
+                    <span class="title">Deal Title - Hotel Hobart</span>
+                    <p>This is a 100% Discount on Twin Rooms!!! <br>
+                        xD
+                    </p>
+                </li>
+            </ul>
+        </div>
+
 
         <%-- Featured rooms section below --%>
         <div class="section">
@@ -100,11 +123,7 @@
             </div>
         </c:forEach>
         <br>
-        <div class="row">
-            <br>
-            <h5>Special Deals</h5>
-            <hr>
-        </div>
+
     </div>
 
     <div class="col s12 m4 l2"><p></p></div>
