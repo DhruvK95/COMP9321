@@ -154,7 +154,7 @@ public class HotelController extends HttpServlet {
 
 				Integer numAvRooms = resultsMap.size() - getUnAvaliableRooms(resultsMap);
 
-				
+
 				request.setAttribute("numAvRooms", numAvRooms);
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
 				request.setAttribute("testHotelData",cast.allHotels());

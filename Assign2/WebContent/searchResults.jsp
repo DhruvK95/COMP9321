@@ -62,7 +62,6 @@
 	      						<input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}" value="${data.key.id}"/>
 	      						<label for="${data.key.id}">Book This Room</label>
 	    					</p>
-	                        <a href="#">This is a link</a>
 	                    </div>
 	                 </c:when>
 	                 <c:otherwise>
@@ -71,7 +70,6 @@
 						        <input type="checkbox" id="test8" disabled="disabled" />
 						        <label for="test8">Cant book this room, Unavailable!!</label>
 						    </p>
-	                        <a href="#">This is a link</a>
 	                    </div>
 	                 
 	                 </c:otherwise>
