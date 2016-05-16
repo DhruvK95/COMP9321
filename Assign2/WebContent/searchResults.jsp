@@ -24,6 +24,60 @@
     <div class="col s12"><p></p></div>
     <div class="col s12 m4 l2"><p></p></div>
     <div class="col s12 m4 l8"><p></p>
+
+        <%-- Search Pannel --%>
+        <div class="row">
+            <div class="section">
+                <h4 class="header">Search for Rooms </h4>
+                
+                <br> Refine your criteria or run a new search.
+                <hr>
+                <form class="col s12" action="home" method="post">
+                    <div class="row">
+                        <div class="section input-field col s6">
+                            <input id="check_in_date" name="check_in_date" type="date" name="check_in_date"
+                                   class="datepicker">
+                            <label for="check_in_date">Check In Date</label>
+                        </div>
+                        <div class="section input-field col s6">
+                            <input id="check_out_date" type="date" name="check_out_date" name="check_out_date" class="datepicker">
+                            <label for="check_out_date">Check Out Date</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select name="city" required>
+                                <option value="" disabled selected>Choose a City</option>
+                                <option value="Sydney">Sydney</option>
+                                <option value="Brisbane">Brisbane</option>
+                                <option value="Melbourne">Melbourne</option>
+                                <option value="Perth">Perth</option>
+                                <option value="Adelaide">Adelaide</option>
+                                <option value="Hobart">Hobart</option>
+                            </select>
+                            <label>Select City</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="max_price" type="number" name="max_price" class="validate">
+                            <label for="max_price">Max Price</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="number_of_rooms" type="number" name="number_of_rooms" class="validate" required>
+                            <label for="number_of_rooms">Number of Rooms</label>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="action" value="roomSearch" />
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Search
+                        <i class="material-icons right">search</i>
+                    </button>
+                    <br>
+                    <br>
+                </form>
+            </div>
+
+        </div>
+
         <div class="section row">
             <h4 class="header">Search Results </h4>
             <hr>
@@ -90,11 +144,21 @@
             <button class="btn waves-effect waves-light" type="submit" name="action" value="Yes">Book Selected Rooms
                 <i class="material-icons right">today</i>
             </button>
-        </c:otherwise>
-        </c:choose>
+            </c:otherwise>
+            </c:choose>
     </div>
     </form>
     <div class="col s12 m4 l2"><p></p></div>
 </div>
 </body>
+<script>
+    $('.datepicker').pickadate({
+        format: 'dd/mm/yyyy',
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 5 // Creates a dropdown of 15 years to control year
+    });
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
 </html>
