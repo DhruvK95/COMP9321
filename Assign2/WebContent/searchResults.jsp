@@ -29,12 +29,12 @@
             <hr>
         </div>
         <form action="home" method="POST">
-        
-        <c:forEach items="${searchRooms}" var="data">
-            <div class="col s6">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="
+
+            <c:forEach items="${searchRooms}" var="data">
+                <div class="col s6">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="
                         <c:choose>
                             <c:when test="${data.key.name == 'Single'}">${pageContext.request.contextPath}/static/Single.jpg</c:when>
                             <c:when test="${data.key.name == 'Twin'}">${pageContext.request.contextPath}/static/Twin.jpg</c:when>
@@ -43,44 +43,48 @@
                             <c:when test="${data.key.name == 'Suite'}">${pageContext.request.contextPath}/static/Suite.jpg</c:when>
                         </c:choose>
                     ">
-                        <span class="card-title"><c:out value="${data.value.hotelName}"/> - <c:out value="${data.key.name}"/> Room</span>
+                            <span class="card-title"><c:out value="${data.value.hotelName}"/> - <c:out value="${data.key.name}"/> Room</span>
+                        </div>
+                        <div class="card-content">
+
+                            <p>
+                                <c:out value="${data.value.location}"/>
+                                <br> $ <c:out value="${data.key.price}"/> Per Night
+                            </p>
+                        </div>
+
+                        <input type="hidden" name="action" value="bookingSubmit" />
+                        <c:choose>
+                            <c:when test="${data.key.availableStatus}">
+
+                                <div class="card-action" style="background-color: #ccffdd">
+                                    <p>
+                                        <input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}" value="${data.key.id}"/>
+                                        <label for="${data.key.id}">Book This Room</label>
+                                    </p>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="card-action" style="background-color: #ffb3b3">
+                                    <p>
+                                        <input type="checkbox" id="test8" disabled="disabled" />
+                                        <label for="test8">Cant book this room, Unavailable!!</label>
+                                    </p>
+                                </div>
+
+                            </c:otherwise>
+                        </c:choose>
                     </div>
-                    <div class="card-content">
-                   
-                        <p>
-                            <c:out value="${data.value.location}"/>
-                            <br> $ <c:out value="${data.key.price}"/> Per Night
-                        </p>
-                    </div>                    	
-                    
-                    <input type="hidden" name="action" value="bookingSubmit" />
-                    <c:choose>
-  					<c:when test="${data.key.availableStatus}">
-  					
-	                    <div class="card-action" style="background-color: #ccffdd">
-	                    	<p>
-	      						<input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}" value="${data.key.id}"/>
-	      						<label for="${data.key.id}">Book This Room</label>
-	    					</p>
-	                    </div>
-	                 </c:when>
-	                 <c:otherwise>
-	                 	<div class="card-action" style="background-color: #ffb3b3">
-	                    	<p>
-						        <input type="checkbox" id="test8" disabled="disabled" />
-						        <label for="test8">Cant book this room, Unavailable!!</label>
-						    </p>
-	                    </div>
-	                 
-	                 </c:otherwise>
-	                 </c:choose>
                 </div>
+            </c:forEach>
+            <div class="row">
+                <button class="btn waves-effect waves-light" type="submit" name="action" value="Yes">Book Selected Rooms
+                    <i class="material-icons right">today</i>
+                </button>
             </div>
-        </c:forEach>
+        </form>
     </div>
     <div class="col s12 m4 l2"><p></p></div>
 </div>
-		<input type="submit" value="Yes" />
-		</form>
 </body>
 </html>
