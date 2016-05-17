@@ -165,13 +165,19 @@
 			<div class="row">
 				<blockquote> Total $ <c:out value="${finalPrice}"/></blockquote>
 			</div>
+			<form  action="home" method="post">
+				<input type="hidden" name="action" value="confirmCheckOut" />
+				<button class="btn waves-effect waves-light green" type="submit">Confirm AND Email
+					<i class="material-icons right">credit_card</i>
+				</button>
+			</form>
         </div>
     </div>
 	
     <div class="col s12 m4 l2"><p></p></div>
 
 
-
+	
 </form>
 
 </body>
