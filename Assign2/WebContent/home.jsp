@@ -116,9 +116,12 @@
                             <br> $ <c:out value="${data.key.price}"/> Per Night
                         </p>
                     </div>
+                    <c:if test="${empty sessionScope.currUser.getUser_name()}">
                     <div class="card-action">
-                        <a href="/login">Sign-up/Sign-In</a>
+                        <a href="login">Sign-up/Sign-In</a>
                     </div>
+					</c:if>
+					
                 </div>
             </div>
         </c:forEach>
