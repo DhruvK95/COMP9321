@@ -185,8 +185,16 @@ public class HotelController extends HttpServlet {
 				String[] checkboxes = request.getParameterValues("roomsBookingsOptions");
 				System.out.println(Arrays.toString(checkboxes));
 				bookRooms(request,response);
+				
 				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+				
+				database.addAllCustomers(cast.initCustomers());
+				database.addAllBookings(cast.initBookings());
+				for(BookingDTO b : database.getAllBookings()){
+					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+				}
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
+				
 				nextPage="shoppingCart.jsp";
 			}
 
@@ -530,6 +538,7 @@ public class HotelController extends HttpServlet {
 			newBooking.addRoomToBookings(r);
 			//DAO adds Booking to room
 			cast.bookRoom(r.getId(),newBooking.getId());
+			database.addToBookings(newBooking);
 		}
 		System.out.println(newBooking.getId());
 	}
