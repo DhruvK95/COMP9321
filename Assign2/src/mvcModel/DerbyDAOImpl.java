@@ -379,8 +379,20 @@ public class DerbyDAOImpl  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+	}
+	
+	public void removeRoomFromBooking(int roomToRemoveID, int bookingIDofRoom){
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "DELETE FROM booking_on_rooms bor WHERE booking_fk=" + bookingIDofRoom + "AND room_fk=" + roomToRemoveID;
+			System.out.println(query_cast);
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

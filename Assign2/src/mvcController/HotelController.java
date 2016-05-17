@@ -196,6 +196,22 @@ public class HotelController extends HttpServlet {
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 				
 				nextPage="shoppingCart.jsp";
+			}else if(action.equals("removeRoomFromCart")){
+				String roomToRemoveID = request.getParameter("roomToRemoveID");
+				String roomToRemoveBooking = request.getParameter("roomToRemoveBooking");
+				System.out.println(roomToRemoveID);
+				System.out.println(roomToRemoveBooking);
+				cast.removeRoomFromBooking( Integer.parseInt(roomToRemoveID), Integer.parseInt(roomToRemoveBooking));
+				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+				database.addAllCustomers(cast.initCustomers());
+				database.addAllBookings(cast.initBookings());
+				for(BookingDTO b : database.getAllBookings()){
+					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+				}
+				
+				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
+
+				nextPage="shoppingCart.jsp";				
 			}
 
 		}else{
