@@ -185,7 +185,7 @@ public class HotelController extends HttpServlet {
 				String[] checkboxes = request.getParameterValues("roomsBookingsOptions");
 				System.out.println(Arrays.toString(checkboxes));
 				bookRooms(request,response);
-				nextPage="bookingResults.jsp";
+				nextPage="shoppingCart.jsp";
 			}
 
 		}else{
