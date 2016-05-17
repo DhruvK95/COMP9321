@@ -338,7 +338,7 @@ public class HotelController extends HttpServlet {
 		nextPage="login.jsp";
 		
 		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
-			nextPage="home.jsp";
+			nextPage="profile.jsp";
 			if(curr == null){
 				curr = isValid(username,password);
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
