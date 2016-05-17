@@ -413,13 +413,17 @@ public class HotelController extends HttpServlet {
 		String ccNam = request.getParameter("cc_name");
 		String ccExp = request.getParameter("cc_expiry");
 		if(user != null && !userExists(user) && pass!= null &&
-				fName != null && lName != null && email != null && addr != null
-				&& ccNam != null && ccExp != null){
+				fName != null && email != null){
 			System.out.println("about to add new user");
-			cast.addUser(user, pass, fName, lName, email, addr,
-					Integer.parseInt(ccNum), ccNam, ccExp);
+			cast.addUser(user, pass, fName, email);
 			database.refreshCustomer(cast.getCustomer(user));
 			SendEmail verificationMail = new SendEmail(user,email,request);
+			if(lName.length()>0) cast.updateCustomer(user, "last_name", lName);
+			if(addr.length()>0) cast.updateCustomer(user, "address", addr);
+			if(ccNum.length()>0) cast.updateCustomer(user, "cc_number", Integer.parseInt(ccNum.trim()));
+			if(ccNam.length()>0) cast.updateCustomer(user, "cc_name", ccNam);
+			if(ccExp.length()>0) cast.updateCustomer(user, "cc_expiry", ccExp);
+			
 		}
 
 	}
