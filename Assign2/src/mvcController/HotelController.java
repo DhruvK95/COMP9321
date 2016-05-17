@@ -185,6 +185,8 @@ public class HotelController extends HttpServlet {
 				String[] checkboxes = request.getParameterValues("roomsBookingsOptions");
 				System.out.println(Arrays.toString(checkboxes));
 				bookRooms(request,response);
+				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 				nextPage="shoppingCart.jsp";
 			}
 
