@@ -67,7 +67,7 @@
     <servlet-name>shoppingCart</servlet-name>
     <url-pattern>/shoppingCart</url-pattern>
   </servlet-mapping>
-
+  
   <servlet>
     <servlet-name>checkout</servlet-name>
     <jsp-file>/checkout.jsp</jsp-file>

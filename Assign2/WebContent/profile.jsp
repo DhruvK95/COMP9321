@@ -57,7 +57,7 @@
             </div>
             <div class="input-field col s12">
                 <input id="cc_number" type="text" name="cc_number" class="validate" >
-                <label for="cc_number"><c:out value="Credit Card number" /></label>
+                <label for="cc_number"><c:out value="Credit Card number" /></label>            
             </div>
             <div class="input-field col s12">
                 <input id="cc_name" type="text" name="cc_name" class="validate" >

@@ -85,6 +85,7 @@ public class DBStorageDTO {
 						for(BookingDTO b: bookings ){
 							if(b.getId() == id){
 								b.addRoomToBookings(r);
+								b.getExtraBedCheck().put(r.getId(), false);
 							}
 						}
 					}

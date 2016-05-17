@@ -48,6 +48,7 @@ public class HotelController extends HttpServlet {
 			database.addAllBookings(cast.initBookings());
 			for(BookingDTO b : database.getAllBookings()){
 				database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+			
 			}
 			database.addAllDiscounts(cast.initDiscounts());
 			
@@ -216,6 +217,7 @@ public class HotelController extends HttpServlet {
 				database.addAllBookings(cast.initBookings());
 				for(BookingDTO b : database.getAllBookings()){
 					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+					
 				}
 				
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
@@ -223,6 +225,26 @@ public class HotelController extends HttpServlet {
 				nextPage="shoppingCart.jsp";
 			} else if (action.equals("toCheckout")) {
 				nextPage = "checkout.jsp";
+			
+			}else if(action.equals("addBed") || action.equals("removeBed")){
+				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+				for(BookingDTO b : database.getAllBookings()){
+					if(b.getId() ==  Integer.parseInt((request.getParameter("removeExtraBedBookingID")))){
+						if(action.equals("addBed")){
+							b.getExtraBedCheck().put(Integer.parseInt(request.getParameter("removeExtraBedID")), true);
+							cast.addExtraBed(Integer.parseInt(request.getParameter("removeExtraBedBookingID")), Integer.parseInt(request.getParameter("removeExtraBedID")), true);
+						}else if(action.equals("removeBed")){
+							b.getExtraBedCheck().put(Integer.parseInt(request.getParameter("removeExtraBedID")), false);
+							cast.addExtraBed(Integer.parseInt(request.getParameter("removeExtraBedBookingID")), Integer.parseInt(request.getParameter("removeExtraBedID")), false);
+
+						}
+					}
+				}
+				
+				
+				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
+
+				nextPage="shoppingCart.jsp";		
 			}
 
 		}else{
@@ -247,7 +269,7 @@ public class HotelController extends HttpServlet {
 			 				System.out.println( b.getId() + " " + b.getStartDate() + " " + b.getEndDate() + " " + b.getCustomerID());
 			 				System.out.println("---------------------------------b-------------------------------------");
 			 				for(RoomDTO r : b.getAllRooms()){
-			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice() + " " + b.getExtraBedCheck().get(r.getId()));
 			 				}
 			 			}
 			 			ArrayList<DiscountDTO> tempSave4 = database.getAllDiscounts();

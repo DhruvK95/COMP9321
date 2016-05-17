@@ -2,6 +2,8 @@ package mvcModel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BookingDTO {
 	public int id;
@@ -10,12 +12,15 @@ public class BookingDTO {
 	public Date endDate;
 	public Boolean checkedIn;
 	public ArrayList<RoomDTO> roomsInBooking;
+	public Map<Integer,Boolean> extraBedCheck; 
+	
 
 	public BookingDTO() {
 		super();
 		startDate = new Date();
 		endDate = new Date();
 		roomsInBooking = new ArrayList<RoomDTO>();
+		extraBedCheck = new HashMap<Integer,Boolean>();
 	}
 
 	public int getId() {
@@ -66,7 +71,13 @@ public class BookingDTO {
 		return this.roomsInBooking;
 	}
 
+	public Map<Integer, Boolean> getExtraBedCheck() {
+		return extraBedCheck;
+	}
 
+	public void setExtraBedCheck(Map<Integer, Boolean> extraBedCheck) {
+		this.extraBedCheck = extraBedCheck;
+	}
 
 
 }
