@@ -216,7 +216,9 @@ public class HotelController extends HttpServlet {
 				}
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 
-				nextPage="shoppingCart.jsp";				
+				nextPage="shoppingCart.jsp";
+			} else if (action.equals("toCheckout")) {
+				nextPage = "checkout.jsp";
 			}
 
 		}else{

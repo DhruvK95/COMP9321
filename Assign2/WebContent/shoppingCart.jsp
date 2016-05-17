@@ -80,6 +80,14 @@
 		<div class="row">
 			<blockquote> Total $ <c:out value="${sum}"/> per night </blockquote>
 		</div>
+		<div class="row">
+			<form  action="home" method="post">
+				<input type="hidden" name="action" value="toCheckout" />
+				<button class="waves-effect waves-light green" type="submit">Checkout
+					<i class="material-icons right">credit_card</i>
+				</button>
+			</form>
+		</div>
 	</div>
 </div>
 
