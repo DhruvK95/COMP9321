@@ -348,13 +348,13 @@ public class DerbyDAOImpl  {
 
 	}
 
-	public int newBooking(String start, String end, int customer){
+	public int newBooking(String start, String end, int customer, boolean checkedIn){
 		Statement stmnt;
 		int genKey = -1;
 		try {
 			stmnt = connection.createStatement();
 			String query_cast = "INSERT INTO booking VALUES (DEFAULT, '"+
-					start+"','"+end+"',"+customer+" )";
+					start+"','"+end+"',"+customer+ ","+ checkedIn + " )";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast, stmnt.RETURN_GENERATED_KEYS);
 			ResultSet rs = stmnt.getGeneratedKeys();

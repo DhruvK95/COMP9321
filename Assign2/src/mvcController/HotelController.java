@@ -252,14 +252,14 @@ public class HotelController extends HttpServlet {
 			 			CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
 			 			if(curr != null ){
 			 				
-			 			ArrayList<BookingDTO> tempSave5 = (ArrayList<BookingDTO>) request.getSession().getAttribute("shoppingCart");
-			 			for ( BookingDTO b : tempSave5 ){
-			 				System.out.println( b.getId() + " " + b.getStartDate() + " " + b.getEndDate() + " " + b.getCustomerID());
-			 				System.out.println("---------------------------------bSC-------------------------------------");
-			 				for(RoomDTO r : b.getAllRooms()){
-			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
-			 				}
-			 			}
+//			 			ArrayList<BookingDTO> tempSave5 = (ArrayList<BookingDTO>) request.getSession().getAttribute("shoppingCart");
+//			 			for ( BookingDTO b : tempSave5 ){
+//			 				System.out.println( b.getId() + " " + b.getStartDate() + " " + b.getEndDate() + " " + b.getCustomerID());
+//			 				System.out.println("---------------------------------bSC-------------------------------------");
+//			 				for(RoomDTO r : b.getAllRooms()){
+//			 					System.out.println( "      " + r.getName() + " " + r.getId()+ " " +r.getNumBeds()+ " " +r.getParentHotelID()+ " " +r.getPrice());
+//			 				}
+//			 			}
 			 			}
 			 			
 			 			//TESTING HOTELS WORKS
@@ -552,7 +552,7 @@ public class HotelController extends HttpServlet {
 		String[] roomIDs = request.getParameterValues("roomsBookingsOptions");
 		//DAO makes the booking
 		System.out.println("DDD " + request.getParameter("startDateSQL") +  request.getParameter("endDateSQL"));
-		newBooking.setId(cast.newBooking(request.getParameter("startDateSQL"), request.getParameter("endDateSQL"), currUser.getId()));
+		newBooking.setId(cast.newBooking(request.getParameter("startDateSQL"), request.getParameter("endDateSQL"), currUser.getId(), false));
 		for(String roomID:roomIDs){
 			int id = Integer.parseInt(roomID.trim());
 			RoomDTO r = database.findRoom(id);
