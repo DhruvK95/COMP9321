@@ -28,7 +28,7 @@
             <br>
             <p class="text-right">Details for CheckOut</p>
             <c:choose>
-                <c:when test="${empty sessionScope.currUser.getCc_name() || empty sessionScope.currUser.getCc_number}">
+                <c:when test="${empty sessionScope.currUser.getCc_name()}">
                     <h5 style="color:orange;"> Please fill in these fields to Checkout </h5>
                     <form class="col s12" action="home" method="post">
                         <div class="row">
