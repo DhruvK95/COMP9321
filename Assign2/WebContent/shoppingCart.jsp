@@ -32,6 +32,16 @@
 					<li class="collection-item avatar">
 						<i class="material-icons circle green">vpn_key</i>
                     <span class="title">
+                    
+                    <form  action="home" method="post">
+                    <input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
+                    <input type="hidden" name="roomToRemoveBooking" value="${data.id}" />                    
+                    <input type="hidden" name="action" value="removeRoomFromCart" />                    
+            		<button class="btn waves-effect waves-light" type="submit">Remove This Room
+                		<i class="material-icons right">send</i>
+            		</button>
+        			</form>
+        			
 					<c:out value="${rooms.name}"/> Room in
 					<fmt:parseNumber var="i" type="number" value="${rooms.price}" />
 						<br>
