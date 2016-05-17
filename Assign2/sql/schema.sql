@@ -31,7 +31,7 @@ CREATE TABLE customer (
   password  		VARCHAR(40) NOT NULL,
   first_name		VARCHAR(20) NOT NULL,
   last_name			VARCHAR(20),
-  email					VARCHAR(100),
+  email					VARCHAR(100) NOT NULL,
   address				VARCHAR(200),
   cc_number   	INTEGER,
   cc_name				VARCHAR(40),
