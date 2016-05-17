@@ -32,7 +32,7 @@
 					<li class="collection-item avatar">
 						<i class="material-icons circle green">vpn_key</i>
                     <span class="title">
-					<c:out value="${rooms.name}"/> Room
+					<c:out value="${rooms.name}"/> Room in
 					<fmt:parseNumber var="i" type="number" value="${rooms.price}" />
 						<br>
 					$ <c:out value="${i}"/> per night
@@ -40,11 +40,12 @@
 				</c:forEach>
 			</ul>
 		</c:forEach>
-	</div>
-	<div class="row">
-		Total $ <c:out value="${sum}"/> per night
+		<div class="row">
+			<blockquote> Total $ <c:out value="${sum}"/> per night </blockquote>
+		</div>
 	</div>
 </div>
+
 <div class="col s12 m4 l2"><p></p></div>
 
 </body>
