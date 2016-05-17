@@ -187,8 +187,6 @@ public class HotelController extends HttpServlet {
 				bookRooms(request,response);
 				
 				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
-				
-				database.addAllCustomers(cast.initCustomers());
 				database.addAllBookings(cast.initBookings());
 				for(BookingDTO b : database.getAllBookings()){
 					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
@@ -203,12 +201,19 @@ public class HotelController extends HttpServlet {
 				System.out.println(roomToRemoveBooking);
 				cast.removeRoomFromBooking( Integer.parseInt(roomToRemoveID), Integer.parseInt(roomToRemoveBooking));
 				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
-				database.addAllCustomers(cast.initCustomers());
 				database.addAllBookings(cast.initBookings());
 				for(BookingDTO b : database.getAllBookings()){
 					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
 				}
-				
+				for (BookingDTO b: database.getAllBookings()){
+					if(b.getId() == Integer.parseInt(roomToRemoveBooking)){
+						cast.removeTotalBooking(Integer.parseInt(roomToRemoveBooking));
+					}
+				}
+				database.addAllBookings(cast.initBookings());
+				for(BookingDTO b : database.getAllBookings()){
+					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+				}
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 
 				nextPage="shoppingCart.jsp";				
