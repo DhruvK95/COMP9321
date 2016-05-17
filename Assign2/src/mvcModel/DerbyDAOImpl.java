@@ -7,20 +7,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-/**this can be used to 
+/**this can be used to
  * insert
  * update
  * search
  * and all other sql operations
  * once sql is sorted initate all datatypes of table
  * ie hotel, user etc
- * 
+ *
  */
 public class DerbyDAOImpl  {
 
 	static Logger logger = Logger.getLogger(DerbyDAOImpl.class.getName());
 	private Connection connection;
-	
+
 	public DerbyDAOImpl() throws SQLException{
 		connection = DBConnectionFactory.getConnection();
 		logger.info("Got connection");
@@ -39,17 +39,17 @@ public class DerbyDAOImpl  {
 			}
 			res.close();
 			stmnt.close();
-			
+
 		}catch(Exception e){
 			System.out.println("Caught Exception");
 			e.printStackTrace();
 		}
 		return cast;
 	}
-	
+
 	//gets all hotels and puts them in a hotel arraylist
 	public ArrayList<HotelDTO> initHotels(){
-		
+
 		ArrayList<HotelDTO> hotels = new ArrayList<HotelDTO>();
 		try{
 			Statement stmnt = connection.createStatement();
@@ -65,39 +65,40 @@ public class DerbyDAOImpl  {
 			}
 			res.close();
 			stmnt.close();
-			
+
 		}catch(Exception e){
 			System.out.println("Caught Exception");
 			e.printStackTrace();
 		}
 		return hotels;
 	}
-	
+
 	//gets all bookings and returns them in an arraylist
 	public ArrayList<BookingDTO> initBookings(){
-			ArrayList<BookingDTO> bookings = new ArrayList<BookingDTO>();
-			try{
-				Statement stmnt = connection.createStatement();
-				String query_cast = "SELECT id,start_date,end_date,customer_fk FROM booking";
-				ResultSet res = stmnt.executeQuery(query_cast);
-				logger.info("The result set size is "+res.getFetchSize());
-				while(res.next()){
-					BookingDTO currBooking = new BookingDTO();
-					currBooking.setId(res.getInt("id"));
-					currBooking.setStartDate(res.getDate("start_date"));
-					currBooking.setEndDate(res.getDate("end_date"));
-					currBooking.setCustomerID(res.getInt("customer_fk"));
-					bookings.add(currBooking);
-					logger.info("booking loaded with customerID:(" + ") " + currBooking.getStartDate() + "->" + currBooking.getEndDate());
-				}
-				res.close();
-				stmnt.close();
-				
-			}catch(Exception e){
-				System.out.println("Caught Exception");
-				e.printStackTrace();
+		ArrayList<BookingDTO> bookings = new ArrayList<BookingDTO>();
+		try{
+			Statement stmnt = connection.createStatement();
+			String query_cast = "SELECT id,start_date,end_date,customer_fk,checked_in FROM booking";
+			ResultSet res = stmnt.executeQuery(query_cast);
+			logger.info("The result set size is "+res.getFetchSize());
+			while(res.next()){
+				BookingDTO currBooking = new BookingDTO();
+				currBooking.setId(res.getInt("id"));
+				currBooking.setStartDate(res.getDate("start_date"));
+				currBooking.setEndDate(res.getDate("end_date"));
+				currBooking.setCustomerID(res.getInt("customer_fk"));
+				currBooking.setCheckedIn(res.getBoolean("checked_in"));
+				bookings.add(currBooking);
+				logger.info("booking loaded with customerID:(" + ") " + currBooking.getStartDate() + "->" + currBooking.getEndDate());
 			}
-			return bookings;
+			res.close();
+			stmnt.close();
+
+		}catch(Exception e){
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+		}
+		return bookings;
 	}
 
 
@@ -114,22 +115,22 @@ public class DerbyDAOImpl  {
 			}
 			res.close();
 			stmnt.close();
-			
+
 		}catch(Exception e){
 			System.out.println("Caught Exception");
 			e.printStackTrace();
 		}
-		
+
 		return roomIDs;
-		
-		
+
+
 	}
 
 	public ArrayList<StaffDTO> initStaff(){
 		ArrayList<StaffDTO> staff = new ArrayList<StaffDTO>();
 		try{
 			Statement stmnt = connection.createStatement();
-			String query_cast = "SELECT id,first_name,last_name,username,password,is_owner FROM staff";
+			String query_cast = "SELECT id,first_name,last_name,username,password,is_owner,hotel_fk FROM staff";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is "+res.getFetchSize());
 			while(res.next()){
@@ -140,18 +141,19 @@ public class DerbyDAOImpl  {
 				currStaff.setUsername(res.getString("username"));
 				currStaff.setPassword(res.getString("password"));
 				currStaff.setIsOwner(res.getBoolean("is_owner"));
+				currStaff.setHotelID(res.getInt("hotel_fk"));
 				staff.add(currStaff);
 			}
 			res.close();
 			stmnt.close();
-			
+
 		}catch(Exception e){
 			System.out.println("Caught Exception");
 			e.printStackTrace();
 		}
 		return staff;
-	}	
-	
+	}
+
 	public ArrayList<CustomerDTO> initCustomers(){
 		ArrayList<CustomerDTO> customers = new ArrayList<CustomerDTO>();
 		try{
@@ -176,20 +178,20 @@ public class DerbyDAOImpl  {
 			}
 			res.close();
 			stmnt.close();
-			
+
 		}catch(Exception e){
 			System.out.println("Caught Exception");
 			e.printStackTrace();
 		}
 		return customers;
 	}
-	
+
 	//initialise rooms inside of the hotel, for all hotels
 	public ArrayList<HotelDTO> initRooms(ArrayList<HotelDTO> hotelsCurrent){
 		ArrayList<HotelDTO> hotelsMod = hotelsCurrent;
 		try{
 			Statement stmnt = connection.createStatement();
-			String query_cast = "SELECT r.id, r.hotel_fk, r.room_Availability, rt.price, rt.bedType, rt.numBeds , rt.name FROM room r, room_type rt, hotel h WHERE r.room_type_fk = rt.id AND r.hotel_fk=h.id";
+			String query_cast = "SELECT r.id, r.hotel_fk, r.room_Availability, r.checked_in, rt.price, rt.bedType, rt.numBeds , rt.name FROM room r, room_type rt, hotel h WHERE r.room_type_fk = rt.id AND r.hotel_fk=h.id";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is "+res.getFetchSize());
 			while(res.next()){
@@ -201,7 +203,8 @@ public class DerbyDAOImpl  {
 				currRoom.setNumBeds(res.getInt("numBeds"));
 				currRoom.setName(res.getString("name"));
 				currRoom.setAvailableStatus(res.getBoolean("room_Availability"));
-				
+				currRoom.setCheckedIn(res.getBoolean("checked_in"));
+
 				for ( HotelDTO hotel: hotelsMod){
 					if(hotel.getId() == currRoom.getParentHotelID()){
 						hotel.addToRooms(currRoom);
@@ -211,14 +214,14 @@ public class DerbyDAOImpl  {
 			}
 			res.close();
 			stmnt.close();
-			
+
 		}catch(Exception e){
 			System.out.println("Caught Exception");
 			e.printStackTrace();
 		}
 		return hotelsMod;
 	}
-	
+
 	public ArrayList<DiscountDTO> initDiscounts(){
 		ArrayList<DiscountDTO> discounts = new ArrayList<DiscountDTO>();
 		try{
@@ -234,12 +237,12 @@ public class DerbyDAOImpl  {
 				currDiscount.setParentHotelID(res.getInt("hotel_fk"));
 				currDiscount.setStartDate(res.getDate("start_date"));
 				currDiscount.setEndDate(res.getDate("end_date"));
-				
+
 				discounts.add(currDiscount);
 			}
 			res.close();
 			stmnt.close();
-			
+
 		}catch(Exception e){
 			System.out.println("Caught Exception");
 			e.printStackTrace();
@@ -247,20 +250,20 @@ public class DerbyDAOImpl  {
 		return discounts;
 	}
 
-	
-	
-	
+
+
+
 	//Check if valid uName and pass (Customers)
 	public boolean login(String user, String pass){
 		Statement stmnt;
 		int r = 0;
 		try {
 			stmnt = connection.createStatement();
-			String query_cast = 
+			String query_cast =
 					"SELECT count(*) FROM customer WHERE user_name='"+user+"'"+"AND password='"+pass+"'";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			if(res.next()){
-				r = res.getInt(1);		
+				r = res.getInt(1);
 			}
 			res.close();
 			stmnt.close();
@@ -268,10 +271,10 @@ public class DerbyDAOImpl  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return r == 1;
 	}
-	
+
 	public CustomerDTO getCustomer(String user){
 		Statement stmnt;
 		CustomerDTO c = new CustomerDTO();
@@ -298,7 +301,7 @@ public class DerbyDAOImpl  {
 		}
 		return c;
 	}
-	
+
 	public void updateCustomer(String user, String field, String update){
 		Statement stmnt;
 		try {
@@ -311,21 +314,21 @@ public class DerbyDAOImpl  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 	public void updateCustomer(String user, String field, int update){
 		Statement stmnt;
 		try {
 			stmnt = connection.createStatement();
 			String query_cast = "UPDATE customer SET " + field + " = "
-					 +update+" WHERE user_name = '" + user +"'";
+					+update+" WHERE user_name = '" + user +"'";
 			stmnt.executeUpdate(query_cast);
 			stmnt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 	public void addUser(String user, String pass, String fName, String lName,
 			String email, String addr, int ccNum, String ccNam, String ccExp) {
@@ -333,7 +336,7 @@ public class DerbyDAOImpl  {
 		try {
 			stmnt = connection.createStatement();
 			String query_cast = "INSERT INTO customer VALUES (DEFAULT, '"+
-			user+"','"+pass+"','"+fName+"','"+lName+"','"+email+"','"+addr+"',"
+					user+"','"+pass+"','"+fName+"','"+lName+"','"+email+"','"+addr+"',"
 					+ccNum+",'"+ccNam+"','"+ccExp+"',false )";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast);
@@ -342,16 +345,16 @@ public class DerbyDAOImpl  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public int newBooking(String start, String end, int customer){
 		Statement stmnt;
 		int genKey = -1;
 		try {
 			stmnt = connection.createStatement();
 			String query_cast = "INSERT INTO booking VALUES (DEFAULT, '"+
-			start+"','"+end+"',"+customer+" )";
+					start+"','"+end+"',"+customer+" )";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast, stmnt.RETURN_GENERATED_KEYS);
 			ResultSet rs = stmnt.getGeneratedKeys();
@@ -365,7 +368,7 @@ public class DerbyDAOImpl  {
 		}
 		return genKey;
 	}
-	
+
 	public void bookRoom(int rID, int bID) {
 		Statement stmnt;
 		try {
@@ -379,10 +382,10 @@ public class DerbyDAOImpl  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
-	
+
 }
-	
+
 

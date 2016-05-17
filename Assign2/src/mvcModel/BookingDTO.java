@@ -8,15 +8,16 @@ public class BookingDTO {
 	public int customerID;
 	public Date startDate;
 	public Date endDate;
+	public Boolean checkedIn;
 	public ArrayList<RoomDTO> roomsInBooking;
-	
+
 	public BookingDTO() {
 		super();
 		startDate = new Date();
 		endDate = new Date();
 		roomsInBooking = new ArrayList<RoomDTO>();
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -32,32 +33,40 @@ public class BookingDTO {
 	public void setCustomerID(int customerID) {
 		this.customerID = customerID;
 	}
-	
+
 	public Date getStartDate() {
 		return startDate;
 	}
 	public void setStartDate(Date c) {
 		startDate = c;
 	}
-	
+
 	public Date getEndDate() {
 		return endDate;
 	}
 	public void setEndDate(Date c) {
 		endDate = c;
 	}
+	public Boolean getCheckedIn() {
+		return checkedIn;
+	}
+
+	public void setCheckedIn(Boolean checkedIn) {
+		this.checkedIn = checkedIn;
+	}
+
 	public void addRoomToBookings(RoomDTO r){
-		roomsInBooking.add(r);		
+		roomsInBooking.add(r);
 	}
 	public void addAllRoomsBookings(ArrayList<RoomDTO> aR){
-		roomsInBooking.addAll(aR);		
+		roomsInBooking.addAll(aR);
 	}
-	
+
 	public ArrayList<RoomDTO> getAllRooms(){
 		return this.roomsInBooking;
 	}
-	
-	
-	
-	
+
+
+
+
 }

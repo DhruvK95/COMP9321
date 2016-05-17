@@ -11,13 +11,14 @@ package mvcModel;
 //);
 
 public class StaffDTO {
-	private int id;
-	private String first_name;
-	private String last_name;
-	private String username;
-	private String password;
-	private Boolean is_owner;
-	
+	public int id;
+	public String first_name;
+	public String last_name;
+	public String username;
+	public String password;
+	public Boolean is_owner;
+	public int hotel_id;
+
 	public int getId() {
 		return id;
 	}
@@ -42,7 +43,6 @@ public class StaffDTO {
 		this.last_name = last_name;
 	}
 
-
 	public String getUsername() {
 		return username;
 	}
@@ -65,5 +65,13 @@ public class StaffDTO {
 
 	public void setIsOwner(Boolean is_owner) {
 		this.is_owner = is_owner;
+	}
+
+	public int getHotelID() {
+		return hotel_id;
+	}
+
+	public void setHotelID(int hotel_id) {
+		this.hotel_id = hotel_id;
 	}
 }
