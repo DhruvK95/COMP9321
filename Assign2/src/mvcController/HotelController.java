@@ -342,8 +342,8 @@ public class HotelController extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		nextPage="login.jsp";
-		
-		if( curr != null || (username != null && password != null && isValid(username,password) != null)){
+		CustomerDTO v = isValid(username,password);
+		if( curr != null || (username != null && password != null && v != null && v.isValid())){
 			nextPage="profile.jsp";
 			if(curr == null){
 				curr = isValid(username,password);
