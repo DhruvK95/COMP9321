@@ -343,7 +343,7 @@ public class HotelController extends HttpServlet {
 		String password = request.getParameter("password");
 		nextPage="login.jsp";
 		CustomerDTO v = isValid(username,password);
-		if( curr != null || (username != null && password != null && v != null && v.isValid())){
+		if( curr != null || (username != null && password != null && v != null && v.isVerified())){
 			nextPage="profile.jsp";
 			if(curr == null){
 				curr = isValid(username,password);
