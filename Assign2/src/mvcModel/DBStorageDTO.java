@@ -135,4 +135,13 @@ public class DBStorageDTO {
 		return customerBookings;
 	}
 	
+	public BookingDTO findBooking(int bID) {
+		for(BookingDTO b:bookings){
+			if(b.getId() == bID){
+				return b;
+			}
+		}
+		return null;
+	}
+	
 }
