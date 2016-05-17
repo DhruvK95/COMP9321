@@ -7,6 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-u booked shit
+${requestScope.booking.getId()}
+${requestScope.booking.getStartDate()}
+${requestScope.booking.getEndDate()}
+<form action="home" method="post">
+     <input type="hidden" name="action" value="removeBooking" />
+     <input type="submit" value="Remove" />
+     
+</form>
 </body>
 </html>

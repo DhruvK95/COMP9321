@@ -61,15 +61,15 @@
                 <label for="address">Address</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_number" type="number" name="cc_number" class="validate" required>
+                <input id="cc_number" type="number" name="cc_number" class="validate">
                 <label for="cc_number">Credit Card Number</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_name" type="text" name="cc_name" class="validate" required>
+                <input id="cc_name" type="text" name="cc_name" class="validate">
                 <label for="cc_name">Name on Credit Card</label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker" required>
+                <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker">
                 <label for="cc_expiry">Expiry Date</label>
             </div>
             <input type="hidden" name="action" value="toRegister" />

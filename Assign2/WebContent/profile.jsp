@@ -56,8 +56,8 @@
                 <label for="address"><c:out value="${sessionScope.currUser.getAddress()}" /></label>
             </div>
             <div class="input-field col s12">
-                <input id="cc_number" type="number" name="cc_number" class="validate" >
-                <label for="cc_number"><c:out value="${sessionScope.currUser.getCc_number()}" /></label>
+                <input id="cc_number" type="text" name="cc_number" class="validate" >
+                <label for="cc_number"><c:out value="Credit Card number" /></label>            
             </div>
             <div class="input-field col s12">
                 <input id="cc_name" type="text" name="cc_name" class="validate" >

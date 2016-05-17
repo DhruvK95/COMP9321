@@ -88,6 +88,8 @@ public class DerbyDAOImpl  {
 				currBooking.setEndDate(res.getDate("end_date"));
 				currBooking.setCustomerID(res.getInt("customer_fk"));
 				currBooking.setCheckedIn(res.getBoolean("checked_in"));
+				
+				
 				bookings.add(currBooking);
 				logger.info("booking loaded with customerID:(" + ") " + currBooking.getStartDate() + "->" + currBooking.getEndDate());
 			}
@@ -111,6 +113,7 @@ public class DerbyDAOImpl  {
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is "+res.getFetchSize());
 			while(res.next()){
+				
 				roomIDs.add(res.getInt("id"));
 			}
 			res.close();
@@ -330,14 +333,13 @@ public class DerbyDAOImpl  {
 		}
 
 	}
-	public void addUser(String user, String pass, String fName, String lName,
-			String email, String addr, int ccNum, String ccNam, String ccExp) {
+	public void addUser(String user, String pass, String fName, String email) {
 		Statement stmnt;
 		try {
 			stmnt = connection.createStatement();
-			String query_cast = "INSERT INTO customer VALUES (DEFAULT, '"+
-					user+"','"+pass+"','"+fName+"','"+lName+"','"+email+"','"+addr+"',"
-					+ccNum+",'"+ccNam+"','"+ccExp+"',false )";
+			String query_cast = "INSERT INTO customer (id, user_name, password, first_name, email, verified)"
+					+ " VALUES (DEFAULT, '"+
+					user+"','"+pass+"','"+fName+"','"+email+"',false )";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast);
 			stmnt.close();
@@ -348,13 +350,13 @@ public class DerbyDAOImpl  {
 
 	}
 
-	public int newBooking(String start, String end, int customer){
+	public int newBooking(String start, String end, int customer, boolean checkedIn){
 		Statement stmnt;
 		int genKey = -1;
 		try {
 			stmnt = connection.createStatement();
 			String query_cast = "INSERT INTO booking VALUES (DEFAULT, '"+
-					start+"','"+end+"',"+customer+" )";
+					start+"','"+end+"',"+customer+ ","+ checkedIn + " )";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast, stmnt.RETURN_GENERATED_KEYS);
 			ResultSet rs = stmnt.getGeneratedKeys();
@@ -374,7 +376,7 @@ public class DerbyDAOImpl  {
 		try {
 			stmnt = connection.createStatement();
 			String query_cast = "INSERT INTO booking_on_rooms VALUES (DEFAULT, "+
-					rID+","+bID+")";
+					rID+","+bID+",FALSE)";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast);
 			stmnt.close();
@@ -413,6 +415,20 @@ public class DerbyDAOImpl  {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void addExtraBed(int bookingID, int borIDToChange, boolean val){
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "UPDATE BOOKING_ON_ROOMS SET extra_Bed=" + val + " WHERE room_fk=" + borIDToChange + "AND booking_fk=" + bookingID; 
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

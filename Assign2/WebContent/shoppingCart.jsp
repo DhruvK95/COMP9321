@@ -22,13 +22,14 @@
 		<hr>
 		<c:set var="sum" value="${0}"/>
 
-		<c:forEach items="${sessionScope.shoppingCart}" var="data">
+		<c:forEach items="${sessionScope.shoppingCart}" var="data">	
 			<h6>Booking <b>From:</b> <c:out value="${data.startDate}"/>
 				<b>To:</b> <c:out value="${data.endDate}"/>
 			</h6>
 			<br>
 			<ul class="collection">
 				<c:forEach items="${data.getAllRooms()}" var="rooms">
+													
 					<li class="collection-item avatar">
 						<i class="material-icons circle green">vpn_key</i>
                     <span class="title">
@@ -38,33 +39,40 @@
 					$ <c:out value="${i}"/> per night
 
 					<c:if test="${rooms.name != 'Single'}">
-					<div class="pull-s9" style="width:400px;">
-						<div style="float: left; width: 200px">
 						<%-- Add Bed button--%>
-						<form  action="home" method="post">
-							<input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
-							<input type="hidden" name="roomToRemoveBooking" value="${data.id}" />
-							<input type="hidden" name="action" value="addBed" />
-							<button class="btn waves-effect waves-light green" type="submit"> Add Bed
-								<i class="material-icons right">add</i>
-							</button>
-						</form>
-						</div>
-
+						<c:forEach items="${data.getExtraBedCheck()}" var="hash">
+						<c:if test="${hash.key eq rooms.id}">
+							
+							<c:if test="${not hash.value}">
+							
+								<form  action="home" method="post">
+								<input type="hidden" name="removeExtraBedID" value="${rooms.id}" />
+								<input type="hidden" name="removeExtraBedBookingID" value="${data.id}" />
+								<input type="hidden" name="action" value="addBed" />
+								<button class="btn waves-effect waves-light green" type="submit"> Add Bed
+									<i class="material-icons right">add</i>
+								</button>
+								</form>
+							</c:if>
 						<%-- Remove Bed button --%>
-						<div style="float: right; width: 200px">
-						<form  action="home" method="post">
-							<input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
-							<input type="hidden" name="roomToRemoveBooking" value="${data.id}" />
-							<input type="hidden" name="action" value="removeBed" />
-							<button class="btn waves-effect waves-light orange" type="submit"> Remove Bed
-								<i class="material-icons right">remove</i>
-							</button>
-						</form>
-						</div>
+							<c:if test="${hash.value}">
+								<c:set var="sum" value="${sum + 35}" />
+							
+								<form  action="home" method="post">
+									<input type="hidden" name="removeExtraBedID" value="${rooms.id}" />
+									<input type="hidden" name="removeExtraBedBookingID" value="${data.id}" />
+									<input type="hidden" name="action" value="removeBed" />
+									<button class="btn waves-effect waves-light orange" type="submit"> Remove Bed
+										<i class="material-icons right">remove</i>
+									</button>
+								</form>
+							</c:if>
+							
+						</c:if>
+						</c:forEach>
+						
 
 					</c:if>
-					</div>
 
 					<%-- Remove room button --%>
 					<a class="secondary-content">
@@ -85,6 +93,15 @@
 		</c:forEach>
 		<div class="row">
 			<blockquote> Total $ <c:out value="${sum}"/> per night </blockquote>
+		</div>
+		<div class="row">
+			<form  action="home" method="post">
+				<input type="hidden" name="finalPrice" value="${sum}" />
+				<input type="hidden" name="action" value="toCheckout" />
+				<button class="btn waves-effect waves-light green" type="submit">Checkout
+					<i class="material-icons right">credit_card</i>
+				</button>
+			</form>
 		</div>
 	</div>
 </div>

@@ -30,9 +30,9 @@ CREATE TABLE customer (
   user_name 		VARCHAR(40) NOT NULL,
   password  		VARCHAR(40) NOT NULL,
   first_name		VARCHAR(20) NOT NULL,
-  last_name			VARCHAR(20) NOT NULL,
+  last_name			VARCHAR(20),
   email					VARCHAR(100) NOT NULL,
-  address				VARCHAR(200) NOT NULL,
+  address				VARCHAR(200),
   cc_number   	INTEGER,
   cc_name				VARCHAR(40),
   cc_expiry			VARCHAR(40),
@@ -95,6 +95,7 @@ CREATE TABLE booking_on_rooms
  id					INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
  room_fk 			INTEGER,
  booking_fk			INTEGER,
+ extra_Bed			BOOLEAN NOT NULL,
 
  CONSTRAINT room_ID_FK FOREIGN KEY (room_fk) REFERENCES room (id),
  CONSTRAINT room_BOOKING_ID_FK FOREIGN KEY (booking_fk) REFERENCES booking (id)
@@ -196,17 +197,19 @@ INSERT INTO booking VALUES (DEFAULT , '2016-01-04','2016-01-06' ,2, DEFAULT);
 
 -- rooms in a booking
 -- booking 1 one of each type
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 1, 1);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 15, 1);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 21, 1);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 26, 1);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 30, 1);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 1, 1,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 15, 1,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 21, 1,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 26, 1,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 30, 1,FALSE);
 -- booking 2 random, but using room already booked with differend date range
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 1, 2);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 27, 2);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 20, 2);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 28, 2);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 11, 2);
-INSERT INTO booking_on_rooms VALUES (DEFAULT, 9, 2);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 1, 2,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 27, 2,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 20, 2,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 28, 2,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 11, 2,FALSE);
+INSERT INTO booking_on_rooms VALUES (DEFAULT, 9, 2,FALSE);
 
 INSERT INTO discount VALUES (DEFAULT, 1, 30, 1, '2016-01-01', '2016-01-02');
+
+INSERT INTO customer (id, user_name, password, first_name, email, verified) VALUES (DEFAULT,'Missing','m', 'Miss','Missing@values', false );

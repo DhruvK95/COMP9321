@@ -85,6 +85,7 @@ public class DBStorageDTO {
 						for(BookingDTO b: bookings ){
 							if(b.getId() == id){
 								b.addRoomToBookings(r);
+								b.getExtraBedCheck().put(r.getId(), false);
 							}
 						}
 					}
@@ -132,6 +133,15 @@ public class DBStorageDTO {
 			}
 		}
 		return customerBookings;
+	}
+	
+	public BookingDTO findBooking(int bID) {
+		for(BookingDTO b:bookings){
+			if(b.getId() == bID){
+				return b;
+			}
+		}
+		return null;
 	}
 	
 }
