@@ -224,6 +224,7 @@ public class HotelController extends HttpServlet {
 
 				nextPage="shoppingCart.jsp";
 			} else if (action.equals("toCheckout")) {
+				request.setAttribute("finalPrice",request.getParameter("finalPrice"));
 				nextPage = "checkout.jsp";
 
 			}else if(action.equals("addBed") || action.equals("removeBed")){

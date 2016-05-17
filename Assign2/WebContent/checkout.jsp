@@ -162,10 +162,12 @@
 				</c:forEach>
                 </ul>
             </c:forEach>
-
+			<div class="row">
+				<blockquote> Total $ <c:out value="${finalPrice}"/></blockquote>
+			</div>
         </div>
     </div>
-
+	
     <div class="col s12 m4 l2"><p></p></div>
 
 

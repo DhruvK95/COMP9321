@@ -96,6 +96,7 @@
 		</div>
 		<div class="row">
 			<form  action="home" method="post">
+				<input type="hidden" name="finalPrice" value="${sum}" />
 				<input type="hidden" name="action" value="toCheckout" />
 				<button class="btn waves-effect waves-light green" type="submit">Checkout
 					<i class="material-icons right">credit_card</i>
