@@ -32,20 +32,44 @@
 					<li class="collection-item avatar">
 						<i class="material-icons circle green">vpn_key</i>
                     <span class="title">
-                    
-                    <form  action="home" method="post">
-                    <input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
-                    <input type="hidden" name="roomToRemoveBooking" value="${data.id}" />                    
-                    <input type="hidden" name="action" value="removeRoomFromCart" />                    
-            		<button class="btn waves-effect waves-light" type="submit">Remove This Room
-                		<i class="material-icons right">send</i>
-            		</button>
-        			</form>
-        			
-					<c:out value="${rooms.name}"/> Room in
+					<c:out value="${rooms.name}"/> Room
 					<fmt:parseNumber var="i" type="number" value="${rooms.price}" />
 						<br>
 					$ <c:out value="${i}"/> per night
+
+					<c:if test="${rooms.name != 'Single'}">
+					<%-- Add Bed button--%>
+						<form  action="home" method="post">
+							<input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
+							<input type="hidden" name="roomToRemoveBooking" value="${data.id}" />
+							<input type="hidden" name="action" value="addBed" />
+							<button class="btn waves-effect waves-light green" type="submit"> Add Bed
+								<i class="material-icons right">add</i>
+							</button>
+						</form>
+
+						<%-- Remove Bed button --%>
+						<form  action="home" method="post">
+							<input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
+							<input type="hidden" name="roomToRemoveBooking" value="${data.id}" />
+							<input type="hidden" name="action" value="removeBed" />
+							<button class="btn waves-effect waves-light orange" type="submit"> Remove Bed
+								<i class="material-icons right">remove</i>
+							</button>
+						</form>
+					</c:if>
+
+					<%-- Remove room button --%>
+					<a class="secondary-content">
+                    <form  action="home" method="post">
+						<input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
+						<input type="hidden" name="roomToRemoveBooking" value="${data.id}" />
+						<input type="hidden" name="action" value="removeRoomFromCart" />
+						<button class="btn-floating waves-effect waves-light red" type="submit">
+							<i class="material-icons right">delete</i>
+						</button>
+        			</form>
+        			</a>
 					<c:set var="sum" value="${sum + i}" />
 				</c:forEach>
 			</ul>
