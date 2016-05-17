@@ -245,6 +245,13 @@ public class HotelController extends HttpServlet {
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 
 				nextPage="shoppingCart.jsp";		
+			}else if(action.equals("checkBooking")){
+				String b = request.getParameter("booking").trim();
+				if(b == null || b.length() <= 0) return;
+				int bID = Integer.parseInt(b);
+				BookingDTO booking = database.findBooking(bID);
+				request.setAttribute("booking", booking);
+				nextPage="bookingResults.jsp";
 			}
 
 		}else{
@@ -439,7 +446,8 @@ public class HotelController extends HttpServlet {
 			System.out.println("about to add new user");
 			cast.addUser(user, pass, fName, email);
 			database.refreshCustomer(cast.getCustomer(user));
-			SendEmail verificationMail = new SendEmail(user,email,request);
+			SendEmail verMail = new SendEmail();
+			verMail.verificationMail(user, email, request);
 			if(lName.length()>0) cast.updateCustomer(user, "last_name", lName);
 			if(addr.length()>0) cast.updateCustomer(user, "address", addr);
 			if(ccNum.length()>0) cast.updateCustomer(user, "cc_number", Integer.parseInt(ccNum.trim()));
