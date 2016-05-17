@@ -25,7 +25,8 @@
     <div class="col s12 m4 l8"><p></p>
         <br>
         <c:if test="${not empty loginError}">
-		<font size="5" color="red">Login details entered are incorrect!!</font>
+		<font size="5" color="red">Login details entered are incorrect! Check Username and Password combination
+            and/or verify email</font>
 		</c:if>
         <form class="col s12" action="home" method="post">
             <h4>Login</h4>

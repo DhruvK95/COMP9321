@@ -26,12 +26,13 @@
             <form class="col s12" action="home" method="post">
                 <div class="row">
                     <div class="section input-field col s6">
-                        <input id="check_in_date" name="check_in_date" type="date" name="check_in_date"
-                               class="datepicker">
+                        <input id="check_in_date" name="check_in_date" type="date"
+                               class="datepicker" required>
                         <label for="check_in_date">Check In Date</label>
                     </div>
                     <div class="section input-field col s6">
-                        <input id="check_out_date" type="date" name="check_out_date" name="check_out_date" class="datepicker">
+                        <input id="check_out_date" name="check_out_date" type="date"
+                               class="datepicker1" required>
                         <label for="check_out_date">Check Out Date</label>
                     </div>
                 </div>
@@ -129,13 +130,29 @@
 </div>
 </body>
 <script>
-    $('.datepicker').pickadate({
-        format: 'dd/mm/yyyy',
-        selectMonths: true, // Creates a dropdown to control month
-        selectYears: 5 // Creates a dropdown of 15 years to control year
+    $(document).ready(function() {
+        var pickr = $('.datepicker').pickadate({
+            format: 'dd/mm/yyyy',
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 5, // Creates a dropdown of 15 years to control year
+            editable: true
+        });
+        $('select').material_select();
+        $('.datepicker').click(function() {
+            pickr.pickadate('open');
+        })
     });
     $(document).ready(function() {
+        var pickr = $('.datepicker1').pickadate({
+            format: 'dd/mm/yyyy',
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 5, // Creates a dropdown of 15 years to control year
+            editable: true
+        });
         $('select').material_select();
+        $('.datepicker1').click(function() {
+            pickr.pickadate('open');
+        })
     });
 </script>
 </html>
