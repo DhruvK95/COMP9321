@@ -121,17 +121,21 @@
 
                                     <div class="card-action" style="background-color: #ccffdd">
                                         <p>
-                                            <input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}"
+                                        	<c:if test="${not empty sessionScope.currUser.getUser_name()}">
+                                        	<input type="checkbox" name="roomsBookingsOptions" id="${data.key.id}"
                                                    value="${data.key.id}"/>
                                             <label for="${data.key.id}">Book This Room</label>
+                                            </c:if>
                                         </p>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="card-action" style="background-color: #ffb3b3">
                                         <p>
+											<c:if test="${not empty sessionScope.currUser.getUser_name()}">
                                             <input type="checkbox" id="test8" disabled="disabled"/>
                                             <label for="test8">Cant book this room, Unavailable!!</label>
+                                            </c:if>
                                         </p>
                                     </div>
 
@@ -141,11 +145,14 @@
                     </div>
                 </c:forEach>
             </div>
+            <c:if test="${not empty sessionScope.currUser.getUser_name()}">
+            
             <input type="hidden" name="startDateSQL" value="${startDateSQL}" /> 
 		    <input type="hidden" name="endDateSQL" value="${endDateSQL}" /> 
             <button class="btn waves-effect waves-light" type="submit" name="action" value="Yes">Book Selected Rooms
                 <i class="material-icons right">today</i>
             </button>
+            </c:if>
             </c:otherwise>
             </c:choose>
     </div>
