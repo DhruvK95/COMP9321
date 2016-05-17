@@ -38,8 +38,6 @@
 					$ <c:out value="${i}"/> per night
 
 					<c:if test="${rooms.name != 'Single'}">
-					<div class="pull-s9" style="width:400px;">
-						<div style="float: left; width: 200px">
 						<%-- Add Bed button--%>
 						<form  action="home" method="post">
 							<input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
@@ -49,10 +47,8 @@
 								<i class="material-icons right">add</i>
 							</button>
 						</form>
-						</div>
 
 						<%-- Remove Bed button --%>
-						<div style="float: right; width: 200px">
 						<form  action="home" method="post">
 							<input type="hidden" name="roomToRemoveID" value="${rooms.id}" />
 							<input type="hidden" name="roomToRemoveBooking" value="${data.id}" />
@@ -61,10 +57,8 @@
 								<i class="material-icons right">remove</i>
 							</button>
 						</form>
-						</div>
 
 					</c:if>
-					</div>
 
 					<%-- Remove room button --%>
 					<a class="secondary-content">
