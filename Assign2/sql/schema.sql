@@ -210,3 +210,5 @@ INSERT INTO booking_on_rooms VALUES (DEFAULT, 11, 2);
 INSERT INTO booking_on_rooms VALUES (DEFAULT, 9, 2);
 
 INSERT INTO discount VALUES (DEFAULT, 1, 30, 1, '2016-01-01', '2016-01-02');
+
+INSERT INTO customer (id, user_name, password, first_name, email, verified) VALUES (DEFAULT,'Missing','m', 'Miss','Missing@values', false );
