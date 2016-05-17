@@ -320,6 +320,7 @@ public class HotelController extends HttpServlet {
 			nextPage="home.jsp";
 			if(curr == null){
 				curr = isValid(username,password);
+				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 				request.getSession().setAttribute("currUser", isValid(username,password));
 			}
 		}else{
