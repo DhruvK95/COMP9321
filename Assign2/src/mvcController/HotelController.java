@@ -185,9 +185,38 @@ public class HotelController extends HttpServlet {
 				String[] checkboxes = request.getParameterValues("roomsBookingsOptions");
 				System.out.println(Arrays.toString(checkboxes));
 				bookRooms(request,response);
+				
 				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+				database.addAllBookings(cast.initBookings());
+				for(BookingDTO b : database.getAllBookings()){
+					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+				}
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
+				
 				nextPage="shoppingCart.jsp";
+			}else if(action.equals("removeRoomFromCart")){
+				String roomToRemoveID = request.getParameter("roomToRemoveID");
+				String roomToRemoveBooking = request.getParameter("roomToRemoveBooking");
+				System.out.println(roomToRemoveID);
+				System.out.println(roomToRemoveBooking);
+				cast.removeRoomFromBooking( Integer.parseInt(roomToRemoveID), Integer.parseInt(roomToRemoveBooking));
+				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+				database.addAllBookings(cast.initBookings());
+				for(BookingDTO b : database.getAllBookings()){
+					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+				}
+				for (BookingDTO b: database.getAllBookings()){
+					if(b.getId() == Integer.parseInt(roomToRemoveBooking)){
+						cast.removeTotalBooking(Integer.parseInt(roomToRemoveBooking));
+					}
+				}
+				database.addAllBookings(cast.initBookings());
+				for(BookingDTO b : database.getAllBookings()){
+					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+				}
+				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
+
+				nextPage="shoppingCart.jsp";				
 			}
 
 		}else{
@@ -312,12 +341,12 @@ public class HotelController extends HttpServlet {
 			nextPage="home.jsp";
 			if(curr == null){
 				curr = isValid(username,password);
+				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 				request.getSession().setAttribute("currUser", isValid(username,password));
 			}
 		}else{
 			request.setAttribute("loginError", true);
 		}
-		request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 		return nextPage;
 	}
 	
@@ -530,6 +559,7 @@ public class HotelController extends HttpServlet {
 			newBooking.addRoomToBookings(r);
 			//DAO adds Booking to room
 			cast.bookRoom(r.getId(),newBooking.getId());
+			database.addToBookings(newBooking);
 		}
 		System.out.println(newBooking.getId());
 	}
