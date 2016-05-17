@@ -247,11 +247,15 @@ public class HotelController extends HttpServlet {
 				nextPage="shoppingCart.jsp";
 			}else if(action.equals("checkBooking")){
 				String b = request.getParameter("booking").trim();
-				if(b == null || b.length() <= 0) return;
-				int bID = Integer.parseInt(b);
-				BookingDTO booking = database.findBooking(bID);
-				request.setAttribute("booking", booking);
-				nextPage="bookingResults.jsp";
+				nextPage="home.jsp";
+				if(b != null && b.length() > 0){
+					int bID = Integer.parseInt(b);
+					BookingDTO booking = database.findBooking(bID);
+					if(checkTwoDaysBefore(booking.getStartDate())){
+						request.setAttribute("booking", booking);
+						nextPage="bookingResults.jsp";
+					}
+				}
 			}
 
 		}else{
