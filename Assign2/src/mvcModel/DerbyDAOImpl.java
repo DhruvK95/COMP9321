@@ -356,8 +356,8 @@ public class DerbyDAOImpl  {
 			stmnt.executeUpdate(query_cast, stmnt.RETURN_GENERATED_KEYS);
 			ResultSet rs = stmnt.getGeneratedKeys();
 			rs.next();
-			rs.close();
 			genKey = rs.getInt(1);
+			rs.close();
 			stmnt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -365,6 +365,7 @@ public class DerbyDAOImpl  {
 		}
 		return genKey;
 	}
+	
 	public void bookRoom(int rID, int bID) {
 		Statement stmnt;
 		try {

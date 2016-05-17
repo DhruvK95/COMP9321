@@ -141,6 +141,8 @@
                     </div>
                 </c:forEach>
             </div>
+            <input type="hidden" name="startDateSQL" value="${startDateSQL}" /> 
+		    <input type="hidden" name="endDateSQL" value="${endDateSQL}" /> 
             <button class="btn waves-effect waves-light" type="submit" name="action" value="Yes">Book Selected Rooms
                 <i class="material-icons right">today</i>
             </button>
