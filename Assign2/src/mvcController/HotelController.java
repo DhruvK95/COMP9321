@@ -99,7 +99,7 @@ public class HotelController extends HttpServlet {
 				System.out.println("cc_name is " + request.getParameter("cc_name"));
 				System.out.println("cc_expiry is " + request.getParameter("cc_expiry"));
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
-				request.setAttribute("testHotelData",cast.allHotels());
+				request.setAttribute("specialDeals", getSpecialDealsHash());
 				nextPage="home.jsp";
 			} else if (action.equals("roomSearch")) {
 
@@ -153,7 +153,7 @@ public class HotelController extends HttpServlet {
 
 				request.setAttribute("numAvRooms", numAvRooms);
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
-				request.setAttribute("testHotelData",cast.allHotels());
+				request.setAttribute("specialDeals", getSpecialDealsHash());
 				request.setAttribute("startDateSQL",sqlStart );
 				request.setAttribute("endDateSQL",sqlEnd );
 
@@ -165,7 +165,7 @@ public class HotelController extends HttpServlet {
 				System.out.println("username is " + request.getParameter("username"));
 				System.out.println("password is " + request.getParameter("password"));
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
-				request.setAttribute("testHotelData",cast.allHotels());
+				request.setAttribute("specialDeals", getSpecialDealsHash());
 
 				nextPage = login(request, response);
 			}else if(action.equals("logoutNo") || action.equals("logoutYes")){
@@ -175,7 +175,7 @@ public class HotelController extends HttpServlet {
 
 				}
 				request.setAttribute("randomRooms", getRandomRoomsHash() );
-				request.setAttribute("testHotelData",cast.allHotels());
+				request.setAttribute("specialDeals", getSpecialDealsHash());
 				nextPage="home.jsp";
 			} else if (action.equals("profileUpdate")) {
 				System.out.println("----- profileUpdate -------");
