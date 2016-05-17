@@ -205,15 +205,19 @@ public class HotelController extends HttpServlet {
 				for(BookingDTO b : database.getAllBookings()){
 					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
 				}
+				
 				for (BookingDTO b: database.getAllBookings()){
 					if(b.getId() == Integer.parseInt(roomToRemoveBooking)){
-						cast.removeTotalBooking(Integer.parseInt(roomToRemoveBooking));
+						if(b.getAllRooms().size() == 0 || b.getAllRooms() == null){
+							cast.removeTotalBooking(Integer.parseInt(roomToRemoveBooking));
+						}
 					}
 				}
 				database.addAllBookings(cast.initBookings());
 				for(BookingDTO b : database.getAllBookings()){
 					database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
 				}
+				
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 
 				nextPage="shoppingCart.jsp";
