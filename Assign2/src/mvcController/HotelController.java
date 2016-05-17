@@ -606,6 +606,8 @@ public class HotelController extends HttpServlet {
 			cast.bookRoom(r.getId(),newBooking.getId());
 			database.addToBookings(newBooking);
 		}
+		SendEmail email = new SendEmail();
+		email.bookingMail(newBooking.getId(), currUser.getEmail(), request);
 		System.out.println(newBooking.getId());
 	}
 
