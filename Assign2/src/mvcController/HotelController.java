@@ -325,7 +325,6 @@ public class HotelController extends HttpServlet {
 		}else{
 			request.setAttribute("loginError", true);
 		}
-		request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
 		return nextPage;
 	}
 	
