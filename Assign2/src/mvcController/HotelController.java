@@ -501,6 +501,9 @@ public class HotelController extends HttpServlet {
 											  Integer numberOfRooms) {
 		Map<RoomDTO, HotelDTO> resultList = new HashMap<RoomDTO, HotelDTO>();
 		ArrayList<HotelRoomPair> resultArrayList = new ArrayList<HotelRoomPair>();
+		if (endDate.equals(startDate) || endDate.before(startDate)) {
+			return resultList;
+		}
 
 		for (HotelDTO h: database.getAllHotels()) {
 			if (h.getLocation().contains(cityToCheck)) { // City check
