@@ -3,6 +3,8 @@ package mvcController;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,17 +16,19 @@ import mvcModel.BookingDTO;
 import mvcModel.DBStorageDTO;
 import mvcModel.DerbyDAOImpl;
 import mvcModel.HotelDTO;
+import mvcModel.Pair;
 import mvcModel.RoomDTO;
 import mvcModel.StaffDTO;
 
 /**
  * Servlet implementation class HotelController
  */
-@WebServlet(urlPatterns="/dashboard", displayName="StaffController")
+@WebServlet(urlPatterns = "/dashboard", displayName = "StaffController")
 public class StaffController extends HttpServlet {
 	private static final long serialVersionUID = 2L;
 	private DerbyDAOImpl cast;
 	private DBStorageDTO database;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -35,12 +39,12 @@ public class StaffController extends HttpServlet {
 			database = new DBStorageDTO();
 			ArrayList<HotelDTO> allHotels = cast.initHotels();
 			allHotels = cast.initRooms(allHotels);
-			database.addAllHotels(allHotels); //init all hotels from schema
+			database.addAllHotels(allHotels); // init all hotels from schema
 			database.addAllStaff(cast.initStaff());
 			database.addAllCustomers(cast.initCustomers());
 			database.addAllBookings(cast.initBookings());
-			for(BookingDTO b : database.getAllBookings()){
-				database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId() );
+			for (BookingDTO b : database.getAllBookings()) {
+				database.addRoomsToBooking(cast.getRoomAssociationsID(b.getId()), b.getId());
 			}
 			database.addAllDiscounts(cast.initDiscounts());
 
@@ -51,24 +55,28 @@ public class StaffController extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-
-	//all control flow and interation between servlets and jsps can occur here
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	// all control flow and interation between servlets and jsps can occur here
+	private void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String action = request.getParameter("action");
 		String next_page = null;
 		if (action == null) {
@@ -78,7 +86,7 @@ public class StaffController extends HttpServlet {
 			// Checkin request made on one of the un-checked bookings
 			BookingDTO booking = null;
 			System.out.println("checkin: " + request.getParameter("booking_id"));
-			for (BookingDTO b: database.getAllBookings()) {
+			for (BookingDTO b : database.getAllBookings()) {
 				if (b.getId() == Integer.parseInt(request.getParameter("booking_id"))) {
 					booking = b;
 					break;
@@ -88,17 +96,17 @@ public class StaffController extends HttpServlet {
 				request.setAttribute("message", "An invalid booking ID was given.");
 			} else {
 				booking.setCheckedIn(true);
-				for (RoomDTO r: booking.getAllRooms()) {
+				for (RoomDTO r : booking.getAllRooms()) {
 					r.setCheckedIn(true);
 				}
-				request.setAttribute("message", "Booking ID:" + request.getParameter("booking_id") + " sucessfully checked in.");
+				request.setAttribute("message",
+						"Booking ID:" + request.getParameter("booking_id") + " sucessfully checked in.");
 			}
-
 		} else if (action.equals("checkout")) {
 			// Checkout request made on one of the un-checked bookings
 			BookingDTO booking = null;
 			System.out.println("checkout: " + request.getParameter("booking_id"));
-			for (BookingDTO b: database.getAllBookings()) {
+			for (BookingDTO b : database.getAllBookings()) {
 				if (b.getId() == Integer.parseInt(request.getParameter("booking_id"))) {
 					booking = b;
 					break;
@@ -107,17 +115,25 @@ public class StaffController extends HttpServlet {
 			if (booking == null) {
 				request.setAttribute("message", "An invalid booking ID was given.");
 			} else {
-				for (RoomDTO r: booking.getAllRooms()) {
+				for (RoomDTO r : booking.getAllRooms()) {
 					r.setCheckedIn(false);
 				}
-				//remove booking
+				// remove booking
 				database.getAllBookings().remove(booking);
-				request.setAttribute("message", "Booking ID:" + request.getParameter("booking_id") + " sucessfully checked out and removed.");
+				request.setAttribute("message",
+						"Booking ID:" + request.getParameter("booking_id") + " sucessfully checked out and removed.");
 			}
-
+		} else if (action.equals("maintenance")) {
+			// Checkout request made on one of the un-checked bookings
+			RoomDTO room = database.findRoom(Integer.parseInt(request.getParameter("room_id")));
+			if (room != null) {
+				room.setAvailableStatus(!room.getAvailableStatus());
+				request.setAttribute("message", "Room availablilty updated");
+			}
 		} else if (action.equals("stafflogin")) {
 			if (request.getParameter("username") == null || request.getParameter("password") == null) {
-				// Bad request (didn't use the login form). Return to login page.
+				// Bad request (didn't use the login form). Return to login
+				// page.
 				next_page = "stafflogin.jsp";
 			} else {
 				StaffDTO user = staffLogin(request.getParameter("username"), request.getParameter("password"));
@@ -134,7 +150,7 @@ public class StaffController extends HttpServlet {
 
 		StaffDTO user = (StaffDTO) request.getSession().getAttribute("staff_user");
 		if (user == null) {
-			//No staff user authenticated.
+			// No staff user authenticated.
 			next_page = "stafflogin.jsp";
 
 			// Don't override existing error message
@@ -151,21 +167,18 @@ public class StaffController extends HttpServlet {
 			}
 		}
 
-		request.getRequestDispatcher("/"+next_page).forward(request, response);
+		request.getRequestDispatcher("/" + next_page).forward(request, response);
 	}
-
-
 
 	private void doManager(StaffDTO user, HttpServletRequest request, HttpServletResponse response) {
 		ArrayList<BookingDTO> checked_in = new ArrayList<BookingDTO>();
 		ArrayList<BookingDTO> not_checked_in = new ArrayList<BookingDTO>();
 		ArrayList<RoomDTO> occupied_rooms = new ArrayList<RoomDTO>();
 
-
-		for (HotelDTO h: database.getAllHotels()) {
+		for (HotelDTO h : database.getAllHotels()) {
 			if (h.getId() == user.getHotelID()) {
 				// Only show rooms for the current manager's hotel
-				for (RoomDTO r: h.getRooms()) {
+				for (RoomDTO r : h.getRooms()) {
 					if (r.isCheckedIn()) {
 						occupied_rooms.add(r);
 					}
@@ -175,10 +188,10 @@ public class StaffController extends HttpServlet {
 			}
 		}
 
-		for (BookingDTO b:database.getAllBookings()) {
+		for (BookingDTO b : database.getAllBookings()) {
 			// Only show bookings for the current manager's hotel
 			if (b.getAllRooms().size() > 0) {
-				if (b.getAllRooms().get(0).getParentHotelID() == user.getHotelID()){
+				if (b.getAllRooms().get(0).getParentHotelID() == user.getHotelID()) {
 					if (b.getCheckedIn()) {
 						checked_in.add(b);
 					} else {
@@ -193,14 +206,28 @@ public class StaffController extends HttpServlet {
 	}
 
 	private void doOwner(StaffDTO user, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		Map<HotelDTO, Pair<Integer, Integer>> occupancy = new HashMap<HotelDTO, Pair<Integer, Integer>>();
+		ArrayList<RoomDTO> rooms = new ArrayList<RoomDTO>();
 
+		int count;
+		for (HotelDTO h : database.getAllHotels()) {
+			count = 0;
+			for (RoomDTO r : h.getRooms()) {
+				if (r.isCheckedIn()) {
+					count++;
+				}
+				rooms.add(r);
+			}
+			occupancy.put(h, new Pair<Integer, Integer>(count, h.getRooms().size() - count));
+		}
+		request.setAttribute("occupancy", occupancy);
+		request.setAttribute("rooms", rooms);
 	}
 
 	private StaffDTO staffLogin(String username, String password) {
-		for(StaffDTO s: database.getAllStaff()){
-			if(s.getUsername().equals(username)){
-				if(s.getPassword().equals(password)){
+		for (StaffDTO s : database.getAllStaff()) {
+			if (s.getUsername().equals(username)) {
+				if (s.getPassword().equals(password)) {
 					return s;
 				}
 				return null;
