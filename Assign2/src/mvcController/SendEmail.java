@@ -50,7 +50,7 @@ public class SendEmail {
 					System.out.println(serverName + ":" +portNumber + contextPath );
 					String path = serverName.concat(":").concat(Integer.toString(portNumber)).concat(contextPath);
 					message.setText("Please verify your account given the following link "+
-							"http://" + path + "/home/?verify="+user+"&action=login");
+							"http://" + path + "/home?verify="+user+"&action=login");
 
 					Transport.send(message);
 
