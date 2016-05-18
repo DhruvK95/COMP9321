@@ -30,7 +30,6 @@
             <c:choose>
                 <c:when test="${empty sessionScope.currUser.getCc_name()}">
                     <h5 style="color:orange;"> Please fill in these fields to Checkout </h5>
-                    <form class="col s12" action="home" method="post">
                         <div class="row">
                             <div class="section input-field col s6">
                                 <input id="first_name" type="text" name="first_name" class="validate" value="${sessionScope.currUser.getFirst_name()}" required>
@@ -63,14 +62,9 @@
                             <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker" required>
                             <label for="cc_expiry">Expiry Date</label>
                         </div>
-                        <input type="hidden" name="action" value="checkouComplete" />
-                        <button class="btn waves-effect waves-light" type="submit" name="action">Make Booking
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </form>
+                        
                 </c:when>
                 <c:otherwise>
-                    <form class="col s12" action="home" method="post">
                         <h4><c:out value="${sessionScope.currUser.getUser_name()}" /></h4>
                         <hr>
                         <div class="row">
@@ -112,11 +106,7 @@
                             <input id="cc_expiry" type="date" name="cc_expiry" class="datepicker" value="${sessionScope.currUser.getCc_expiry()}">
                             <label for="cc_expiry"><c:out value="Credit card Expiry Date" /></label>
                         </div>
-                        <input type="hidden" name="action" value="checkouComplete" />
-                        <button class="btn waves-effect waves-light" type="submit" name="action">Make Booking
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </form>
+                       
                 </c:otherwise>
             </c:choose>
 
@@ -165,7 +155,6 @@
 			<div class="row">
 				<blockquote> Total $ <c:out value="${finalPrice}"/></blockquote>
 			</div>
-			<form  action="home" method="post">
 				<input type="hidden" name="action" value="confirmCheckOut" />
 				<button class="btn waves-effect waves-light green" type="submit">Confirm AND Email
 					<i class="material-icons right">credit_card</i>
@@ -182,11 +171,18 @@
 
 </body>
 <script>
-    $('.datepicker').pickadate({
-        format: 'dd/mm/yyyy', // Change the format of the date picker
+$(document).ready(function() {
+    var pickr = $('.datepicker').pickadate({
+        format: 'dd/mm/yyyy',
         selectMonths: true, // Creates a dropdown to control month
-        selectYears: 5 // Creates a dropdown of 15 years to control year
+        selectYears: 5, // Creates a dropdown of 15 years to control year
+        editable: true
     });
+    $('select').material_select();
+    $('.datepicker').click(function() {
+        pickr.pickadate('open');
+    })
+});
 </script>
 
 
