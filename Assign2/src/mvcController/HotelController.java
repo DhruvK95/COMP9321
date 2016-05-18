@@ -230,6 +230,8 @@ public class HotelController extends HttpServlet {
 				nextPage="shoppingCart.jsp";
 			} else if (action.equals("toCheckout")) {
 				request.setAttribute("finalPrice",request.getParameter("finalPrice"));
+				request.getSession().setAttribute("finalPrice",request.getParameter("finalPrice"));
+
 				nextPage = "checkout.jsp";
 
 			}else if(action.equals("addBed") || action.equals("removeBed")){
@@ -254,13 +256,15 @@ public class HotelController extends HttpServlet {
 			}else if(action.equals("checkBooking")){
 				//System.out.print(Integer.parseInt(request.getSession().getAttribute("paswordSS")));
 	//			System.out.print(request.getParameter("password").getClass());
+				nextPage="bookingPinCheck.jsp";
+
 				if(request.getSession().getAttribute("paswordSS").equals(request.getParameter("password"))){
+					nextPage="bookingPinCheck.jsp";
 					System.out.print("SSS");
 				}else{
 					request.setAttribute("errorLOG", "1");
 
 				}
-				nextPage="bookingResults.jsp";
 
 //				String b = request.getParameter("booking").trim();
 //				nextPage="home.jsp";
