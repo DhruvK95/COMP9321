@@ -257,13 +257,13 @@ public class HotelController extends HttpServlet {
 						nextPage="bookingResults.jsp";
 					}
 				}
-			}else if(action.equals("cartCheckOut")){
-				ArrayList<BookingDTO> sc = (ArrayList<BookingDTO>) request.getSession().getAttribute("shoppingCart");
-				CustomerDTO user = (CustomerDTO) request.getSession().getAttribute("currUser");
-				SendEmail se = new SendEmail();
-				for(BookingDTO b:sc){
-					se.bookingMail(b.getId(), user.email, request);
-				}
+			}else if(action.equals("confirmCheckOut")){
+				//ArrayList<BookingDTO> sc = (ArrayList<BookingDTO>) request.getSession().getAttribute("shoppingCart");
+				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+	
+				SendEmail email = new SendEmail();
+				email.bookingMail(curr.getEmail(), request);
+				nextPage="bookingResults.jsp";
 			}
 
 		}else{
@@ -616,8 +616,7 @@ public class HotelController extends HttpServlet {
 			cast.bookRoom(r.getId(),newBooking.getId());
 			database.addToBookings(newBooking);
 		}
-		SendEmail email = new SendEmail();
-		email.bookingMail(newBooking.getId(), currUser.getEmail(), request);
+		
 		System.out.println(newBooking.getId());
 	}
 

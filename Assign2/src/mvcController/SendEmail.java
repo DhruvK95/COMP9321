@@ -61,7 +61,7 @@ public class SendEmail {
 				}
 	}
 	
-	public void bookingMail(int bID, String recipientMail, HttpServletRequest request){
+	public void bookingMail(String recipientMail, HttpServletRequest request){
 		Session session = Session.getInstance(props,
 				  new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
@@ -81,8 +81,8 @@ public class SendEmail {
 					String contextPath = request.getContextPath();
 					System.out.println(serverName + ":" +portNumber + contextPath );
 					String path = serverName.concat(":").concat(Integer.toString(portNumber)).concat(contextPath);
-					message.setText("Check you booking through the following link"+
-							"http://" + path + "?booking="+bID+"&action=checkBooking");
+					message.setText("Check you booking through the following link "+
+							"http://" + path + "?booking=&action=checkBooking");
 
 					Transport.send(message);
 
