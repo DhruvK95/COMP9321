@@ -138,7 +138,12 @@ public class HotelController extends HttpServlet {
 				}
 
 				String cityToCheck = request.getParameter("city");
-				double maxPrice = Double.parseDouble(request.getParameter("max_price"));
+				double maxPrice = 5000.00;
+                if (request.getParameter("max_price").isEmpty()) {
+                    maxPrice = 5000.00;
+                } else {
+                    maxPrice = Double.parseDouble(request.getParameter("max_price"));
+                }
 
 				//Calc unavaliable rooms
 				request.setAttribute("searchRooms", searchRooms(startDate, end_Date, cityToCheck, maxPrice, number_of_rooms));
@@ -247,9 +252,9 @@ public class HotelController extends HttpServlet {
 
 				nextPage="shoppingCart.jsp";
 			}else if(action.equals("checkBooking")){
-				System.out.print(request.getSession().getAttribute("paswordSS"));
-				System.out.print(Integer.parseInt(request.getParameter("password")));
-//				if(request.getSession().getAttribute("paswordSS").equals(request.getParameter("password"))){
+//				System.out.print(Integer.parseInt(request.getSession().getAttribute("paswordSS")));
+//				System.out.print(Integer.parseInt(request.getParameter("password")));
+//				if(request.getSession().getAttribute("paswordSS") == (request.getParameter("password"))){
 //					System.out.print(request.getSession().getAttribute("paswordSS"));
 //					System.out.print(request.getParameter("password"));
 //				}
@@ -276,7 +281,7 @@ public class HotelController extends HttpServlet {
 					
 				}
 				nextPage="bookingResults.jsp";
-				request.getSession().setAttribute("paswordSS", 1);			
+				request.getSession().setAttribute("paswordSS", "1");			
 				nextPage="bookingResults.jsp";
 			}
 
@@ -513,6 +518,7 @@ public class HotelController extends HttpServlet {
 
 	public Map<RoomDTO,HotelDTO> searchRooms (Date startDate, Date endDate, String cityToCheck, Double maxPrice,
 											  Integer numberOfRooms) {
+		System.out.println(maxPrice.toString());
 		Map<RoomDTO, HotelDTO> resultList = new HashMap<RoomDTO, HotelDTO>();
 		ArrayList<HotelRoomPair> resultArrayList = new ArrayList<HotelRoomPair>();
 		if (endDate.equals(startDate) || endDate.before(startDate)) {
