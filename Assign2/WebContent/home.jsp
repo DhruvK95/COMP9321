@@ -114,6 +114,7 @@
                         <p>
                             <c:out value="${data.value.location}"/>
                             <br> $ <c:out value="${data.key.price}"/> Per Night
+                            <%@ include file="maps.html"%>
                         </p>
                     </div>
                     <c:if test="${empty sessionScope.currUser.getUser_name()}">
@@ -126,9 +127,7 @@
             </div>
         </c:forEach>
         <br>
-
     </div>
-
     <div class="col s12 m4 l2"><p></p></div>
 </div>
 </body>
