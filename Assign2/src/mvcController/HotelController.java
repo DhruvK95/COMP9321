@@ -249,15 +249,17 @@ public class HotelController extends HttpServlet {
 
 
 				request.getSession().setAttribute("shoppingCart", database.bookingsOnCustomer(curr.getId()));
-
+				
 				nextPage="shoppingCart.jsp";
 			}else if(action.equals("checkBooking")){
-//				System.out.print(Integer.parseInt(request.getSession().getAttribute("paswordSS")));
-//				System.out.print(Integer.parseInt(request.getParameter("password")));
-//				if(request.getSession().getAttribute("paswordSS") == (request.getParameter("password"))){
-//					System.out.print(request.getSession().getAttribute("paswordSS"));
-//					System.out.print(request.getParameter("password"));
-//				}
+				//System.out.print(Integer.parseInt(request.getSession().getAttribute("paswordSS")));
+	//			System.out.print(request.getParameter("password").getClass());
+				if(request.getSession().getAttribute("paswordSS").equals(request.getParameter("password"))){
+					System.out.print("SSS");
+				}else{
+					request.setAttribute("errorLOG", "1");
+
+				}
 				nextPage="bookingResults.jsp";
 
 //				String b = request.getParameter("booking").trim();
@@ -271,18 +273,17 @@ public class HotelController extends HttpServlet {
 //				}
 			}else if(action.equals("confirmCheckOut")){
 				//ArrayList<BookingDTO> sc = (ArrayList<BookingDTO>) request.getSession().getAttribute("shoppingCart");
-			//	CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
-			 //   Random random = new Random();
-			//	SendEmail email = new SendEmail();
-			//	long val = createRandomInteger(0, 1000000, random);
-			//	email.bookingMail(curr.getEmail(), request, val);
-				if(("1").equals(request.getSession().getAttribute("paswordSS"))){
-					System.out.print("PASS IS CORRECT");
-					
-				}
-				nextPage="bookingResults.jsp";
-				request.getSession().setAttribute("paswordSS", "1");			
-				nextPage="bookingResults.jsp";
+				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+			    Random random = new Random();
+				SendEmail email = new SendEmail();
+				long val = createRandomInteger(0, 1000000, random);
+				email.bookingMail(curr.getEmail(), request, val);
+				
+				request.getSession().setAttribute("paswordSS", Long.toString(val));	
+				request.setAttribute("randomRooms", getRandomRoomsHash() );
+				request.setAttribute("specialDeals", getSpecialDealsHash());
+				
+				nextPage="home.jsp";
 			}
 
 		}else{

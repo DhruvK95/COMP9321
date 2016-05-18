@@ -81,7 +81,7 @@ public class SendEmail {
 					String contextPath = request.getContextPath();
 					System.out.println(serverName + ":" +portNumber + contextPath );
 					String path = serverName.concat(":").concat(Integer.toString(portNumber)).concat(contextPath);
-					message.setText("Check you booking through the following link "+
+					message.setText("Check you booking through the following link with the PIN :  " + l + "  " + 
 							"http://" + path + "/home?p=" + l +"&action=checkBooking");
 
 					Transport.send(message);
