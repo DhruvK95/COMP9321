@@ -247,22 +247,36 @@ public class HotelController extends HttpServlet {
 
 				nextPage="shoppingCart.jsp";
 			}else if(action.equals("checkBooking")){
-				String b = request.getParameter("booking").trim();
-				nextPage="home.jsp";
-				if(b != null && b.length() > 0){
-					int bID = Integer.parseInt(b);
-					BookingDTO booking = database.findBooking(bID);
-					if(checkTwoDaysBefore(booking.getStartDate())){
-						request.setAttribute("booking", booking);
-						nextPage="bookingResults.jsp";
-					}
-				}
+				System.out.print(request.getSession().getAttribute("paswordSS"));
+				System.out.print(Integer.parseInt(request.getParameter("password")));
+//				if(request.getSession().getAttribute("paswordSS").equals(request.getParameter("password"))){
+//					System.out.print(request.getSession().getAttribute("paswordSS"));
+//					System.out.print(request.getParameter("password"));
+//				}
+				nextPage="bookingResults.jsp";
+
+//				String b = request.getParameter("booking").trim();
+//				nextPage="home.jsp";
+//				if(b != null && b.length() > 0){
+//					int bID = Integer.parseInt(b);
+//					BookingDTO booking = database.findBooking(bID);
+//					if(checkTwoDaysBefore(booking.getStartDate())){
+//						request.setAttribute("booking", booking);
+//					}
+//				}
 			}else if(action.equals("confirmCheckOut")){
 				//ArrayList<BookingDTO> sc = (ArrayList<BookingDTO>) request.getSession().getAttribute("shoppingCart");
-				CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
-	
-				SendEmail email = new SendEmail();
-				email.bookingMail(curr.getEmail(), request);
+			//	CustomerDTO curr = (CustomerDTO) request.getSession().getAttribute("currUser");
+			 //   Random random = new Random();
+			//	SendEmail email = new SendEmail();
+			//	long val = createRandomInteger(0, 1000000, random);
+			//	email.bookingMail(curr.getEmail(), request, val);
+				if(("1").equals(request.getSession().getAttribute("paswordSS"))){
+					System.out.print("PASS IS CORRECT");
+					
+				}
+				nextPage="bookingResults.jsp";
+				request.getSession().setAttribute("paswordSS", 1);			
 				nextPage="bookingResults.jsp";
 			}
 
@@ -639,6 +653,18 @@ public class HotelController extends HttpServlet {
 		System.out.println("Within 48 hrs");
 		return returnBool;
 	}
+	
+	  private static long createRandomInteger(int aStart, long aEnd, Random aRandom){
+		    if ( aStart > aEnd ) {
+		      throw new IllegalArgumentException("Start cannot exceed End.");
+		    }
+		    //get the range, casting to long to avoid overflow problems
+		    long range = aEnd - (long)aStart + 1;
+		    // compute a fraction of the range, 0 <= frac < range
+		    long fraction = (long)(range * aRandom.nextDouble());
+		    long randomNumber =  fraction + (long)aStart;    
+		    return randomNumber;
+		  }
 
 }
 

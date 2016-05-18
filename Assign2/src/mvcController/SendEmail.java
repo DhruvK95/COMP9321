@@ -50,7 +50,7 @@ public class SendEmail {
 					System.out.println(serverName + ":" +portNumber + contextPath );
 					String path = serverName.concat(":").concat(Integer.toString(portNumber)).concat(contextPath);
 					message.setText("Please verify your account given the following link "+
-							"http://" + path + "?verify="+user+"&action=login");
+							"http://" + path + "home/?verify="+user+"&action=login");
 
 					Transport.send(message);
 
@@ -61,7 +61,7 @@ public class SendEmail {
 				}
 	}
 	
-	public void bookingMail(String recipientMail, HttpServletRequest request){
+	public void bookingMail(String recipientMail, HttpServletRequest request, long l){
 		Session session = Session.getInstance(props,
 				  new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
@@ -82,7 +82,7 @@ public class SendEmail {
 					System.out.println(serverName + ":" +portNumber + contextPath );
 					String path = serverName.concat(":").concat(Integer.toString(portNumber)).concat(contextPath);
 					message.setText("Check you booking through the following link "+
-							"http://" + path + "?booking=&action=checkBooking");
+							"http://" + path + "/home?p=" + l +"&action=checkBooking");
 
 					Transport.send(message);
 

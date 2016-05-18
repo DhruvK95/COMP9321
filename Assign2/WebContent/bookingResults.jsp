@@ -10,8 +10,13 @@
 ${requestScope.booking.getId()}
 ${requestScope.booking.getStartDate()}
 ${requestScope.booking.getEndDate()}
+
+
+
+
 <form action="home" method="post">
-     <input type="hidden" name="action" value="removeBooking" />
+     <input type="text" name="password"><br>
+     <input type="hidden" name="action" value="checkBooking" />
      <input type="submit" value="Remove" />
      
 </form>
