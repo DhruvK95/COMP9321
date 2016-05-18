@@ -304,7 +304,7 @@ public class HotelController extends HttpServlet {
 			}
 			ArrayList<CustomerDTO> tempSave2 = database.getAllCustomers();
 			for ( CustomerDTO c : tempSave2 ){
-				System.out.println( c.getId() + " " + c.getUser_name()+ " " + c.getPassword()+ " " + c.getFirst_name()+ " " + c.last_name+ " " + c.getEmail()+ " " + c.getAddress()+ " " + c.getCc_number()+ " " + c.getCc_name()+ " " + c.getCc_expiry());
+				System.out.println( c.getId() + " " + c.getUser_name()+ " " + c.getPassword()+ " " + c.getFirst_name()+ " " + c.getLast_name() + " " + c.getEmail()+ " " + c.getAddress() + " " + c.getCc_number()+ " " + c.getCc_name()+ " " + c.getCc_expiry());
 				System.out.println("--------------------------------c--------------------------------------");
 			}
 			ArrayList<BookingDTO> tempSave3 = database.getAllBookings();
@@ -438,16 +438,16 @@ public class HotelController extends HttpServlet {
 			cast.updateCustomer(curr.getUser_name(), "password", pass);
 		}
 		if(fName != null && fName.length() > 0){
-			cast.updateCustomer(curr.getUser_name(), "first_name", fName);
+			cast.updateCustomer(curr.getLast_name(), "first_name", fName);
 		}
 		if(lName != null && lName.length() > 0){
-			cast.updateCustomer(curr.getUser_name(), "last_name", lName);
+			cast.updateCustomer(curr.getLast_name(), "last_name", lName);
 		}
 		if(email != null && email.length() > 0){
 			cast.updateCustomer(curr.getUser_name(), "email", email);
 		}
 		if(addr != null && addr.length() > 0){
-			cast.updateCustomer(curr.getUser_name(), "address", addr);
+			cast.updateCustomer(curr.getAddress(), "address", addr);
 		}
 		if(ccNum != null && ccNum.length() > 0){
 			int ccInt = Integer.parseInt(ccNum.trim());
@@ -460,10 +460,13 @@ public class HotelController extends HttpServlet {
 			cast.updateCustomer(curr.getUser_name(), "cc_expiry", ccExp);
 		}
 		System.out.println("Fn: "+ curr.getFirst_name() );
-		database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
 		database.addAllCustomers(cast.initCustomers());
+
+	//	database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
 		request.getSession().setAttribute("currUser", database.findCutomer(curr.getUser_name()));
 		
+		database.addAllCustomers(cast.initCustomers());
+
 
 	}
 
@@ -491,6 +494,7 @@ public class HotelController extends HttpServlet {
 			if(ccNum.length()>0) cast.updateCustomer(user, "cc_number", Integer.parseInt(ccNum.trim()));
 			if(ccNam.length()>0) cast.updateCustomer(user, "cc_name", ccNam);
 			if(ccExp.length()>0) cast.updateCustomer(user, "cc_expiry", ccExp);
+			database.addAllCustomers(cast.initCustomers());
 
 		}
 
@@ -513,6 +517,7 @@ public class HotelController extends HttpServlet {
 					if(c.isVerified()){
 						return;
 					}else{
+						
 						cast.updateCustomer(user, "verified", "true");
 						c.setVerified(true);
 						request.getSession().setAttribute("currUser", c);
