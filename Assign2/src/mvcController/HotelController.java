@@ -447,7 +447,7 @@ public class HotelController extends HttpServlet {
 			cast.updateCustomer(curr.getUser_name(), "email", email);
 		}
 		if(addr != null && addr.length() > 0){
-			cast.updateCustomer(curr.getUser_name(), "address", email);
+			cast.updateCustomer(curr.getUser_name(), "address", addr);
 		}
 		if(ccNum != null && ccNum.length() > 0){
 			int ccInt = Integer.parseInt(ccNum.trim());
@@ -461,7 +461,9 @@ public class HotelController extends HttpServlet {
 		}
 		System.out.println("Fn: "+ curr.getFirst_name() );
 		database.refreshCustomer(cast.getCustomer(curr.getUser_name()));
+		database.addAllCustomers(cast.initCustomers());
 		request.getSession().setAttribute("currUser", database.findCutomer(curr.getUser_name()));
+		
 
 	}
 
